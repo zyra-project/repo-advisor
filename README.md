@@ -6,7 +6,7 @@ Source-backed repository guidance for the Zyra ecosystem. The shared service is 
 
 ## Local development
 
-Requires Node.js 22 or later and npm.
+Use Node.js 22 LTS (22.12 or newer in the 22.x line) or Node.js 24 LTS, with npm. The complete supported range is recorded in `package.json`.
 
 ```sh
 npm ci
