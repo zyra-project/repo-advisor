@@ -1,0 +1,2 @@
+# Optional: increases GitHub's public API rate limit. Never commit real tokens.
+# GITHUB_TOKEN=
