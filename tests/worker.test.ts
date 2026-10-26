@@ -153,7 +153,7 @@ describe("request boundary and project discovery", () => {
   it("lists both configured projects and checks health without fetching GitHub", async () => {
     const { app, calls } = harness();
     const health = await app.fetch(new Request("https://advisor.test/health"));
-    expect(await health.json()).toMatchObject({ status: "ok", stage: "foundation" });
+    expect(await health.json()).toMatchObject({ status: "ok", stage: "answers-preview" });
     const response = await app.fetch(new Request("https://advisor.test/v1/projects"));
     const body = await response.json() as { projects: { id: string }[] };
     expect(body.projects.map((profile) => profile.id)).toEqual(["zyra", "terraviz"]);

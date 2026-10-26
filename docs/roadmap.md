@@ -1,6 +1,6 @@
 # Roadmap
 
-## 1. Foundation — this change
+## 1. Foundation — merged in PR #1
 
 - Document service ownership, Orbit's boundary, and the source hierarchy.
 - Configure both Zyra and Terraviz from the beginning.
@@ -12,9 +12,11 @@
 
 Acceptance: a developer can start the Worker without Cloudflare credentials, discover the projects, retrieve Terraviz documentation, and check a Zyra command against a selected revision with immutable citations. Source requests additionally require GitHub connectivity. No natural-language answer quality is claimed at this milestone.
 
-## 2. Evidence-backed answers and provider comparison
+## 2. Evidence-backed answers and provider comparison — implementation preview
 
-Implement answer orchestration and a Workers AI adapter plus one external-provider adapter behind the same contract. Design structured command suggestions and post-generation checks before exposing answers. Add the additional source reads necessary for code behavior and cross-project interface questions. Run the questions in `evals/questions.json` with identical evidence, explicit project revisions, model identifiers, and generation settings.
+Implemented: answer orchestration, Workers AI binding/REST and OpenAI-compatible adapters, approved implementation reads, structured command suggestions, citation/command checks, and a comparison runner with frozen evidence. The 24 evaluation questions now include reviewed source selections. An upstream snapshot was captured and validated locally; provider readiness is recorded without fabricated model scores.
+
+Remaining: configure actual model access, run both providers over the same snapshot, review semantic answer quality, and then select a default. There are no configured inference credentials in the implementation workspace, so no live model result, measured cost, or winner is claimed. The runner records reported usage, latency, input/evidence/snapshot hashes, model identity, raw completions, and optional estimated token cost. Unknown usage or pricing stays null. Planner quality and full request latency require a separate end-to-end evaluation; the fixed-evidence comparison measures answer generation only.
 
 Acceptance: recorded evaluation results include command/option validity, citation correctness, capability-gap handling, current-versus-planned distinctions, latency, token use, and cost. Select the default based on those results; do not infer quality from model size or token price.
 

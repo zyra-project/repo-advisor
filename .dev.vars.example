@@ -1,2 +1,15 @@
 # Optional: increases GitHub's public API rate limit. Never commit real tokens.
 # GITHUB_TOKEN=
+
+# No default provider/model is selected. Uncomment and configure one provider.
+# ADVISOR_PROVIDER=openai-compatible
+# OPENAI_COMPATIBLE_BASE_URL=https://api.openai.com/v1
+# OPENAI_COMPATIBLE_MODEL=
+# OPENAI_COMPATIBLE_API_KEY=
+# OPENAI_COMPATIBLE_TOKEN_PARAMETER=max_completion_tokens
+
+# Workers AI: add an AI binding with wrangler.ai.example.jsonc, OR use REST.
+# ADVISOR_PROVIDER=workers-ai
+# WORKERS_AI_MODEL=
+# CLOUDFLARE_ACCOUNT_ID=
+# CLOUDFLARE_API_TOKEN=

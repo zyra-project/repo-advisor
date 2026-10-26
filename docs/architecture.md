@@ -2,7 +2,7 @@
 
 ## Responsibilities
 
-The advisor answers project questions using inspectable evidence: supported functionality, usage, troubleshooting, roadmap versus implementation, and contribution opportunities. This foundation implements source retrieval and manifest checks; it does not yet answer free-text questions.
+The advisor answers project questions using inspectable evidence: supported functionality, usage, troubleshooting, roadmap versus implementation, and contribution opportunities. The answer preview adds bounded source selection, two replaceable model transports, structured output validation, and a frozen-evidence comparison runner. A live provider comparison is still required before choosing a default or claiming measured answer quality.
 
 ```mermaid
 flowchart TD
@@ -13,25 +13,28 @@ flowchart TD
   Service --> Revision[Resolve each project's requested revision]
   Revision --> Sources[Read files at immutable commit SHA]
   Sources --> Evidence[Typed evidence and source citations]
-  Evidence --> Provider[Future replaceable answer provider]
+  Evidence --> Provider[Workers AI or OpenAI-compatible provider]
+  Provider --> Checks[Command, citation, and authority checks]
   Orbit --> App[Terraviz view context and application actions]
 ```
 
 ## Source hierarchy
 
 1. For Zyra CLI command and option names, the split capability manifests at the selected revision are authoritative. The index determines canonical domain files and alias ownership.
-2. Implementation and tests at that revision can establish behavior beyond the manifest when a later adapter supports those reads. Documentation alone does not prove execution success.
+2. Approved implementation files at that revision provide evidence about behavior and interfaces beyond the manifest. Code inspection is not an execution test; arbitrary test/code browsing is not implemented.
 3. Usage documents explain how to use supported behavior. Contribution and governance documents define contribution conventions and integration constraints.
 4. Roadmaps and proposals are vision. Their presence cannot establish current capability.
 5. Issues and discussions will describe reports, proposals, and ongoing work when the search adapter is implemented. A thread is not proof that a change shipped.
 
-Each configured source has an explicit classification. The initial evidence API retrieves only configured files. Arbitrary code browsing, issue search, discussion search, and dependency/interface inspection are future work.
+Each configured source has an explicit classification. Both APIs retrieve only configured files, including selected workflow schemas and Orbit interfaces. Arbitrary code browsing, issue search, and discussion search are future work.
 
 ## Retrieval and provenance
 
 A request selects a configured project, source ID, and optional branch, tag, or commit. The GitHub adapter resolves the ref through the public commits API and reads all files for that project request from raw GitHub at the resulting 40-character SHA. Citations contain repository, path, commit, immutable GitHub URL, and retrieval time. Two projects require two independently resolved revisions; they do not share a SHA.
 
-There is no persistent cache in the foundation. Later caches must key immutable source content by repository, commit, and path. Resolving a mutable branch requires a separately defined freshness policy. Failed requests cannot silently fall back to unmarked stale evidence.
+There is no persistent cache. A request-scoped cache pins each ref once and reuses immutable file reads throughout planning, generation, and command verification. It never leaks a previous request's ref resolution into a new request. Later persistent caches must key content by repository, commit, and path; mutable ref freshness needs a separate policy. Failures do not fall back to unmarked stale evidence.
+
+For comparison runs, the adapter can capture public file bodies and minimal commit-resolution responses into a snapshot. It captures no request headers or authentication values. Restoring a snapshot makes a closed, offline source adapter: a missing URL fails retrieval, and there is no network fallback. Operator-selected source text remains untrusted even in a snapshot.
 
 Repositories and source paths come from reviewed profiles. A request cannot supply a URL, repository, or arbitrary file path. Manifest-derived domain filenames must be safe JSON basenames. Fetches have time and byte limits and reject redirects. A moved repository therefore requires a reviewed profile update rather than an automatic redirect. The optional GitHub token is sent only to the GitHub API, not to raw content endpoints. Public GitHub limits and outages surface as unavailable evidence.
 
@@ -43,9 +46,15 @@ The CLI source requires an exact manifest command name, without shell arguments.
 
 ## Answer-provider boundary
 
-`ModelProvider` in `src/types.ts` describes a replaceable completion seam: instructions, user question, typed evidence, cancellation, and a response with model identity and optional token counts. No concrete provider is installed or called yet. Workers AI and an external provider should be evaluated with the same evidence and questions before selecting a default.
+`ModelProvider` in `src/types.ts` defines instructions, question, evidence, cancellation, model identity, generation settings, and optional usage. Workers AI supports a binding or REST transport; the external adapter uses an explicitly configured HTTPS Chat Completions endpoint. There are no runtime SDK dependencies and no automatic default or fallback provider. See [model configuration](model-providers.md).
 
-Future answer orchestration must enforce manifest retrieval before command advice, preserve source classifications, and check generated citations and command/option names before rendering. Repository content is quoted evidence, not an instruction channel. Typed output validation does not establish scientific correctness or successful workflow execution.
+An answer request selects one or two configured projects and optional revisions. The service reads their overviews and Zyra's validated CLI index, then makes one planning call to select at most eight additional approved sources. For command advice, the planner selects relevant domain catalogs; exact lookups support questions about named commands or flags. All source selections are validated before retrieval. The second call produces an answer with typed claims, evidence IDs, and separate command suggestions.
+
+Providers see deterministic, bounded line excerpts from documents and up to 24 relevant commands per catalog. Excerpts/catalogs carry omission metadata. Partial content does not establish absence. A 100,000-character input budget bounds serialized prompts; this is a character limit, not a claim about any model's token window.
+
+Before returning an answer, the service validates the JSON contract, citation ID membership, current/planned/gap classifications, and the structure of commands. A proposed command must first appear in retrieved capability evidence, then pass an exact lookup at the same revision. The server renders citation URLs and quotes argument values. Inline executable suggestions and arbitrary links are disallowed in prose. Values, prerequisites, end-to-end workflow semantics, scientific correctness, and whether a passage entails every claim still need review. Prompt instructions are not a formal guarantee against every unsupported statement.
+
+No raw repository text enters the system instruction message. It stays in the JSON data message with the question. No command is executed. Quota, retrieval, and invalid-output failures stop the flow with explicit errors; no unverified draft or fabricated fallback is returned. A request makes at most one planning and one answer call, with no automatic retry. Evaluation of fixed evidence intentionally excludes planning so both providers receive identical generation inputs.
 
 ## Orbit integration
 
@@ -57,7 +66,7 @@ Orbit currently scopes its prompt to Earth science. A defined project-help entry
 
 Profiles record known contribution sources, templates, and labels. They are guidance metadata, not an implemented drafting or submission flow. Before future drafts, search relevant open and closed issues/discussions; use the selected revision's templates and avoid guessing labels. Zyra workflow-gap drafts include the supported/missing delta, implementation plan, CLI/schema changes, tests, and docs. Terraviz has no templates configured in this foundation; consult its contribution guide and discover current upstream conventions when drafting is added.
 
-The Worker is for local development initially. Before public hosting, define per-client budgets, model spend limits, authentication for any private surface, origin policy for embedded clients, source freshness, and retention of user messages. No messages are persisted by this foundation. GitHub writes, running Zyra, and globe actions are outside its retrieval routes.
+The Worker remains for local development. Before public hosting, define per-client budgets, model spend limits, authentication for private surfaces, origin policy, source freshness, and retention. The HTTP service does not persist messages; the explicitly invoked evaluation runner writes source snapshots and model transcripts to operator-selected local files. GitHub writes, running Zyra, and globe actions remain outside the service.
 
 ## Inspected upstream contracts
 

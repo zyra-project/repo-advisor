@@ -6,6 +6,12 @@ import type { Citation, Fetcher } from "./types";
 const MAX_SOURCE_BYTES = 512 * 1024;
 const SHA = /^[a-f0-9]{40}$/;
 
+/** Public response bodies only; headers and credentials are never captured. */
+export interface SourceSnapshot {
+  version: 1;
+  responses: Record<string, string>;
+}
+
 /** Bound the bytes actually read, including chunked responses without Content-Length. */
 export async function readLimitedText(response: Response, limit: number): Promise<string> {
   if (!response.body) return "";
@@ -38,10 +44,32 @@ export async function readLimitedText(response: Response, limit: number): Promis
 }
 
 export class GitHubSources {
+  private readonly revisions = new Map<string, Promise<string>>();
+  private readonly files = new Map<string, Promise<{ text: string; citation: Citation }>>();
+  private readonly captured: Record<string, string> = {};
+
   constructor(
     private readonly fetcher: Fetcher = fetch,
     private readonly token?: string,
+    private readonly signal?: AbortSignal,
   ) {}
+
+  snapshot(): SourceSnapshot {
+    return { version: 1, responses: { ...this.captured } };
+  }
+
+  static fromSnapshot(snapshot: SourceSnapshot): GitHubSources {
+    if (snapshot.version !== 1 || !isRecord(snapshot.responses) ||
+      Object.values(snapshot.responses).some((value) => typeof value !== "string")) {
+      throw new AdvisorError("invalid_snapshot", "Source snapshot format is invalid.", 400);
+    }
+    return new GitHubSources(async (input) => {
+      const url = String(input);
+      return Object.hasOwn(snapshot.responses, url)
+        ? new Response(snapshot.responses[url])
+        : new Response(null, { status: 404 });
+    });
+  }
 
   private async read(url: string, api: boolean): Promise<string> {
     try {
@@ -54,7 +82,7 @@ export class GitHubSources {
       const response = await this.fetcher(url, {
         headers,
         redirect: "error",
-        signal: AbortSignal.timeout(10_000),
+        signal: this.signal ? AbortSignal.any([this.signal, AbortSignal.timeout(10_000)]) : AbortSignal.timeout(10_000),
       });
       if (!response.ok) {
         if (response.body) void response.body.cancel().catch(() => {});
@@ -76,14 +104,22 @@ export class GitHubSources {
   }
 
   async resolveRevision(repository: string, ref: string): Promise<string> {
-    const text = await this.read(
-      `https://api.github.com/repos/${repository}/commits/${encodeURIComponent(ref)}`,
-      true,
-    );
+    const url = `https://api.github.com/repos/${repository}/commits/${encodeURIComponent(ref)}`;
+    let revision = this.revisions.get(url);
+    if (!revision) {
+      revision = this.loadRevision(url);
+      this.revisions.set(url, revision);
+    }
+    return revision;
+  }
+
+  private async loadRevision(url: string): Promise<string> {
+    const text = await this.read(url, true);
     const data = this.parseJson(text);
     if (!isRecord(data) || typeof data.sha !== "string" || !SHA.test(data.sha)) {
       throw new AdvisorError("invalid_source", "GitHub did not return a valid commit revision.", 502);
     }
+    this.captured[url] = JSON.stringify({ sha: data.sha });
     return data.sha;
   }
 
@@ -94,7 +130,18 @@ export class GitHubSources {
       throw new AdvisorError("invalid_source", "Source location is invalid.", 502);
     }
     const encodedPath = path.split("/").map(encodeURIComponent).join("/");
-    const text = await this.read(`https://raw.githubusercontent.com/${repository}/${commitSha}/${encodedPath}`, false);
+    const url = `https://raw.githubusercontent.com/${repository}/${commitSha}/${encodedPath}`;
+    let file = this.files.get(url);
+    if (!file) {
+      file = this.loadFile(url, repository, commitSha, path, encodedPath);
+      this.files.set(url, file);
+    }
+    return file;
+  }
+
+  private async loadFile(url: string, repository: string, commitSha: string, path: string, encodedPath: string) {
+    const text = await this.read(url, false);
+    this.captured[url] = text;
     return {
       text,
       citation: {

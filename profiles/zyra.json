@@ -4,27 +4,213 @@
   "repository": "NOAA-GSL/zyra",
   "defaultRef": "main",
   "description": "Reproducible acquisition, processing, visualization, and dissemination workflows.",
-  "relatedProjects": ["terraviz"],
+  "relatedProjects": [
+    "terraviz"
+  ],
   "sources": [
-    { "id": "cli", "title": "CLI capability manifest", "path": "src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json", "kind": "cli-manifest", "classification": "capability" },
-    { "id": "readme", "title": "Project overview", "path": "README.md", "kind": "document", "classification": "documentation" },
-    { "id": "getting-started", "title": "Getting started", "path": "docs/source/wiki/Getting-Started-with-Zyra.md", "kind": "document", "classification": "documentation" },
-    { "id": "pipeline-schema", "title": "Pipeline schema", "path": "docs/source/wiki/Pipeline-Schema.md", "kind": "document", "classification": "documentation" },
-    { "id": "contributing", "title": "Contribution guidelines", "path": "CONTRIBUTING.md", "kind": "document", "classification": "contribution" },
-    { "id": "roadmap", "title": "Roadmap and tracking", "path": "docs/source/wiki/Roadmap-and-Tracking.md", "kind": "document", "classification": "vision" },
-    { "id": "bug-template", "title": "Bug report template", "path": ".github/ISSUE_TEMPLATE/bug_report.md", "kind": "document", "classification": "contribution" },
-    { "id": "feature-template", "title": "Feature request template", "path": ".github/ISSUE_TEMPLATE/feature_request.md", "kind": "document", "classification": "contribution" },
-    { "id": "workflow-gap-template", "title": "Workflow gap template", "path": ".github/ISSUE_TEMPLATE/workflow_gap.md", "kind": "document", "classification": "contribution" }
+    {
+      "id": "cli",
+      "title": "CLI capability manifest",
+      "path": "src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+      "kind": "cli-manifest",
+      "classification": "capability"
+    },
+    {
+      "id": "readme",
+      "title": "Project overview",
+      "path": "README.md",
+      "kind": "document",
+      "classification": "documentation"
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "path": "docs/source/wiki/Getting-Started-with-Zyra.md",
+      "kind": "document",
+      "classification": "documentation"
+    },
+    {
+      "id": "pipeline-schema",
+      "title": "Pipeline schema",
+      "path": "docs/source/wiki/Pipeline-Schema.md",
+      "kind": "document",
+      "classification": "documentation"
+    },
+    {
+      "id": "contributing",
+      "title": "Contribution guidelines",
+      "path": "CONTRIBUTING.md",
+      "kind": "document",
+      "classification": "contribution"
+    },
+    {
+      "id": "roadmap",
+      "title": "Roadmap and tracking",
+      "path": "docs/source/wiki/Roadmap-and-Tracking.md",
+      "kind": "document",
+      "classification": "vision"
+    },
+    {
+      "id": "bug-template",
+      "title": "Bug report template",
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "kind": "document",
+      "classification": "contribution"
+    },
+    {
+      "id": "feature-template",
+      "title": "Feature request template",
+      "path": ".github/ISSUE_TEMPLATE/feature_request.md",
+      "kind": "document",
+      "classification": "contribution"
+    },
+    {
+      "id": "workflow-gap-template",
+      "title": "Workflow gap template",
+      "path": ".github/ISSUE_TEMPLATE/workflow_gap.md",
+      "kind": "document",
+      "classification": "contribution"
+    },
+    {
+      "id": "cli-index",
+      "title": "Canonical CLI domains and alias ownership",
+      "path": "src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+      "kind": "cli-index",
+      "classification": "capability"
+    },
+    {
+      "id": "acquire-cli",
+      "title": "Acquire command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/acquire.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "process-cli",
+      "title": "Process command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/process.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "visualize-cli",
+      "title": "Visualize command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/visualize.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "disseminate-cli",
+      "title": "Disseminate command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/disseminate.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "transform-cli",
+      "title": "Transform command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/transform.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "search-cli",
+      "title": "Search command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/search.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "run-cli",
+      "title": "Run command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/run.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "simulate-cli",
+      "title": "Simulate command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/simulate.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "decide-cli",
+      "title": "Decide command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/decide.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "narrate-cli",
+      "title": "Narrate command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/narrate.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "verify-cli",
+      "title": "Verify command catalog",
+      "path": "src/zyra/wizard/zyra_capabilities/verify.json",
+      "kind": "cli-catalog",
+      "classification": "capability"
+    },
+    {
+      "id": "workflow-api",
+      "title": "Python workflow API implementation",
+      "path": "src/zyra/workflow/api.py",
+      "kind": "document",
+      "classification": "implementation"
+    },
+    {
+      "id": "pipeline-runner",
+      "title": "Pipeline runner implementation",
+      "path": "src/zyra/pipeline_runner.py",
+      "kind": "document",
+      "classification": "implementation"
+    },
+    {
+      "id": "domain-schema",
+      "title": "Domain argument schemas",
+      "path": "src/zyra/api/schemas/domain_args.py",
+      "kind": "document",
+      "classification": "implementation"
+    }
   ],
   "contributions": {
     "guidanceSource": "contributing",
     "templateDirectory": ".github/ISSUE_TEMPLATE",
     "templates": [
-      { "type": "bug", "source": "bug-template", "labels": ["bug"] },
-      { "type": "feature", "source": "feature-template", "labels": ["enhancement"] },
-      { "type": "workflow-gap", "source": "workflow-gap-template", "labels": ["workflow-gap", "enhancement"] }
+      {
+        "type": "bug",
+        "source": "bug-template",
+        "labels": [
+          "bug"
+        ]
+      },
+      {
+        "type": "feature",
+        "source": "feature-template",
+        "labels": [
+          "enhancement"
+        ]
+      },
+      {
+        "type": "workflow-gap",
+        "source": "workflow-gap-template",
+        "labels": [
+          "workflow-gap",
+          "enhancement"
+        ]
+      }
     ],
-    "workflowGapRequirements": ["supported versus missing", "implementation plan", "CLI/schema changes", "tests", "documentation"],
+    "workflowGapRequirements": [
+      "supported versus missing",
+      "implementation plan",
+      "CLI/schema changes",
+      "tests",
+      "documentation"
+    ],
     "searchBeforeDraft": true,
     "submission": "human-reviewed-draft"
   }
