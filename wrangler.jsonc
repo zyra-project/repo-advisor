@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "repo-advisor",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-26",
+  // Source retrieval works without an AI binding or a Cloudflare account locally.
+  "workers_dev": false
+}

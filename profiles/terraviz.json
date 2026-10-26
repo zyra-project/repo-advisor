@@ -1,0 +1,24 @@
+{
+  "id": "terraviz",
+  "name": "Terraviz",
+  "repository": "NOAA-GSL/terraviz",
+  "defaultRef": "main",
+  "description": "Environmental visualization, dataset publishing, and the Orbit digital docent.",
+  "relatedProjects": ["zyra"],
+  "sources": [
+    { "id": "readme", "title": "Project overview and Orbit", "path": "README.md", "kind": "document", "classification": "documentation" },
+    { "id": "self-hosting", "title": "Self-hosting reference", "path": "docs/SELF_HOSTING.md", "kind": "document", "classification": "documentation" },
+    { "id": "catalog-development", "title": "Catalog backend development", "path": "docs/CATALOG_BACKEND_DEVELOPMENT.md", "kind": "document", "classification": "documentation" },
+    { "id": "contributing", "title": "Contribution and LLM integration conventions", "path": "CONTRIBUTING.md", "kind": "document", "classification": "contribution" },
+    { "id": "agent-decisions", "title": "Agent integration decision record", "path": "docs/AGENT_SDK_EVALUATION.md", "kind": "document", "classification": "governance" },
+    { "id": "roadmap", "title": "Project roadmap", "path": "ROADMAP.md", "kind": "document", "classification": "vision" }
+  ],
+  "contributions": {
+    "guidanceSource": "contributing",
+    "templateDirectory": ".github/ISSUE_TEMPLATE",
+    "templates": [],
+    "workflowGapRequirements": [],
+    "searchBeforeDraft": true,
+    "submission": "human-reviewed-draft"
+  }
+}

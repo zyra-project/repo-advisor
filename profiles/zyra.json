@@ -1,0 +1,31 @@
+{
+  "id": "zyra",
+  "name": "Zyra",
+  "repository": "NOAA-GSL/zyra",
+  "defaultRef": "main",
+  "description": "Reproducible acquisition, processing, visualization, and dissemination workflows.",
+  "relatedProjects": ["terraviz"],
+  "sources": [
+    { "id": "cli", "title": "CLI capability manifest", "path": "src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json", "kind": "cli-manifest", "classification": "capability" },
+    { "id": "readme", "title": "Project overview", "path": "README.md", "kind": "document", "classification": "documentation" },
+    { "id": "getting-started", "title": "Getting started", "path": "docs/source/wiki/Getting-Started-with-Zyra.md", "kind": "document", "classification": "documentation" },
+    { "id": "pipeline-schema", "title": "Pipeline schema", "path": "docs/source/wiki/Pipeline-Schema.md", "kind": "document", "classification": "documentation" },
+    { "id": "contributing", "title": "Contribution guidelines", "path": "CONTRIBUTING.md", "kind": "document", "classification": "contribution" },
+    { "id": "roadmap", "title": "Roadmap and tracking", "path": "docs/source/wiki/Roadmap-and-Tracking.md", "kind": "document", "classification": "vision" },
+    { "id": "bug-template", "title": "Bug report template", "path": ".github/ISSUE_TEMPLATE/bug_report.md", "kind": "document", "classification": "contribution" },
+    { "id": "feature-template", "title": "Feature request template", "path": ".github/ISSUE_TEMPLATE/feature_request.md", "kind": "document", "classification": "contribution" },
+    { "id": "workflow-gap-template", "title": "Workflow gap template", "path": ".github/ISSUE_TEMPLATE/workflow_gap.md", "kind": "document", "classification": "contribution" }
+  ],
+  "contributions": {
+    "guidanceSource": "contributing",
+    "templateDirectory": ".github/ISSUE_TEMPLATE",
+    "templates": [
+      { "type": "bug", "source": "bug-template", "labels": ["bug"] },
+      { "type": "feature", "source": "feature-template", "labels": ["enhancement"] },
+      { "type": "workflow-gap", "source": "workflow-gap-template", "labels": ["workflow-gap", "enhancement"] }
+    ],
+    "workflowGapRequirements": ["supported versus missing", "implementation plan", "CLI/schema changes", "tests", "documentation"],
+    "searchBeforeDraft": true,
+    "submission": "human-reviewed-draft"
+  }
+}
