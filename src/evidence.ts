@@ -59,6 +59,9 @@ function parseCommands(value: unknown): Record<string, Record<string, unknown>> 
   for (const [name, entry] of Object.entries(value)) {
     if (!COMMAND.test(name) || !isRecord(entry) || typeof entry.description !== "string" ||
       !isRecord(entry.options)) invalidManifest();
+    for (const [flag, descriptor] of Object.entries(entry.options)) {
+      if (!FLAG.test(flag) || (typeof descriptor !== "string" && !isRecord(descriptor))) invalidManifest();
+    }
   }
   return value as Record<string, Record<string, unknown>>;
 }

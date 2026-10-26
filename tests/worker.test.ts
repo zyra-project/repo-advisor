@@ -52,7 +52,7 @@ function harness(overrides: Record<string, unknown> = {}) {
 describe("source evidence", () => {
   it("pins the index and domain to the same resolved commit and links both", async () => {
     const { post, calls } = harness();
-    const response = await post({ project: "zyra", source: "cli", command: "acquire api", options: ["--output"], ref: "v0.1.0" });
+    const response = await post({ project: "zyra", source: "cli", command: "acquire api", options: ["--url", "--output"], ref: "v0.1.0" });
     const body = await response.json() as Evidence;
     expect(response.status).toBe(200);
     expect(body).toMatchObject({ status: "supported", requestedRef: "v0.1.0", commitSha: SHA, validation: "command-and-option-names-only" });
@@ -101,6 +101,20 @@ describe("source evidence", () => {
     expect(response.status).toBe(502);
     expect(await response.json()).toMatchObject({ error: { code: "invalid_source" } });
     expect(calls.some((call) => call.url.includes("secret.json"))).toBe(false);
+  });
+
+  it.each([
+    { name: "nested properties", options: { properties: { "--url": "Target URL" } } },
+    { name: "null descriptor", options: { "--url": null } },
+    { name: "array descriptor", options: { "--url": [] } },
+    { name: "boolean descriptor", options: { "--url": false } },
+    { name: "number descriptor", options: { "--url": 1 } },
+    { name: "non-option key", options: { url: "Target URL" } },
+  ])("rejects malformed option catalogs ($name)", async ({ options }) => {
+    const { post } = harness({ [DOMAIN_PATH]: { "acquire api": { ...command, options } } });
+    const response = await post({ project: "zyra", source: "cli", command: "acquire api", options: ["--url"] });
+    expect(response.status).toBe(502);
+    expect(await response.json()).toMatchObject({ error: { code: "invalid_source" } });
   });
 
   it("keeps roadmap evidence explicitly classified as vision", async () => {
