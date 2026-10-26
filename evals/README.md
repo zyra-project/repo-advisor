@@ -2,7 +2,9 @@
 
 The 24 questions in `questions.json` now have reviewed source selections. The runner can capture one immutable source snapshot and compare answer generation through Workers AI REST and an OpenAI-compatible provider. Source planning is intentionally excluded from this comparison so both providers receive identical generation inputs. End-to-end planner quality and total request latency need a separate evaluation.
 
-**No live model run has been completed in the implementation workspace.** The checked-in readiness record reports missing model configuration, zero live runs, and no default provider. Offline adapter/validator tests are not model-quality measurements. A 24-case source snapshot was captured locally from the public repositories; bulky snapshots and transcripts stay in ignored `evals/local/`.
+**No live model run has been completed.** The original readiness record reports missing configuration. The [resumed readiness record](results/2026-10-26-resumed-readiness.json) records reachable provider APIs that rejected the configured credentials: OpenAI returned HTTP 401 (`invalid_api_key`), and Cloudflare returned HTTP 403 (code `10000`, `Authentication error`). Environment readiness and variable presence do not establish API authorization. Model IDs are also unset; select candidates after access is repaired. No inference request or model-quality assessment was made, and there is no default provider.
+
+The resumed workspace captured and prepared all 24 cases against the original immutable revisions, reading 23 public files. The frozen snapshot is `evals/local/2026-10-26-snapshot.json`; its snapshot and source-content digests are in the resumed readiness record. Reuse this file for the comparison rather than recapturing mutable branches. Bulky snapshots and transcripts stay in ignored `evals/local/`. Offline adapter/validator tests are not model-quality measurements.
 
 ## Configure and check
 
@@ -19,6 +21,8 @@ node --env-file=.dev.vars --import tsx scripts/evaluate.ts check
 ```
 
 For live comparison the CLI needs both models, an external base URL/key, and Cloudflare account/token access. It cannot use a Worker binding. No model is chosen by default.
+
+In the managed cloud environment, preserve the injected HTTP proxy and CA trust. With Node 24, set `NODE_USE_ENV_PROXY=1` for networked evaluation commands so native fetch uses that proxy. If the home directory is read-only, install with `npm ci --cache=/tmp/repo-advisor-npm-cache` and run the bundle dry run with `XDG_CONFIG_HOME=/tmp/repo-advisor-config WRANGLER_SEND_METRICS=false npm run build`.
 
 ## Capture sources once
 

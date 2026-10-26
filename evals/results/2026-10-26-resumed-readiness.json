@@ -1,0 +1,71 @@
+{
+  "status": "blocked-provider-authentication",
+  "recordedAt": "2026-10-26T22:56:25Z",
+  "implementationCommit": "2abbaa4cc526d1e451a37a73a3e214855854ea0a",
+  "environment": {
+    "observationsCurrent": true,
+    "networkPolicyState": "enforced",
+    "requiredApiHostsAllowed": true,
+    "configuredCredentialVariablesReady": true,
+    "note": "Runtime readiness describes setup, not remote API authorization."
+  },
+  "providerProbes": [
+    {
+      "provider": "openai-compatible",
+      "host": "api.openai.com",
+      "operation": "GET /v1/models",
+      "reachable": true,
+      "httpStatus": 401,
+      "errorCode": "invalid_api_key",
+      "missingConfiguration": ["OPENAI_COMPATIBLE_MODEL"],
+      "inferenceReadiness": "not-established"
+    },
+    {
+      "provider": "workers-ai",
+      "host": "api.cloudflare.com",
+      "operation": "GET /client/v4/accounts/{account_id}/ai/models/search",
+      "reachable": true,
+      "httpStatus": 403,
+      "errorCode": 10000,
+      "errorMessage": "Authentication error",
+      "missingConfiguration": ["WORKERS_AI_MODEL"],
+      "inferenceReadiness": "not-established"
+    }
+  ],
+  "validation": {
+    "node": "v24.19.0",
+    "npmCi": "passed; cache=/tmp/repo-advisor-npm-cache",
+    "typecheck": "passed",
+    "offlineTests": { "passed": 101, "failed": 0 },
+    "workerBundleDryRun": "passed; XDG_CONFIG_HOME=/tmp/repo-advisor-config WRANGLER_SEND_METRICS=false",
+    "deployed": false
+  },
+  "sourceSnapshot": {
+    "status": "captured-and-all-cases-prepared",
+    "localPath": "evals/local/2026-10-26-snapshot.json",
+    "promptVersion": "answers-v1",
+    "cases": 24,
+    "publicFiles": 23,
+    "responsesIncludingRevisionResolution": 25,
+    "refs": {
+      "zyra": "70cb06bc543ade8780e526b6011caeba54b685ea",
+      "terraviz": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+    },
+    "sha256": "9c45bdb9eb7e982fa8449de00f5a80ec3ae4de7cd48ee11032575cd191e8c490",
+    "sourceContentSha256": "df061fe704b0aac12f63c33556a142b8e1930cbd3ccc98cd5ef3c8cfc4bfd6e1",
+    "digestMethod": "SHA-256 of JSON.stringify(parsed snapshot), and of snapshot.sources respectively",
+    "scope": "Fixed-evidence answer generation; excludes source planning. Reuse this frozen local file for both providers."
+  },
+  "inferenceRequests": 0,
+  "liveRuns": 0,
+  "modelResults": [],
+  "humanQualityScores": null,
+  "defaultProvider": null,
+  "defaultModel": null,
+  "resume": [
+    "Repair provider credentials in environment configuration; do not put secrets in evaluation artifacts.",
+    "Verify authorization, then select supported JSON-mode model candidates and current model-matched pricing.",
+    "Run both providers once per case against the recorded frozen snapshot with NODE_USE_ENV_PROXY=1.",
+    "Review semantic correctness and blocking failures before choosing a default."
+  ]
+}

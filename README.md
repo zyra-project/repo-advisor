@@ -2,7 +2,7 @@
 
 Source-backed repository guidance for the Zyra ecosystem. The shared service is intended to help users understand supported functionality, troubleshoot workflows, and prepare useful contributions across Zyra and Terraviz. Orbit remains Terraviz's embedded digital docent and can consult this service for project assistance.
 
-**Status: answer-generation preview.** The Cloudflare Worker retrieves sources at fixed revisions, discovers Zyra commands from manifests, and generates structured answers through Workers AI or an OpenAI-compatible API. Command/option names and citation references are checked before an answer is returned. Offline tests cover the contracts; live model comparison is blocked until provider credentials are configured. No default model has been selected. Public hosting, issue/discussion search, submissions, MCP, and Orbit integration remain later milestones.
+**Status: answer-generation preview.** The Cloudflare Worker retrieves sources at fixed revisions, discovers Zyra commands from manifests, and generates structured answers through Workers AI or an OpenAI-compatible API. Command/option names and citation references are checked before an answer is returned. Offline tests cover the contracts; live model comparison is blocked by rejected provider credentials (see the [resumed readiness record](evals/results/2026-10-26-resumed-readiness.json)). No default model has been selected. Public hosting, issue/discussion search, submissions, MCP, and Orbit integration remain later milestones.
 
 ## Local development
 
