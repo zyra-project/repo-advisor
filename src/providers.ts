@@ -147,17 +147,18 @@ export function createProvider(env: Env, selection: string | undefined, fetcher:
   }
 
   return {
-    id, model, settings: { ...GENERATION_SETTINGS, responseFormat: id === "anthropic" ? "json_schema" : "json_object",
+    id, model, settings: { ...GENERATION_SETTINGS, responseFormat: id === "openai-compatible" ? "json_object" : "json_schema",
       tokenParameter: tokenParameter as "max_tokens" | "max_completion_tokens" },
     async generate(input: ModelInput): Promise<ModelResult> {
       const signal = input.signal ? AbortSignal.any([input.signal, AbortSignal.timeout(45_000)]) : AbortSignal.timeout(45_000);
       // A cancelled request must not start inference, including through a binding.
       if (signal.aborted) throw unavailable();
-      if (id === "anthropic" && !input.responseSchema) throw unavailable("Anthropic requires a server-defined response schema.");
+      if (id !== "openai-compatible" && !input.responseSchema) throw unavailable("Structured output requires a server-defined response schema.");
       const messages = modelMessages(input);
       const body = id === "anthropic" ? { model, system: messages[0]!.content, messages: messages.slice(1),
         max_tokens: GENERATION_SETTINGS.maxOutputTokens,
-        output_config: { format: { type: "json_schema", schema: input.responseSchema } } } : { ...(id === "workers-ai" ? {} : { model }), messages, response_format: { type: "json_object" },
+        output_config: { format: { type: "json_schema", schema: input.responseSchema } } } : { ...(id === "workers-ai" ? {} : { model }), messages,
+        response_format: id === "workers-ai" ? { type: "json_schema", json_schema: input.responseSchema } : { type: "json_object" },
         [id === "workers-ai" ? "max_tokens" : tokenParameter]: GENERATION_SETTINGS.maxOutputTokens };
       try {
         let result: unknown;

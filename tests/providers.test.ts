@@ -93,7 +93,8 @@ describe("model adapters", () => {
     const result = await provider.generate(input);
     expect(JSON.parse(result.text)).toEqual({ answer: "A result" });
     expect(result.usage).toEqual({ inputTokens: 10, outputTokens: 4 });
-    expect(calls[0]).toMatchObject({ model: "@cf/test/model", body: { response_format: { type: "json_object" }, max_tokens: 2048 } });
+    expect(calls[0]).toMatchObject({ model: "@cf/test/model", body: { response_format: { type: "json_schema", json_schema: input.responseSchema }, max_tokens: 2048 } });
+    expect(provider.settings.responseFormat).toBe("json_schema");
   });
 
   it("supports Workers AI's REST envelope for the Node evaluation runner", async () => {
@@ -101,10 +102,18 @@ describe("model adapters", () => {
     const provider = createProvider({ WORKERS_AI_MODEL: "@cf/test/model", CLOUDFLARE_ACCOUNT_ID: "a".repeat(32), CLOUDFLARE_API_TOKEN: "cf-secret" }, "workers-ai", async (url, init) => {
       target = String(url);
       expect(new Headers(init?.headers).get("Authorization")).toBe("Bearer cf-secret");
+      expect(JSON.parse(String(init?.body)).response_format).toEqual({ type: "json_schema", json_schema: input.responseSchema });
       return Response.json({ success: true, result: { response: '{"ok":true}' } });
     });
     expect((await provider.generate(input)).text).toBe('{"ok":true}');
     expect(target).toBe(`https://api.cloudflare.com/client/v4/accounts/${"a".repeat(32)}/ai/run/@cf/test/model`);
+  });
+
+  it("blocks Workers AI inference before spending when no server-defined schema is supplied", async () => {
+    let called = false;
+    const provider = createProvider({ WORKERS_AI_MODEL: "@cf/test/model", AI: { async run() { called = true; return { response: "{}" }; } } }, "workers-ai");
+    await expect(provider.generate({ ...input, responseSchema: undefined })).rejects.toMatchObject({ code: "provider_unavailable" });
+    expect(called).toBe(false);
   });
 
   it("uses an explicit external URL/model and preserves input data separation", async () => {

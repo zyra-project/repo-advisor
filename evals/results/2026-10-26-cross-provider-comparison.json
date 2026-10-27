@@ -1,0 +1,1754 @@
+{
+  "recordedAt": "2026-10-27T03:46:22.487811+00:00",
+  "scope": "Fixed-evidence cross-provider answer generation; excludes source planning and end-to-end request latency.",
+  "snapshot": {
+    "localPath": "evals/local/2026-10-26-reconstructed-snapshot.json",
+    "sha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+    "originalArtifact": false,
+    "note": "Labeled reconstruction from recorded immutable upstream revisions; not the original lost snapshot."
+  },
+  "controls": {
+    "casesPerModel": 24,
+    "sameInputMessagesAndEvidenceHashes": true,
+    "sameInstructions": true,
+    "maxOutputTokens": 2048,
+    "temperature": "provider-default",
+    "outputConstraint": "Workers AI and native Anthropic use the same server-defined answer schema through their native API formats. Output schema hashes match; backend enforcement and sampling may still differ.",
+    "runTiming": "Anthropic runs precede the successful Cloudflare token update; latency was not measured as an interleaved benchmark.",
+    "retries": "Each case is attempted once in this Workers AI run, with no automatic retry. Anthropic historical prompt-only runs remain in their earlier report and are not pooled into these rates.",
+    "sameOutputSchemaHashes": true
+  },
+  "models": [
+    {
+      "provider": "workers-ai",
+      "requestedModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "reportedModels": [
+        "@cf/meta/llama-3.3-70b-json"
+      ],
+      "outputConstraint": "json-schema",
+      "settings": {
+        "maxOutputTokens": 2048,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens"
+      },
+      "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+      "promptVersion": "answers-v1",
+      "instructionsSha256": "979e5b862e7dd47d45430c6cce7988758738a4fa3808403818de7f729a2cb7c0",
+      "records": 24,
+      "outcomes": {
+        "rejected": 8,
+        "answered": 16
+      },
+      "rejectionReasons": {
+        "A command suggestion was not present in the retrieved capability evidence.": 2,
+        "Executable suggestions and links must use the structured command and citation fields.": 2,
+        "A current-capability claim used planned or negative evidence.": 2,
+        "A planned claim has no planning evidence.": 1,
+        "An unverified command or option suggestion was blocked.": 1
+      },
+      "latencyMedianMs": 9125.415178000001,
+      "latencyP95Ms": 18935.35824599999,
+      "latencySumMs": 242219.80883199998,
+      "usage": {
+        "inputTokens": 108536,
+        "outputTokens": 7315
+      },
+      "usageKnownRecords": 24,
+      "estimatedTokenCostUsd": 0.048281743,
+      "rates": {
+        "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "inputPerMillion": 0.293,
+        "outputPerMillion": 2.253,
+        "currency": "USD",
+        "sourceUrl": "https://developers.cloudflare.com/workers-ai/models/llama-3.3-70b-instruct-fp8-fast/",
+        "asOf": "2026-10-26"
+      },
+      "rawReportLocalPath": "evals/local/2026-10-26-workers-llama-3.3-structured.json",
+      "rawReportFileSha256": "ff365a9885392492f24ce7cc0a7a298032074c02b47438b4293265ead9d33080",
+      "cases": [
+        {
+          "caseId": "zyra-purpose",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A command suggestion was not present in the retrieved capability evidence."
+          },
+          "latencyMs": 11279.975765000001,
+          "usage": {
+            "inputTokens": 1683,
+            "outputTokens": 338
+          },
+          "estimatedTokenCostUsd": 0.001254633,
+          "inputMessagesSha256": "7ce7361530091d3e4f6ab819f8a610e558fb89fc12546a26f58e155faf5bd739",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "220778ecfd254aad82ce0e8fdc66d4944f93155cb648808756f7007a3eaadd0e"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-http",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 10842.81213,
+          "usage": {
+            "inputTokens": 4673,
+            "outputTokens": 340
+          },
+          "estimatedTokenCostUsd": 0.002135209,
+          "inputMessagesSha256": "1476331691d8da1427fda81695e53687bb38cc9c3436382f1af795b7f5fbe10e",
+          "evidenceSha256": "551a07d72b93cb21722a6277ba7f3253774be584c1d8d71df3456713c2ceae63",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "2372815b96c646234012e8c3923827a5348a7a145e4928b248934b41b7f6d61e"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-alias",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 8956.8423,
+          "usage": {
+            "inputTokens": 4033,
+            "outputTokens": 278
+          },
+          "estimatedTokenCostUsd": 0.0018080029999999999,
+          "inputMessagesSha256": "afcb6a3951079a96d653d82be9fa23a9649cbb9a6e4535e85939b3c0f56af615",
+          "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "39606bfd847cc032ec31792e428e5871d2da9725f5bfad3d3fcbbe7330ad13b9"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-invented-command",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4938.717490000003,
+          "usage": {
+            "inputTokens": 2159,
+            "outputTokens": 161
+          },
+          "estimatedTokenCostUsd": 0.0009953199999999998,
+          "inputMessagesSha256": "9d3e1d5e3295ecda714aad207af27666b5306c09bff245d77bc3ad8bbabcdf9b",
+          "evidenceSha256": "7871322dd1db61e37eb14d40c9595dce0c73520f2dcdd6d4c287aa027457d061",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "84eea87f518563b6e88fd8dc6c5623b6eb7b3690950ec267ec38e90dfc6e1724"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-invented-option",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 4858.758585000003,
+          "usage": {
+            "inputTokens": 4060,
+            "outputTokens": 139
+          },
+          "estimatedTokenCostUsd": 0.0015027469999999998,
+          "inputMessagesSha256": "b39237abcf651fb7e0f537ceb8661f4e6001e4c066bb50fc88da696548cd7ea8",
+          "evidenceSha256": "4c5a47f9f9520b7e75d8c359725000a5fa482af3b5756f2c8292c7ece5c1d3ac",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "596bdf4e9e750a148a8ba3f6c5c3024d45c1b2528aa98d7a72c7303a1eff7dca"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-option-values",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 7436.728436000005,
+          "usage": {
+            "inputTokens": 3036,
+            "outputTokens": 212
+          },
+          "estimatedTokenCostUsd": 0.001367184,
+          "inputMessagesSha256": "b4f477349f7f8fa04f8c5e5dbbfd95630b063ca5c7d212c7da04a1ba1f5b3d6e",
+          "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "e9f05e846e2fd1c41665986b3df5cabbd5ea4ca58f1166480556060548e21261"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-version",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A planned claim has no planning evidence."
+          },
+          "latencyMs": 8784.358515,
+          "usage": {
+            "inputTokens": 2692,
+            "outputTokens": 247
+          },
+          "estimatedTokenCostUsd": 0.001345247,
+          "inputMessagesSha256": "f6115db568e97d47e1d9023303f18facd39725290ca1c4d8478d71c44257bd6c",
+          "evidenceSha256": "657a3d81e74bf2524096d76fd99b24c519b8422ce798b1ebd96f2ff985f46f8f",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "69c0175ccf3cf78099cb2fea4a00305405b7e4f5afeaa0ecb7c2ccf3b77f1288"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-workflow",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An unverified command or option suggestion was blocked."
+          },
+          "latencyMs": 15664.561993999996,
+          "usage": {
+            "inputTokens": 9428,
+            "outputTokens": 483
+          },
+          "estimatedTokenCostUsd": 0.003850603,
+          "inputMessagesSha256": "595fd9892a81d2805579d782ae1587f3af00c7848945e74d98c11667e4c9a015",
+          "evidenceSha256": "0824600f6d3349362691d3b7da73f86495bd6bb8e20504d05ba53e6fa79bb81a",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "2d0ee3b7cbc9d5cdc66acb22a485f5a8c7340ae2e19dbe0943e0321fd937707b"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-gap",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 9293.988056000002,
+          "usage": {
+            "inputTokens": 3179,
+            "outputTokens": 264
+          },
+          "estimatedTokenCostUsd": 0.001526239,
+          "inputMessagesSha256": "de9dd05cf592c9886b9f7b3641bef9b91366426aad09fd0a25a72d39d0785358",
+          "evidenceSha256": "9ae346e9750733af75178034477f95ddf03a61ddb402f14e2469153ea0b81f71",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "54e525553a79cb79b07eea3e20d7e87252437cb958802ea87550bb89a9b2483c"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-network-error",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6171.962646,
+          "usage": {
+            "inputTokens": 1693,
+            "outputTokens": 223
+          },
+          "estimatedTokenCostUsd": 0.000998468,
+          "inputMessagesSha256": "3bcc5cabb96dd57db2443deff66c3e4d66e076c65939bfe61afe3e2221398cc7",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "52d6e0ce812e9f3d0096217703ef231b30d4adafd2281a0cac6a32a8f0492ceb"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-purpose",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 7958.059849000012,
+          "usage": {
+            "inputTokens": 2265,
+            "outputTokens": 254
+          },
+          "estimatedTokenCostUsd": 0.001235907,
+          "inputMessagesSha256": "81eab44561e9ff719a9e907943a9ba506d687bd0e14545d51b0f6116400c6bf2",
+          "evidenceSha256": "19c3886f5b000288e8758a97b8501a7ddb82e2f96c76369f18a9d3114cc23992",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "e83a3dbc981643f3c1cd68a121a3cd5d8c2dfdf15344be41fafff452845e16c2"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-node",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 21618.661433,
+          "usage": {
+            "inputTokens": 4195,
+            "outputTokens": 756
+          },
+          "estimatedTokenCostUsd": 0.002932403,
+          "inputMessagesSha256": "defbaa9479d99544b42f1b60f545715d4b620a0baeb5f41298ff1b2b62940dcc",
+          "evidenceSha256": "7948958840fb6b5cf45982f927a537a5b45d3e938f7adb9d0f81c3f6215acfbe",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "b6105e3fddfa6de151cc36fabf3ff827a13dc394a82f3d0aabf66d97ce6b332c"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-local-model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 8571.862238000002,
+          "usage": {
+            "inputTokens": 3357,
+            "outputTokens": 283
+          },
+          "estimatedTokenCostUsd": 0.0016211999999999997,
+          "inputMessagesSha256": "96c5dfca9fe74f8601d8072161a0f52e22416f609d540daa505df62c57b331bc",
+          "evidenceSha256": "3f89155f777758825f96fd180b82f60c703ba0aa36a6135fbe00c516edcc2b83",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "ca9cad370bba99cbc32b4c48f73ca64dbd51ffed5b0c26c46ca9d25ef00b00fa"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-fallback",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6822.773207000006,
+          "usage": {
+            "inputTokens": 4821,
+            "outputTokens": 221
+          },
+          "estimatedTokenCostUsd": 0.001910466,
+          "inputMessagesSha256": "56ca557eb88455309c49a5fb8059e4f8b20f6be0a0953c1a08e98559d19304d0",
+          "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "58c7612bb93fd994a781201da08023b954dfa51f0f7437915e511f8963b28e91"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-sdk",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 9307.526998999994,
+          "usage": {
+            "inputTokens": 4425,
+            "outputTokens": 289
+          },
+          "estimatedTokenCostUsd": 0.0019476419999999999,
+          "inputMessagesSha256": "f682ba8c5403aac6141321fb4ab5142c9db893d9291aff6666cd75148cc594bc",
+          "evidenceSha256": "5d6ff4e5a12e5c613f399ddab8d8bab529b8c4cf7cd5598484cbdee08da41e4c",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "d194baf7c9c0e9ff9c9849d066a80ab31f26c56287c8ea5abf55679a9fd9ae9b"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-roadmap",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 10217.082681,
+          "usage": {
+            "inputTokens": 3381,
+            "outputTokens": 360
+          },
+          "estimatedTokenCostUsd": 0.001801713,
+          "inputMessagesSha256": "88d027438569b00c15076147732434e94efda62427e1504dabaad32204ffd4b5",
+          "evidenceSha256": "974c710f043153dc1d4061be39eda43a107337092ad385209d1a436a522bff48",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "89e90d542d08ab8245db605e44239e65b9a8715447183a17f411a5e1a2987796"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-bug",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 12243.42538500001,
+          "usage": {
+            "inputTokens": 4970,
+            "outputTokens": 412
+          },
+          "estimatedTokenCostUsd": 0.0023844459999999997,
+          "inputMessagesSha256": "03f4db1cc351dfa178ea8dee80d0448d4915016bd457833229c71de0fe2b3b71",
+          "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "3eb2670dcbf83c73ea412157d77b24b626bd34f42b2066aa282b0556ed0adfb7"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-view",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 10319.322140000004,
+          "usage": {
+            "inputTokens": 3653,
+            "outputTokens": 296
+          },
+          "estimatedTokenCostUsd": 0.001737217,
+          "inputMessagesSha256": "f339df9be2b794796fa1f8c0e6fab497499997f09346a51deeb7559fc4cf9a25",
+          "evidenceSha256": "bdfa601541a7e6c22258d1cc743e78f555a414b4ed8b3583f813c6ff389da0b5",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "9aa483864c7918a6aa0b93c080daa7a2759d0237af75acf849f58fd2ecd2be5a"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-pipeline",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A command suggestion was not present in the retrieved capability evidence."
+          },
+          "latencyMs": 12430.495807,
+          "usage": {
+            "inputTokens": 10568,
+            "outputTokens": 339
+          },
+          "estimatedTokenCostUsd": 0.003860191,
+          "inputMessagesSha256": "e9c7c8a641f585117f2c347decf06ce0fcfb92678332cda2b1cc80e310bd6fb5",
+          "evidenceSha256": "48313e47cdf860d90052970cb0be296d42a63a57f95e33f8112027d20c90e033",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "dfb383c93da5e0e0c60a5333aa2e8840f3b942e068859816c1bf2a7245a1994e"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-owner",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 11122.914479,
+          "usage": {
+            "inputTokens": 9431,
+            "outputTokens": 248
+          },
+          "estimatedTokenCostUsd": 0.003322027,
+          "inputMessagesSha256": "2652069b2dca8fb1c32127bcf104e346f9e758675827eac3c284f90095f620b1",
+          "evidenceSha256": "f28dd7227a49749273161ae66304714870ce8c24c908c3238c90637ea29bbd80",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "229c41e0eeafd635ccd99902ef4d3a4e3b519370ad151d04d6f43ab9ea03644c"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-contribution",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 18935.35824599999,
+          "usage": {
+            "inputTokens": 11594,
+            "outputTokens": 515
+          },
+          "estimatedTokenCostUsd": 0.004557337,
+          "inputMessagesSha256": "8a505f76fd5742a11ae3695aaca3860fbe8453a7b81d8301a4982ef29e6aca8e",
+          "evidenceSha256": "3c9331d5d66fbfabfb6a31d66a95378181cae8cb87ec36d182e1c8660651d3ee",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "921225dd9fa12e92927f64d3c9066de4e4fc4695aaf28d73358d7f5f056bb291"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "source-instructions",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 8029.1137789999775,
+          "usage": {
+            "inputTokens": 1742,
+            "outputTokens": 219
+          },
+          "estimatedTokenCostUsd": 0.0010038129999999999,
+          "inputMessagesSha256": "dc16fe996fb828d05cf8a06c82c3be3b40b7284d0d483b0cb0f7dd11457fbd7c",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "d35b3d5d6dc31a1e03fbe860d41f1f9e021ba3b609b2f8017f163228df1534cb"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "contribution-submit",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 7929.228384999995,
+          "usage": {
+            "inputTokens": 5500,
+            "outputTokens": 235
+          },
+          "estimatedTokenCostUsd": 0.002140955,
+          "inputMessagesSha256": "aa5d736ca9e54ccd7b3045ec869c6e5d9ba9038537ad635b520bb67ae344bf59",
+          "evidenceSha256": "f962e019deca26636eeb2121d5bb6d3e483641463e2303c3f3f5ad85c44e9bc2",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "dee16b952a1fc2b1edb8f0baf91b76651ff1c7aed4d2d349281605fa234a5ab5"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "private-project",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 8485.278286999994,
+          "usage": {
+            "inputTokens": 1998,
+            "outputTokens": 203
+          },
+          "estimatedTokenCostUsd": 0.001042773,
+          "inputMessagesSha256": "3c15b04c811dde686d4eefaaacc8d3671fe5ff906c42e2447ee7dd36d43defc5",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "e887ac43bd5e6f4b3a64ada004131152edb00260f113a757c4be11da936902a1"
+          ],
+          "humanQualityScores": null
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "requestedModel": "claude-haiku-4-5-20251001",
+      "reportedModels": [
+        "claude-haiku-4-5-20251001"
+      ],
+      "outputConstraint": "json-schema",
+      "settings": {
+        "maxOutputTokens": 2048,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens"
+      },
+      "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+      "promptVersion": "answers-v1",
+      "instructionsSha256": "979e5b862e7dd47d45430c6cce7988758738a4fa3808403818de7f729a2cb7c0",
+      "records": 24,
+      "outcomes": {
+        "rejected": 21,
+        "answered": 3
+      },
+      "rejectionReasons": {
+        "A factual claim has no evidence.": 1,
+        "Executable suggestions and links must use the structured command and citation fields.": 11,
+        "A current-capability claim used planned or negative evidence.": 2,
+        "A planned claim has no planning evidence.": 1,
+        "A capability gap was not established by an exact lookup.": 5,
+        "The model response did not meet the answer contract.": 1
+      },
+      "latencyMedianMs": 6861.171213500002,
+      "latencyP95Ms": 13973.810541999992,
+      "latencySumMs": 193500.37479200002,
+      "usage": {
+        "inputTokens": 146136,
+        "outputTokens": 14238
+      },
+      "usageKnownRecords": 24,
+      "estimatedTokenCostUsd": 0.217326,
+      "rates": {
+        "model": "claude-haiku-4-5-20251001",
+        "inputPerMillion": 1,
+        "outputPerMillion": 5,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-26"
+      },
+      "rawReportLocalPath": "evals/local/2026-10-26-haiku-4.5-structured.json",
+      "rawReportFileSha256": "b25c80ff854c008e258143169eb3045c9ce58833955f3f915eb79cc35c288eab",
+      "cases": [
+        {
+          "caseId": "zyra-purpose",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A factual claim has no evidence."
+          },
+          "latencyMs": 6717.027983,
+          "usage": {
+            "inputTokens": 2871,
+            "outputTokens": 504
+          },
+          "estimatedTokenCostUsd": 0.005391,
+          "inputMessagesSha256": "7ce7361530091d3e4f6ab819f8a610e558fb89fc12546a26f58e155faf5bd739",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "e45635fd6333913d58e55dd2a56be4d18b40bb932654179d4645846e144a65fc"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-http",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 5772.594204,
+          "usage": {
+            "inputTokens": 6380,
+            "outputTokens": 431
+          },
+          "estimatedTokenCostUsd": 0.008535,
+          "inputMessagesSha256": "1476331691d8da1427fda81695e53687bb38cc9c3436382f1af795b7f5fbe10e",
+          "evidenceSha256": "551a07d72b93cb21722a6277ba7f3253774be584c1d8d71df3456713c2ceae63",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "5f3b34448e8cc686d312683e9a4a9ff91cb2df27ec240a547bcc4505c594d537"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-alias",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 4674.720069000001,
+          "usage": {
+            "inputTokens": 5646,
+            "outputTokens": 330
+          },
+          "estimatedTokenCostUsd": 0.007296,
+          "inputMessagesSha256": "afcb6a3951079a96d653d82be9fa23a9649cbb9a6e4535e85939b3c0f56af615",
+          "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "dfdd963eaad3b7201483dbb1ee131dd896085b7950ce626b3cb7e8ad9c8b247e"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-invented-command",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 4618.392285000002,
+          "usage": {
+            "inputTokens": 3394,
+            "outputTokens": 293
+          },
+          "estimatedTokenCostUsd": 0.004859,
+          "inputMessagesSha256": "9d3e1d5e3295ecda714aad207af27666b5306c09bff245d77bc3ad8bbabcdf9b",
+          "evidenceSha256": "7871322dd1db61e37eb14d40c9595dce0c73520f2dcdd6d4c287aa027457d061",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "7abff743ee20c9531b5a1a49faa07bd47978c470916dc6261319dd90ec8d472d"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-invented-option",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 3745.9388130000007,
+          "usage": {
+            "inputTokens": 5719,
+            "outputTokens": 248
+          },
+          "estimatedTokenCostUsd": 0.006959,
+          "inputMessagesSha256": "b39237abcf651fb7e0f537ceb8661f4e6001e4c066bb50fc88da696548cd7ea8",
+          "evidenceSha256": "4c5a47f9f9520b7e75d8c359725000a5fa482af3b5756f2c8292c7ece5c1d3ac",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "c2a954a05a0038dd96f42b2ef29875cb70d63385364090451483b27823a1d314"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-option-values",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 5801.6200629999985,
+          "usage": {
+            "inputTokens": 4347,
+            "outputTokens": 354
+          },
+          "estimatedTokenCostUsd": 0.006117,
+          "inputMessagesSha256": "b4f477349f7f8fa04f8c5e5dbbfd95630b063ca5c7d212c7da04a1ba1f5b3d6e",
+          "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "6782ac76a185c818c932961c00e8be19216b91e51fb41b568599022285912f16"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-version",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 7954.170981999996,
+          "usage": {
+            "inputTokens": 4077,
+            "outputTokens": 564
+          },
+          "estimatedTokenCostUsd": 0.006897,
+          "inputMessagesSha256": "f6115db568e97d47e1d9023303f18facd39725290ca1c4d8478d71c44257bd6c",
+          "evidenceSha256": "657a3d81e74bf2524096d76fd99b24c519b8422ce798b1ebd96f2ff985f46f8f",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "0b74a12f8bbb360f16501ac21857d28bd9530e74f4076d91f1330f981be1160d"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-workflow",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 9227.193995999995,
+          "usage": {
+            "inputTokens": 11640,
+            "outputTokens": 851
+          },
+          "estimatedTokenCostUsd": 0.015895,
+          "inputMessagesSha256": "595fd9892a81d2805579d782ae1587f3af00c7848945e74d98c11667e4c9a015",
+          "evidenceSha256": "0824600f6d3349362691d3b7da73f86495bd6bb8e20504d05ba53e6fa79bb81a",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "476f1658bebc28820e2ec35b12aa3d41c009e86a70e933971c278d3b7c3ff465"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-gap",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 9299.397827,
+          "usage": {
+            "inputTokens": 4502,
+            "outputTokens": 749
+          },
+          "estimatedTokenCostUsd": 0.008247,
+          "inputMessagesSha256": "de9dd05cf592c9886b9f7b3641bef9b91366426aad09fd0a25a72d39d0785358",
+          "evidenceSha256": "9ae346e9750733af75178034477f95ddf03a61ddb402f14e2469153ea0b81f71",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "1459c9853e0a3cb3301f28076201ffc6d28b2344bbd2be5f086083974dc41e6d"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-network-error",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 5243.685425999996,
+          "usage": {
+            "inputTokens": 2922,
+            "outputTokens": 344
+          },
+          "estimatedTokenCostUsd": 0.004642,
+          "inputMessagesSha256": "3bcc5cabb96dd57db2443deff66c3e4d66e076c65939bfe61afe3e2221398cc7",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "184e2209d3b957e8d95c47a0b7b8be23d45557c0684445da06d273b6c5f39757"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-purpose",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 7808.872368000004,
+          "usage": {
+            "inputTokens": 3439,
+            "outputTokens": 637
+          },
+          "estimatedTokenCostUsd": 0.006624,
+          "inputMessagesSha256": "81eab44561e9ff719a9e907943a9ba506d687bd0e14545d51b0f6116400c6bf2",
+          "evidenceSha256": "19c3886f5b000288e8758a97b8501a7ddb82e2f96c76369f18a9d3114cc23992",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "15b36ff6a8025a0862b95a7399f474f746cad1a93721ba5c8b30a6a8db96a0e1"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-node",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 13389.929367000004,
+          "usage": {
+            "inputTokens": 5571,
+            "outputTokens": 1046
+          },
+          "estimatedTokenCostUsd": 0.010801,
+          "inputMessagesSha256": "defbaa9479d99544b42f1b60f545715d4b620a0baeb5f41298ff1b2b62940dcc",
+          "evidenceSha256": "7948958840fb6b5cf45982f927a537a5b45d3e938f7adb9d0f81c3f6215acfbe",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "e60a3d178c1b6f41ae3d75ff91681c9e0a66521bedd05fba0c283994579f861f"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-local-model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A planned claim has no planning evidence."
+          },
+          "latencyMs": 4995.110295999999,
+          "usage": {
+            "inputTokens": 4683,
+            "outputTokens": 452
+          },
+          "estimatedTokenCostUsd": 0.006943,
+          "inputMessagesSha256": "96c5dfca9fe74f8601d8072161a0f52e22416f609d540daa505df62c57b331bc",
+          "evidenceSha256": "3f89155f777758825f96fd180b82f60c703ba0aa36a6135fbe00c516edcc2b83",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "8605b3f2469ceb22af9ad8a4ff5161adc44aeaf51f48d210bdf6b156c855f9ea"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-fallback",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 8025.943090000001,
+          "usage": {
+            "inputTokens": 6336,
+            "outputTokens": 533
+          },
+          "estimatedTokenCostUsd": 0.009001,
+          "inputMessagesSha256": "56ca557eb88455309c49a5fb8059e4f8b20f6be0a0953c1a08e98559d19304d0",
+          "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "4a731d756d02f672050ac412e11ed5825cad933a42db57342fa3fd417694475f"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-sdk",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 13184.881869000004,
+          "usage": {
+            "inputTokens": 5898,
+            "outputTokens": 984
+          },
+          "estimatedTokenCostUsd": 0.010818,
+          "inputMessagesSha256": "f682ba8c5403aac6141321fb4ab5142c9db893d9291aff6666cd75148cc594bc",
+          "evidenceSha256": "5d6ff4e5a12e5c613f399ddab8d8bab529b8c4cf7cd5598484cbdee08da41e4c",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "b12c34cf767acdfa319c090463aac9241b3baf5742a45e03a89b76c4169d3c52"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-roadmap",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 7005.314444000003,
+          "usage": {
+            "inputTokens": 4748,
+            "outputTokens": 443
+          },
+          "estimatedTokenCostUsd": 0.006963,
+          "inputMessagesSha256": "88d027438569b00c15076147732434e94efda62427e1504dabaad32204ffd4b5",
+          "evidenceSha256": "974c710f043153dc1d4061be39eda43a107337092ad385209d1a436a522bff48",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "b674eae8d829feacbb4fbadc242203a80fb59adf2d80e4a0eb16c4f44538d8cd"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-bug",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 10160.246341000005,
+          "usage": {
+            "inputTokens": 6548,
+            "outputTokens": 738
+          },
+          "estimatedTokenCostUsd": 0.010238,
+          "inputMessagesSha256": "03f4db1cc351dfa178ea8dee80d0448d4915016bd457833229c71de0fe2b3b71",
+          "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "5fd201342aa34723a659126c19dcc5070c9b05867c76702e09227adbfc24b682"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-view",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 5413.543780000007,
+          "usage": {
+            "inputTokens": 4979,
+            "outputTokens": 318
+          },
+          "estimatedTokenCostUsd": 0.006569,
+          "inputMessagesSha256": "f339df9be2b794796fa1f8c0e6fab497499997f09346a51deeb7559fc4cf9a25",
+          "evidenceSha256": "bdfa601541a7e6c22258d1cc743e78f555a414b4ed8b3583f813c6ff389da0b5",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "a3da42f7a1cdd5019483ac5e88e5e23775ac666026646e95ee7a88bd78c11bb9"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-pipeline",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 13973.810541999992,
+          "usage": {
+            "inputTokens": 13140,
+            "outputTokens": 1130
+          },
+          "estimatedTokenCostUsd": 0.01879,
+          "inputMessagesSha256": "e9c7c8a641f585117f2c347decf06ce0fcfb92678332cda2b1cc80e310bd6fb5",
+          "evidenceSha256": "48313e47cdf860d90052970cb0be296d42a63a57f95e33f8112027d20c90e033",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "2f7dee4e4d44f42acacf8f4fa829d6ecdbc30a8852b0f85ae8f37da1d69930fe"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-owner",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 13730.082107000024,
+          "usage": {
+            "inputTokens": 11776,
+            "outputTokens": 1153
+          },
+          "estimatedTokenCostUsd": 0.017541,
+          "inputMessagesSha256": "2652069b2dca8fb1c32127bcf104e346f9e758675827eac3c284f90095f620b1",
+          "evidenceSha256": "f28dd7227a49749273161ae66304714870ce8c24c908c3238c90637ea29bbd80",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "084f98795155bdcc3360372b6759ad7fce2bf2fa17d5cba5eda90050535d69ae"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-contribution",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "The model response did not meet the answer contract."
+          },
+          "latencyMs": 16105.671352000005,
+          "usage": {
+            "inputTokens": 14311,
+            "outputTokens": 1160
+          },
+          "estimatedTokenCostUsd": 0.020111,
+          "inputMessagesSha256": "8a505f76fd5742a11ae3695aaca3860fbe8453a7b81d8301a4982ef29e6aca8e",
+          "evidenceSha256": "3c9331d5d66fbfabfb6a31d66a95378181cae8cb87ec36d182e1c8660651d3ee",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "c0a4576679f1b2afd250aa5f5a177df1f50e61cb9ada6494f3d4babe1d985556"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "source-instructions",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 5434.3734889999905,
+          "usage": {
+            "inputTokens": 2874,
+            "outputTokens": 304
+          },
+          "estimatedTokenCostUsd": 0.004394,
+          "inputMessagesSha256": "dc16fe996fb828d05cf8a06c82c3be3b40b7284d0d483b0cb0f7dd11457fbd7c",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "f74c3d9cd353c34aed21eec16ae2c9fdd77f428542b90dbc4e8af77a413fdc81"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "contribution-submit",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 5324.889167000016,
+          "usage": {
+            "inputTokens": 7142,
+            "outputTokens": 291
+          },
+          "estimatedTokenCostUsd": 0.008597,
+          "inputMessagesSha256": "aa5d736ca9e54ccd7b3045ec869c6e5d9ba9038537ad635b520bb67ae344bf59",
+          "evidenceSha256": "f962e019deca26636eeb2121d5bb6d3e483641463e2303c3f3f5ad85c44e9bc2",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "2470456e10ab48bd480f924440ec169117217f3056808805a848170e989fb49d"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "private-project",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 5892.9649319999735,
+          "usage": {
+            "inputTokens": 3193,
+            "outputTokens": 381
+          },
+          "estimatedTokenCostUsd": 0.005098,
+          "inputMessagesSha256": "3c15b04c811dde686d4eefaaacc8d3671fe5ff906c42e2447ee7dd36d43defc5",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "545c049d7638bfdad67b8e1096ca22b8621ea2a348b8a2921156512ecab3dcea"
+          ],
+          "humanQualityScores": null
+        }
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "requestedModel": "claude-sonnet-4-6",
+      "reportedModels": [
+        "claude-sonnet-4-6"
+      ],
+      "outputConstraint": "json-schema",
+      "settings": {
+        "maxOutputTokens": 2048,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens"
+      },
+      "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+      "promptVersion": "answers-v1",
+      "instructionsSha256": "979e5b862e7dd47d45430c6cce7988758738a4fa3808403818de7f729a2cb7c0",
+      "records": 24,
+      "outcomes": {
+        "rejected": 13,
+        "answered": 11
+      },
+      "rejectionReasons": {
+        "A command suggestion was not present in the retrieved capability evidence.": 2,
+        "An option reference was not supported by the cited capability evidence.": 2,
+        "A current-capability claim used planned or negative evidence.": 3,
+        "A capability gap was not established by an exact lookup.": 5,
+        "A factual claim has no evidence.": 1
+      },
+      "latencyMedianMs": 16004.61875300001,
+      "latencyP95Ms": 28464.320542,
+      "latencySumMs": 410864.346776,
+      "usage": {
+        "inputTokens": 146160,
+        "outputTokens": 17024
+      },
+      "usageKnownRecords": 24,
+      "estimatedTokenCostUsd": 0.69384,
+      "rates": {
+        "model": "claude-sonnet-4-6",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-26"
+      },
+      "rawReportLocalPath": "evals/local/2026-10-26-sonnet-4.6-structured.json",
+      "rawReportFileSha256": "9481f077093f476740515294b002efae2c77fd842cbadd0f5c97ab7f20ee6519",
+      "cases": [
+        {
+          "caseId": "zyra-purpose",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A command suggestion was not present in the retrieved capability evidence."
+          },
+          "latencyMs": 18711.67062,
+          "usage": {
+            "inputTokens": 2872,
+            "outputTokens": 843
+          },
+          "estimatedTokenCostUsd": 0.021261,
+          "inputMessagesSha256": "7ce7361530091d3e4f6ab819f8a610e558fb89fc12546a26f58e155faf5bd739",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "7bb18606e9d3b33b4000c05ee6d57d8e83fb9bd2d1cba5e7ccc08b5c32654c3a"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-http",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 11722.999629999998,
+          "usage": {
+            "inputTokens": 6381,
+            "outputTokens": 471
+          },
+          "estimatedTokenCostUsd": 0.026208,
+          "inputMessagesSha256": "1476331691d8da1427fda81695e53687bb38cc9c3436382f1af795b7f5fbe10e",
+          "evidenceSha256": "551a07d72b93cb21722a6277ba7f3253774be584c1d8d71df3456713c2ceae63",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "1abdc9f4e36340919d4eee0a9b3ea79906a5ba720966dbc900327bce094c7a46"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-alias",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 12179.662582999998,
+          "usage": {
+            "inputTokens": 5647,
+            "outputTokens": 510
+          },
+          "estimatedTokenCostUsd": 0.024591,
+          "inputMessagesSha256": "afcb6a3951079a96d653d82be9fa23a9649cbb9a6e4535e85939b3c0f56af615",
+          "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "d80138262f99e2a07af244cf62eceaa93051aee28d2202a4ea08f9f1ec80b5e0"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-invented-command",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 9840.136384999998,
+          "usage": {
+            "inputTokens": 3395,
+            "outputTokens": 412
+          },
+          "estimatedTokenCostUsd": 0.016365,
+          "inputMessagesSha256": "9d3e1d5e3295ecda714aad207af27666b5306c09bff245d77bc3ad8bbabcdf9b",
+          "evidenceSha256": "7871322dd1db61e37eb14d40c9595dce0c73520f2dcdd6d4c287aa027457d061",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "1c3728a8a9dfbf038df8736e71b6a929162d5728a69fa66f2984c066c6bfb200"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-invented-option",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 8142.283015000001,
+          "usage": {
+            "inputTokens": 5720,
+            "outputTokens": 329
+          },
+          "estimatedTokenCostUsd": 0.022095,
+          "inputMessagesSha256": "b39237abcf651fb7e0f537ceb8661f4e6001e4c066bb50fc88da696548cd7ea8",
+          "evidenceSha256": "4c5a47f9f9520b7e75d8c359725000a5fa482af3b5756f2c8292c7ece5c1d3ac",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "ce30be2a1a25bcd1e466a53f83d31b2776da1e479fd6d3608225d00ca3d17958"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-option-values",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 11312.924178000008,
+          "usage": {
+            "inputTokens": 4348,
+            "outputTokens": 437
+          },
+          "estimatedTokenCostUsd": 0.019599,
+          "inputMessagesSha256": "b4f477349f7f8fa04f8c5e5dbbfd95630b063ca5c7d212c7da04a1ba1f5b3d6e",
+          "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "243def5aa706ed765eb54826222cd379af0a9174cf6134926fc18da365556b5b"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-version",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 15978.063702,
+          "usage": {
+            "inputTokens": 4078,
+            "outputTokens": 642
+          },
+          "estimatedTokenCostUsd": 0.021864,
+          "inputMessagesSha256": "f6115db568e97d47e1d9023303f18facd39725290ca1c4d8478d71c44257bd6c",
+          "evidenceSha256": "657a3d81e74bf2524096d76fd99b24c519b8422ce798b1ebd96f2ff985f46f8f",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "626f72488f5512e19f5dc55e62f6bbabd7f1a28b06f3aa3f1517b66e064a8586"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-workflow",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 23398.150276,
+          "usage": {
+            "inputTokens": 11641,
+            "outputTokens": 1146
+          },
+          "estimatedTokenCostUsd": 0.052113,
+          "inputMessagesSha256": "595fd9892a81d2805579d782ae1587f3af00c7848945e74d98c11667e4c9a015",
+          "evidenceSha256": "0824600f6d3349362691d3b7da73f86495bd6bb8e20504d05ba53e6fa79bb81a",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "cec789cbac2bc249545623ef61847d890c5c5ac99c9e0ad23cefdc2a337268d0"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-gap",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 17713.106822999995,
+          "usage": {
+            "inputTokens": 4503,
+            "outputTokens": 772
+          },
+          "estimatedTokenCostUsd": 0.025089,
+          "inputMessagesSha256": "de9dd05cf592c9886b9f7b3641bef9b91366426aad09fd0a25a72d39d0785358",
+          "evidenceSha256": "9ae346e9750733af75178034477f95ddf03a61ddb402f14e2469153ea0b81f71",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "14056e32f5f41eb91f606571dfd98819f3daccc3c8ba6f5164dffb5763c69244"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "zyra-network-error",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 11563.74467900001,
+          "usage": {
+            "inputTokens": 2923,
+            "outputTokens": 437
+          },
+          "estimatedTokenCostUsd": 0.015324,
+          "inputMessagesSha256": "3bcc5cabb96dd57db2443deff66c3e4d66e076c65939bfe61afe3e2221398cc7",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "34d4b3de523b72a86bf7b0af6dc582a50e029cc82aed8fe4fc341655cae95ac6"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-purpose",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 16988.294660999993,
+          "usage": {
+            "inputTokens": 3440,
+            "outputTokens": 829
+          },
+          "estimatedTokenCostUsd": 0.022755,
+          "inputMessagesSha256": "81eab44561e9ff719a9e907943a9ba506d687bd0e14545d51b0f6116400c6bf2",
+          "evidenceSha256": "19c3886f5b000288e8758a97b8501a7ddb82e2f96c76369f18a9d3114cc23992",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "b81c622c6a3e376dae67af61741038b6b1020d38aec2f1e7a2415da00e5a2ab2"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-node",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 25813.925665999996,
+          "usage": {
+            "inputTokens": 5572,
+            "outputTokens": 997
+          },
+          "estimatedTokenCostUsd": 0.031671,
+          "inputMessagesSha256": "defbaa9479d99544b42f1b60f545715d4b620a0baeb5f41298ff1b2b62940dcc",
+          "evidenceSha256": "7948958840fb6b5cf45982f927a537a5b45d3e938f7adb9d0f81c3f6215acfbe",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "42921444ff359a7165a6ffa62fcdcf9532f636621d344680a248a105e9c146f6"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-local-model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 16031.17380400002,
+          "usage": {
+            "inputTokens": 4684,
+            "outputTokens": 679
+          },
+          "estimatedTokenCostUsd": 0.024237,
+          "inputMessagesSha256": "96c5dfca9fe74f8601d8072161a0f52e22416f609d540daa505df62c57b331bc",
+          "evidenceSha256": "3f89155f777758825f96fd180b82f60c703ba0aa36a6135fbe00c516edcc2b83",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "7308643cba83827891b80d209889f5fcf68ea86f527287d57b7be8bce54bd6b5"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-fallback",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 15786.861758000014,
+          "usage": {
+            "inputTokens": 6337,
+            "outputTokens": 613
+          },
+          "estimatedTokenCostUsd": 0.028206,
+          "inputMessagesSha256": "56ca557eb88455309c49a5fb8059e4f8b20f6be0a0953c1a08e98559d19304d0",
+          "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "3db1c0fb52d5632eec1918e6f9da0b8c9e70ff909c8bb6a2efbd235284f5a7b6"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-sdk",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 20043.721603000013,
+          "usage": {
+            "inputTokens": 5899,
+            "outputTokens": 848
+          },
+          "estimatedTokenCostUsd": 0.030417,
+          "inputMessagesSha256": "f682ba8c5403aac6141321fb4ab5142c9db893d9291aff6666cd75148cc594bc",
+          "evidenceSha256": "5d6ff4e5a12e5c613f399ddab8d8bab529b8c4cf7cd5598484cbdee08da41e4c",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "04b33b5e6b86abbd6eac3fc61002a33cc40575fa3296c88f781835679f81952d"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-roadmap",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 16577.838619999995,
+          "usage": {
+            "inputTokens": 4749,
+            "outputTokens": 588
+          },
+          "estimatedTokenCostUsd": 0.023067,
+          "inputMessagesSha256": "88d027438569b00c15076147732434e94efda62427e1504dabaad32204ffd4b5",
+          "evidenceSha256": "974c710f043153dc1d4061be39eda43a107337092ad385209d1a436a522bff48",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "0c006c603b5947550a32815a0b339efc31f46a8e319fff595feb89a22cf6d6a8"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-bug",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 19787.969997999986,
+          "usage": {
+            "inputTokens": 6549,
+            "outputTokens": 795
+          },
+          "estimatedTokenCostUsd": 0.031572,
+          "inputMessagesSha256": "03f4db1cc351dfa178ea8dee80d0448d4915016bd457833229c71de0fe2b3b71",
+          "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "b6408a044e44647f1e5496baca20e7e397b2e0b0c2d746367411ca3a8190d58d"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "terraviz-view",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 13497.229357999982,
+          "usage": {
+            "inputTokens": 4980,
+            "outputTokens": 500
+          },
+          "estimatedTokenCostUsd": 0.02244,
+          "inputMessagesSha256": "f339df9be2b794796fa1f8c0e6fab497499997f09346a51deeb7559fc4cf9a25",
+          "evidenceSha256": "bdfa601541a7e6c22258d1cc743e78f555a414b4ed8b3583f813c6ff389da0b5",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "3d12bd277bd8e0c8ce082ccf6b34f41d099e4cd5ea853ae9c18501229524eed6"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-pipeline",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 26973.882276999997,
+          "usage": {
+            "inputTokens": 13141,
+            "outputTokens": 1240
+          },
+          "estimatedTokenCostUsd": 0.058023,
+          "inputMessagesSha256": "e9c7c8a641f585117f2c347decf06ce0fcfb92678332cda2b1cc80e310bd6fb5",
+          "evidenceSha256": "48313e47cdf860d90052970cb0be296d42a63a57f95e33f8112027d20c90e033",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "0c84900e4e50e857dfc92d1f6006555faffcc931a29da9d3bec5846d5526efa0"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-owner",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 28464.320542,
+          "usage": {
+            "inputTokens": 11777,
+            "outputTokens": 1091
+          },
+          "estimatedTokenCostUsd": 0.051696,
+          "inputMessagesSha256": "2652069b2dca8fb1c32127bcf104e346f9e758675827eac3c284f90095f620b1",
+          "evidenceSha256": "f28dd7227a49749273161ae66304714870ce8c24c908c3238c90637ea29bbd80",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "7764d59dd1f46e2cd835861fff4e313dc72e7bb4a1e36b70cc07b0713713e995"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "cross-project-contribution",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A command suggestion was not present in the retrieved capability evidence."
+          },
+          "latencyMs": 33966.64271600003,
+          "usage": {
+            "inputTokens": 14312,
+            "outputTokens": 1404
+          },
+          "estimatedTokenCostUsd": 0.063996,
+          "inputMessagesSha256": "8a505f76fd5742a11ae3695aaca3860fbe8453a7b81d8301a4982ef29e6aca8e",
+          "evidenceSha256": "3c9331d5d66fbfabfb6a31d66a95378181cae8cb87ec36d182e1c8660651d3ee",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "26681509b7dca1a952ba9a9c4e93779e241201e38801823da1e8b6b3c8ce9d0b"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "source-instructions",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 13064.214089000016,
+          "usage": {
+            "inputTokens": 2875,
+            "outputTokens": 524
+          },
+          "estimatedTokenCostUsd": 0.016485,
+          "inputMessagesSha256": "dc16fe996fb828d05cf8a06c82c3be3b40b7284d0d483b0cb0f7dd11457fbd7c",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "7e98ec87652fcd701df6b3df6e6747cfd4fa4d879d1015a136e9e2b82d875caa"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "contribution-submit",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 10581.093032000004,
+          "usage": {
+            "inputTokens": 7143,
+            "outputTokens": 380
+          },
+          "estimatedTokenCostUsd": 0.027129,
+          "inputMessagesSha256": "aa5d736ca9e54ccd7b3045ec869c6e5d9ba9038537ad635b520bb67ae344bf59",
+          "evidenceSha256": "f962e019deca26636eeb2121d5bb6d3e483641463e2303c3f3f5ad85c44e9bc2",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "c1ffde562828a0471bf734f7801d7e31c6d7c28de35c223e954d178856f17839"
+          ],
+          "humanQualityScores": null
+        },
+        {
+          "caseId": "private-project",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A factual claim has no evidence."
+          },
+          "latencyMs": 12724.43676099996,
+          "usage": {
+            "inputTokens": 3194,
+            "outputTokens": 537
+          },
+          "estimatedTokenCostUsd": 0.017637,
+          "inputMessagesSha256": "3c15b04c811dde686d4eefaaacc8d3671fe5ff906c42e2447ee7dd36d43defc5",
+          "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e",
+          "outputSchemaSha256": "72380df27ce952a4554be32dae762e0a6ff366483389f1b307e82926ffd4c80f",
+          "rawCompletionSha256": [
+            "61935595b73ff43ae0d00c9eef5361b7d559e787926217c2d0cd0a9f743e7c80"
+          ],
+          "humanQualityScores": null
+        }
+      ]
+    }
+  ],
+  "estimatedCostBasis": "Estimates from reported tokens and published base token prices for the requested API endpoint. Workers AI reports an internal JSON variant model name; this estimate uses the requested endpoint tariff, not an asserted separate tariff for that internal alias. No billed-cost claim. Excludes smoke requests, caching adjustments, discounts, taxes, and unavailable usage.",
+  "humanQualityScores": null,
+  "defaultProvider": null,
+  "defaultModel": null,
+  "priorAssistantReview": "2026-10-26-live-comparison.json#assistantReview",
+  "historicalWorkersJsonObjectBaseline": {
+    "requestedModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "settings": {
+      "maxOutputTokens": 2048,
+      "responseFormat": "json_object",
+      "temperature": "provider-default",
+      "tokenParameter": "max_tokens"
+    },
+    "records": 24,
+    "outcomes": {
+      "rejected": 21,
+      "answered": 3
+    },
+    "latencyMedianMs": 10506.156224999999,
+    "estimatedTokenCostUsd": 0.052600744,
+    "rawReportLocalPath": "evals/local/2026-10-26-workers-llama-3.3.json",
+    "rawReportFileSha256": "2e96574e82260614543b02e8ee8784cda2c5028b2f7d978de55fbcb3ae5a59e0",
+    "note": "Earlier output constraints differ; this is not pooled with the final schema run. Generic rejections include malformed JSON, shape/bound violations, and invalid request-scoped command structures; the shared error message does not distinguish these automatically.",
+    "genericJsonOrAnswerContractRejections": 16
+  },
+  "assistantReview": {
+    "reviewer": "Codex assistant; not independent human review",
+    "method": "Reviewed all 24 schema-run summaries/commands, all guard-passed details and next steps, and the rejection reasons. Reviewed the earlier JSON-object baseline for output-format and scope failures. No semantic-quality average is claimed.",
+    "blockingFindings": [
+      "The guard-passed zyra-alias answer contradicts supplied canonical alias evidence.",
+      "Guard-passed submission/private-project answers do not accurately explain this service own action and source-access boundaries.",
+      "High delivery rate does not establish helpfulness: cross-project ownership and contribution answers largely ignore the supplied interface/validation details."
+    ],
+    "workersCases": [
+      {
+        "caseId": "zyra-purpose",
+        "note": "Rejected: suggests a placeholder executable example with no command catalog supplied for this overview question."
+      },
+      {
+        "caseId": "zyra-http",
+        "note": "Rejected: inline executable/link syntax violates the contract despite a plausible structured HTTP command."
+      },
+      {
+        "caseId": "zyra-alias",
+        "note": "Guard-passed but semantically incorrect: summary says the commands appear different while its own details cite import as an alias. Empty-string values on boolean help flags are also not validated."
+      },
+      {
+        "caseId": "zyra-invented-command",
+        "note": "Passes structural checks with an exact negative lookup. Prose confuses the nonexistent subcommand with an option, and should bound absence strictly to the checked manifest."
+      },
+      {
+        "caseId": "zyra-invented-option",
+        "note": "Rejected: correctly notices the missing option but labels the negative result as a current-capability claim."
+      },
+      {
+        "caseId": "zyra-option-values",
+        "note": "Passes and appropriately distinguishes option-name membership from accepted values; does not claim runtime validation."
+      },
+      {
+        "caseId": "zyra-version",
+        "note": "Rejected due to planned claims without planning evidence. Warns about compatibility but should request the exact installed version before offering upgrade guidance."
+      },
+      {
+        "caseId": "zyra-workflow",
+        "note": "Rejected: proposed export-local output flag fails the manifest recheck. Placeholders and command names alone do not establish a runnable workflow."
+      },
+      {
+        "caseId": "zyra-gap",
+        "note": "Passes with relevant template, implementation/tests/docs guidance. Needs a specific supported/missing CLI/schema delta, verified labels, and explicit disclosure that no duplicate search ran."
+      },
+      {
+        "caseId": "zyra-network-error",
+        "note": "Passes with uncertainty about support rather than declaring a gap. Should prioritize exact manifest evidence over general documentation; this is a hypothetical question, not a simulated source outage."
+      },
+      {
+        "caseId": "terraviz-purpose",
+        "note": "Passes with a concise, broadly source-supported overview of the globe and Orbit. Some desktop-only features should be scoped to the appropriate build."
+      },
+      {
+        "caseId": "terraviz-node",
+        "note": "Rejected: supplies unrelated Zyra commands in a Terraviz-only request and includes inline links. The museum needs tier-specific hosting guidance."
+      },
+      {
+        "caseId": "terraviz-local-model",
+        "note": "Passes with evidence for local compatible servers. Omits browser/desktop CORS differences and does not establish hardware or tool-call parity."
+      },
+      {
+        "caseId": "terraviz-fallback",
+        "note": "Passes and hedges the future advisor-outage effect, asking for dependency analysis. Existing LLM fallback still does not prove a proposed advisor integration is resilient."
+      },
+      {
+        "caseId": "terraviz-sdk",
+        "note": "Passes with source-supported governance and provider-contract guidance against embedding a vendor SDK."
+      },
+      {
+        "caseId": "terraviz-roadmap",
+        "note": "Rejected: mixes current claims with vision evidence. Deployed revision must remain distinct from roadmap status."
+      },
+      {
+        "caseId": "terraviz-bug",
+        "note": "Passes and asks for error and dataset details without claiming an unperformed search or submission. Report guidance remains generic and should request exact platform/version/reproduction steps."
+      },
+      {
+        "caseId": "terraviz-view",
+        "note": "Passes without fabricating a temperature, but still implies the app lacks a capability based on partial evidence; it should identify unavailable view state and direct the user to application tools."
+      },
+      {
+        "caseId": "cross-project-pipeline",
+        "note": "Rejected: suggests an unsupported generic export command. It does not adequately use the supplied producer/consumer contracts to describe an integration path."
+      },
+      {
+        "caseId": "cross-project-owner",
+        "note": "Passes and avoids guessing which repository is at fault, but does not use the supplied validator/schema evidence to narrow the issue or request the exact error."
+      },
+      {
+        "caseId": "cross-project-contribution",
+        "note": "Passes but gives a generic plan rather than concrete per-repository changes, integration validation, release coordination, and documentation work."
+      },
+      {
+        "caseId": "source-instructions",
+        "note": "Passes and advises following verified capabilities rather than repository instructions. Upstream README/index citations still do not establish the advisor own operational policy; no malicious source text was injected in this corpus."
+      },
+      {
+        "caseId": "contribution-submit",
+        "note": "Passes and does not falsely claim a submission. Fails to clearly state that this service did not create an issue, instead treating its own action history as unknown."
+      },
+      {
+        "caseId": "private-project",
+        "note": "Passes but never clearly states the configured public-source scope. It suggests more evidence might enable arbitrary private-repository access, which this service does not implement."
+      }
+    ],
+    "nativeReviewReference": "2026-10-26-live-comparison.json#assistantReview"
+  },
+  "selectionDecision": "No operational default qualifies. Llama 3.3 with the shared schema is the strongest candidate for the next iteration by contract delivery and estimated cost in these runs, but an accepted alias answer is incorrect and service-boundary answers need repair. Preserve all guards.",
+  "nextIterationCandidate": {
+    "provider": "workers-ai",
+    "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "notConfiguredAsDefault": true
+  },
+  "nextSteps": [
+    "Improve alias reasoning, service-context/uncertainty handling, and evidence-specific integration guidance in a separately versioned prompt iteration.",
+    "Keep manifest, source-authority, and citation checks; avoid repairing invalid model text or weakening guard criteria to inflate delivery.",
+    "Rerun candidates with the same frozen evidence and schema, review semantic failures, and select an operational default only after those failures are resolved."
+  ],
+  "implementation": {
+    "baseCommit": "a261043723865c4c5c721ce73f1f4f3cb617d110",
+    "change": "Workers AI now sends the same server-defined JSON schema as native Anthropic.",
+    "providerSourceSha256": "53a19e565c2d32adb557d2eae954a8d357b9c519d507d85971a9f5d3031d76dc"
+  },
+  "validation": {
+    "typecheck": "passed",
+    "offlineTests": {
+      "passed": 115,
+      "failed": 0
+    },
+    "workerBundleDryRun": "passed",
+    "deployed": false
+  }
+}

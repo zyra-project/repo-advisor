@@ -2,7 +2,7 @@
 
 Neither a provider nor a model is selected by default. `/v1/answer` uses the request's `provider` ID, or `ADVISOR_PROVIDER` when configured. Clients can select `workers-ai`, `openai-compatible`, or `anthropic`; model IDs, endpoint URLs, and credentials are server configuration. They are not request fields.
 
-All adapters use the same prompt builder, evidence contracts, and maximum output allowance of 2048 tokens per call. Workers AI and compatible endpoints request JSON-object response mode. Native Anthropic sends a server-defined JSON schema through `output_config.format` and records `responseFormat: "json_schema"`. The answer validator requires bare JSON from every adapter. Temperature is omitted and recorded as `provider-default`, not claimed to be identical or deterministic across models. No vendor SDK is installed in runtime dependencies.
+All adapters use the same prompt builder, evidence contracts, and maximum output allowance of 2048 tokens per call. Workers AI and native Anthropic use the same server-defined planning/answer schemas through their respective API formats and record `responseFormat: "json_schema"`. Compatible endpoints request JSON-object mode. The answer validator requires bare JSON from every adapter. Temperature is omitted and recorded as `provider-default`, not claimed to be identical or deterministic across models. No vendor SDK is installed in runtime dependencies.
 
 ## OpenAI-compatible endpoint
 
@@ -31,7 +31,7 @@ For a native-only baseline, run `ANTHROPIC_MODEL=YOUR_MODEL npm run eval:run -- 
 
 ## Workers AI binding
 
-Set `ADVISOR_PROVIDER=workers-ai` and `WORKERS_AI_MODEL` to a model that supports JSON mode. Start the explicit binding configuration:
+Set `ADVISOR_PROVIDER=workers-ai` and `WORKERS_AI_MODEL` to a model that supports JSON-schema mode. Start the explicit binding configuration:
 
 ```sh
 npx wrangler dev --config wrangler.ai.example.jsonc
@@ -43,7 +43,7 @@ This uses `env.AI.run()`. **Workers AI inference uses your Cloudflare account ev
 
 The Node comparison runner cannot use a Worker binding. Configure `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, and `WORKERS_AI_MODEL` to use Cloudflare's REST endpoint instead. The token needs authorization for the account's Workers AI inference. Cloudflare's [REST setup guide](https://developers.cloudflare.com/workers-ai/get-started/rest-api/) recommends its Workers AI token template, or both `Workers AI - Read` and `Workers AI - Edit` permissions when configuring a token manually. An active token and access to the account list do not establish Workers AI access. These variables also work in the Worker when an AI binding is not present. With both transports available, the binding takes precedence.
 
-The REST adapter checks Cloudflare's `success/result` envelope. Both transports accept text responses, object responses from JSON mode, and OpenAI-style completion envelopes. Missing or invalid token usage stays unknown; it is never guessed from character counts.
+The REST adapter checks Cloudflare's `success/result` envelope. Both transports send the server-defined schema as `response_format: { type: "json_schema", json_schema: ... }`, following Cloudflare's documented format. Missing schema is rejected before inference; unsupported model settings fail without falling back to weaker constraints. Both transports accept text responses, object responses from JSON mode, and OpenAI-style completion envelopes. Missing or invalid token usage stays unknown; it is never guessed from character counts. API JSON mode is not treated as proof of valid output: local parsing and answer checks still reject malformed responses.
 
 ## Failure and cancellation
 
