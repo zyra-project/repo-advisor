@@ -87,6 +87,8 @@ export interface ModelInput {
   evidence: readonly Evidence[];
   /** Server-defined output structure; never accepted from request or source data. */
   responseSchema?: Record<string, unknown>;
+  /** Rejected output remains untrusted data during the single correction attempt. */
+  correction?: { previousResponse: string; validationError: string };
   signal?: AbortSignal;
 }
 

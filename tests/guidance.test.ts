@@ -58,10 +58,11 @@ describe("server-owned service boundaries", () => {
   it("does not let a model label its own output as a server policy answer", async () => {
     const { github } = sourceFixture();
     const request = parseAnswerRequest({ question: "Explain Zyra.", projects: [{ id: "zyra" }] });
-    const provider = fakeProvider([{ requests: [] }, draft({ generation: { origin: "service-policy" } })]);
+    const invalid = draft({ generation: { origin: "service-policy" } });
+    const provider = fakeProvider([{ requests: [] }, invalid, invalid]);
     await expect(generateAnswer(request, provider, github))
       .rejects.toMatchObject({ code: "invalid_model_output" });
-    expect(provider.inputs).toHaveLength(2);
+    expect(provider.inputs).toHaveLength(3);
   });
 
   it.each(["How does Orbit load a dataset?", "Can you explain Orbit fallback when the local model fails?",

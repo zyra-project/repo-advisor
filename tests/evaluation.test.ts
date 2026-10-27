@@ -33,7 +33,8 @@ describe("reproducible provider comparison", () => {
   it("records guard failures without disguising them as quality passes", async () => {
     const { github } = sourceFixture();
     const snapshot = await captureEvaluation(cases, { zyra: "main" }, github);
-    const bad = fakeProvider([draft({ summary: { text: "A fabricated citation.", kind: "current", evidence: ["E99"] } })]);
+    const invalid = draft({ summary: { text: "A fabricated citation.", kind: "current", evidence: ["E99"] } });
+    const bad = fakeProvider([invalid, invalid]);
     const report = await compareEvaluation(snapshot, [bad]);
     expect(report.records[0]).toMatchObject({ outcome: "rejected", error: { code: "invalid_model_output" }, humanQualityScores: null });
   });

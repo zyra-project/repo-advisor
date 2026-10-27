@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import { answerPrepared, parseAnswerRequest, prepareSources, type AnswerRequest, type ModelCall } from "./answers";
+import { answerPrepared, generateAnswer, parseAnswerRequest, prepareSources, COMMAND_INPUT_POLICY_VERSION, type AnswerRequest, type ModelCall } from "./answers";
 import { AdvisorError } from "./errors";
 import { GitHubSources, type SourceSnapshot } from "./github";
-import { ANSWER_INSTRUCTIONS, ANSWER_SCHEMA, modelMessages, PROMPT_VERSION } from "./prompts";
+import { ANSWER_INSTRUCTIONS, ANSWER_SCHEMA, ANSWER_REPAIR_VERSION, MODEL_EVIDENCE_VERSION, modelMessages, PROMPT_VERSION } from "./prompts";
 import { SERVICE_POLICY_VERSION } from "./service-policy";
 import { INTEGRATION_GUIDANCE_VERSION } from "./integration-guidance";
 import type { EvidenceRequest, ModelProvider } from "./types";
@@ -73,7 +73,9 @@ export function estimateCost(calls: ModelCall[], rates?: TokenRates): number | n
 
 /** Compare answer generation against identical frozen evidence; planner quality is separate. */
 export async function compareEvaluation(snapshot: EvaluationSnapshot, providers: ModelProvider[], rates: Record<string, TokenRates> = {},
-  options: { allowPromptChange?: boolean } = {}) {
+  options: { allowPromptChange?: boolean; mode?: "fixed-evidence" | "planned" } = {}) {
+  const mode = options.mode ?? "fixed-evidence";
+  if (!["fixed-evidence", "planned"].includes(mode)) throw new Error("Unknown evaluation mode.");
   if (snapshot.version !== 1 || typeof snapshot.promptVersion !== "string" || !/^answers-v[1-9][0-9]*$/.test(snapshot.promptVersion) ||
     (snapshot.promptVersion !== PROMPT_VERSION && !options.allowPromptChange)) {
     throw new Error("Snapshot and prompt versions must match this runner unless prompt-change evaluation is explicitly enabled.");
@@ -103,13 +105,22 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
   for (const { test, prepared, evidenceSha256, inputSha256, dataMessageSha256 } of preparedCases) {
     for (const provider of providers) {
       const calls: ModelCall[] = [];
+      const sourceRequests: { url: string; availableInSnapshot: boolean }[] = [];
+      const plannedSources = new GitHubSources(async (input) => {
+        const url = String(input);
+        const availableInSnapshot = Object.hasOwn(snapshot.sources.responses, url);
+        sourceRequests.push({ url, availableInSnapshot });
+        return availableInSnapshot ? new Response(snapshot.sources.responses[url]) : new Response(null, { status: 404 });
+      });
       const started = performance.now();
       let answer;
       let error: { code: string; message: string } | undefined;
       try {
-        answer = await answerPrepared(prepared, provider, GitHubSources.fromSnapshot(snapshot.sources), {
-          onCall: (call) => calls.push(call),
-        });
+        answer = mode === "planned"
+          ? await generateAnswer(prepared.request, provider, plannedSources, undefined, (call) => calls.push(call))
+          : await answerPrepared(prepared, provider, GitHubSources.fromSnapshot(snapshot.sources), {
+            onCall: (call) => calls.push(call),
+          });
       } catch (failure) {
         // Never persist raw provider/network exception details or credentials.
         error = failure instanceof AdvisorError ? { code: failure.code, message: failure.message } :
@@ -120,15 +131,29 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
         caseId: test.id, question: test.question, checks: test.checks,
         provider: provider.id, requestedModel: provider.model, settings: provider.settings,
         promptVersion: PROMPT_VERSION, snapshotPromptVersion: snapshot.promptVersion, promptChangeAccepted,
-        instructionsSha256, inputSha256, dataMessageSha256, evidenceSha256, snapshotSha256,
+        instructionsSha256: mode === "fixed-evidence" ? instructionsSha256 : null,
+        inputSha256: mode === "fixed-evidence" ? inputSha256 : null,
+        dataMessageSha256: mode === "fixed-evidence" ? dataMessageSha256 : null,
+        evidenceSha256: mode === "fixed-evidence" ? evidenceSha256 : null, snapshotSha256,
+        mode, sourceRequests,
         outputSchemaSha256: answer?.generation.origin !== "model" && answer ? null : provider.settings.responseFormat === "json_schema" ? answerSchemaSha256 : null,
         outcome: answer ? "answered" : "rejected", answer: answer ?? null, error: error ?? null,
         answerOrigin: answer?.generation.origin ?? "model",
         inputSentToModel: calls.length > 0,
+        answerRepairVersion: ANSWER_REPAIR_VERSION,
+        commandInputPolicyVersion: COMMAND_INPUT_POLICY_VERSION,
+        modelEvidenceVersion: MODEL_EVIDENCE_VERSION,
+        repairAttempts: calls.filter((call) => call.phase === "repair").length,
+        modelCallInputs: await Promise.all(calls.map(async (call) => ({ phase: call.phase, completed: !call.failed,
+          inputSha256: await digest(modelMessages(call.input)), instructionsSha256: await digest(call.input.instructions),
+          outputSchemaSha256: call.input.responseSchema ? await digest(call.input.responseSchema) : null,
+          dataMessageSha256: await digest(modelMessages(call.input)[1]!.content),
+          evidenceSources: call.input.evidence.map((item) => ({ project: item.project, source: item.source, status: item.status, commitSha: item.commitSha })),
+          validationError: call.validationError ?? null }))),
         servicePolicyVersion: SERVICE_POLICY_VERSION,
         integrationGuidanceVersion: INTEGRATION_GUIDANCE_VERSION,
         latencyMs: performance.now() - started,
-        rawModelResponses: calls.map((call) => ({ phase: call.phase, ...call.result })),
+        rawModelResponses: calls.filter((call) => !call.failed).map((call) => ({ phase: call.phase, ...call.result })),
         usage: answer && answer.generation.origin !== "model" ? { inputTokens: 0, outputTokens: 0 } : completeUsage ? calls.reduce((total, call) => ({ inputTokens: total.inputTokens + call.result.usage!.inputTokens,
           outputTokens: total.outputTokens + call.result.usage!.outputTokens }), { inputTokens: 0, outputTokens: 0 }) : null,
         estimatedTokenCost: answer && answer.generation.origin !== "model" ? 0 : estimateCost(calls, rates[provider.id]),
@@ -139,10 +164,15 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
     }
   }
   return { version: 1, evaluatedAt: new Date().toISOString(), snapshotSha256, promptVersion: PROMPT_VERSION,
+    mode,
+    answerRepairVersion: ANSWER_REPAIR_VERSION,
+    commandInputPolicyVersion: COMMAND_INPUT_POLICY_VERSION,
+    modelEvidenceVersion: MODEL_EVIDENCE_VERSION,
     servicePolicyVersion: SERVICE_POLICY_VERSION,
     integrationGuidanceVersion: INTEGRATION_GUIDANCE_VERSION,
     snapshotPromptVersion: snapshot.promptVersion, promptChangeAccepted,
-    scope: "answer-generation-with-fixed-evidence; excludes planner latency and usage",
+    scope: mode === "planned" ? "planning-retrieval-and-answer-with-frozen-sources; excludes live GitHub latency and HTTP ingress" :
+      "answer-generation-with-fixed-evidence; excludes planner latency and usage",
     costBasis: "Optional operator-supplied token rates; excludes caching, non-token charges, and usage absent from responses.",
     defaultProvider: null, records };
 }

@@ -49,6 +49,8 @@ async function main() {
     return;
   }
   if (command === "run") {
+    const mode = flag("mode") ?? "fixed-evidence";
+    if (mode !== "fixed-evidence" && mode !== "planned") throw new Error("Unknown evaluation mode.");
     const out = required("out");
     // Validate every selected provider configuration before making inference calls.
     const providers = evaluationProviderIds(flag("providers")).map((id) => createProvider(env, id));
@@ -71,7 +73,7 @@ async function main() {
     // report cannot discard paid results at the end of a run.
     const output = await open(out, "wx");
     try {
-      const report = await compareEvaluation(snapshot, providers, rates, { allowPromptChange: args.includes("--allow-prompt-change") });
+      const report = await compareEvaluation(snapshot, providers, rates, { allowPromptChange: args.includes("--allow-prompt-change"), mode });
       await output.writeFile(JSON.stringify(report, null, 2) + "\n");
       console.log(JSON.stringify({ status: "completed", records: report.records.length, snapshotSha256: report.snapshotSha256, defaultProvider: null }));
     } finally {

@@ -7,7 +7,7 @@ import { createApp } from "../src/index";
 import { ANSWER_SCHEMA, PLAN_SCHEMA, modelMessages, excerptDocument } from "../src/prompts";
 import { DOMAIN_PATH, INDEX_PATH, ZYRA_SHA, TERRAVIZ_SHA, draft, fakeProvider, sourceFixture } from "./answer-fixtures";
 
-const request: AnswerRequest = { question: "Download data with the API command.", projects: [{ id: "zyra", ref: "v1" }] };
+const request: AnswerRequest = { question: "Download data from https://example.com/data with the API command.", projects: [{ id: "zyra", ref: "v1" }] };
 const catalog = { project: "zyra", source: "acquire-cli" };
 const proposed = { project: "zyra", name: "acquire api", positionals: [], options: [{ name: "--url", value: "https://example.com/data" }] };
 
@@ -43,14 +43,16 @@ describe("answer orchestration", () => {
   ])("blocks an $name before exposing an answer", async ({ command }) => {
     const { github } = sourceFixture();
     const prepared = await prepareSources(request, [catalog], github);
-    await expect(answerPrepared(prepared, fakeProvider([draft({ commands: [command] })]), github))
+    const bad = draft({ commands: [command] });
+    await expect(answerPrepared(prepared, fakeProvider([bad, bad]), github))
       .rejects.toMatchObject({ code: "invalid_model_output", status: 502 });
   });
 
   it("does not permit command suggestions before a relevant manifest was retrieved", async () => {
     const { github } = sourceFixture();
     const prepared = await prepareSources(request, [], github);
-    await expect(answerPrepared(prepared, fakeProvider([draft({ commands: [proposed] })]), github))
+    const bad = draft({ commands: [proposed] });
+    await expect(answerPrepared(prepared, fakeProvider([bad, bad]), github))
       .rejects.toMatchObject({ code: "invalid_model_output" });
   });
 
@@ -70,7 +72,8 @@ describe("answer orchestration", () => {
   ])("rejects invalid claims and inline executable suggestions: $text", async (summary) => {
     const { github } = sourceFixture();
     const prepared = await prepareSources(request, [], github);
-    await expect(answerPrepared(prepared, fakeProvider([draft({ summary })]), github))
+    const bad = draft({ summary });
+    await expect(answerPrepared(prepared, fakeProvider([bad, bad]), github))
       .rejects.toMatchObject({ code: "invalid_model_output" });
   });
 
@@ -80,7 +83,8 @@ describe("answer orchestration", () => {
     const summary = { text: "A new feature is proposed.", kind: "planned", evidence: ["E2"] };
     const result = await answerPrepared(prepared, fakeProvider([draft({ summary })]), github);
     expect(result.markdown).toContain("planned:");
-    await expect(answerPrepared(prepared, fakeProvider([draft({ summary: { ...summary, kind: "current" } })]), github))
+    const bad = draft({ summary: { ...summary, kind: "current" } });
+    await expect(answerPrepared(prepared, fakeProvider([bad, bad]), github))
       .rejects.toMatchObject({ code: "invalid_model_output" });
   });
 
@@ -103,7 +107,7 @@ describe("answer orchestration", () => {
 
   it("quotes shell metacharacters and apostrophes in values rather than executing them", async () => {
     const { github } = sourceFixture();
-    const prepared = await prepareSources(request, [catalog], github);
+    const prepared = await prepareSources({ ...request, question: request.question + " Save to a'b; $(touch marker)" }, [catalog], github);
     const command = { ...proposed, options: [{ name: "--output", value: "a'b; $(touch marker)" }] };
     const result = await answerPrepared(prepared, fakeProvider([draft({ commands: [command] })]), github);
     expect(result.answer.commands[0]?.shell).toBe("zyra acquire api --output 'a'\\''b; $(touch marker)'");
@@ -134,7 +138,7 @@ describe("answer orchestration", () => {
   it.each(["not JSON", "```json\n{}\n```", '{"unexpected":"schema"}'])("rejects malformed model output", async (text) => {
     const { github } = sourceFixture();
     const prepared = await prepareSources(request, [], github);
-    await expect(answerPrepared(prepared, fakeProvider([text]), github)).rejects.toMatchObject({ code: "invalid_model_output" });
+    await expect(answerPrepared(prepared, fakeProvider([text, text]), github)).rejects.toMatchObject({ code: "invalid_model_output" });
   });
 
   it("keeps malicious repository instructions in the data message", async () => {

@@ -24,6 +24,8 @@ Now implemented: bounded English routing to versioned service-policy answers wit
 
 Next: improve structured command guidance and missing-input handling, same-claim option citations, setup prerequisites and contribution-report completeness. Assess broader independently reviewed questions and the full planner/retrieval flow before selecting an operational default. Prompt-only tuning and guard-pass counts are insufficient acceptance evidence.
 
+Further implemented: one bounded correction after a complete answer fails validation, with unchanged citation/authority/name checks and no retry of provider, refusal/truncation, source-plan or retrieval failures. Command drafts now require nonempty literal values from the question and annotated mandatory inputs; the model catalog view includes incomplete positional/required-option metadata. Planned evaluation mode records actual per-phase inputs and closed-source snapshot coverage. The [latest report](../evals/results/repair-v1-and-command-inputs.json) preserves the initial correction experiment separately from stronger-guard replays and focused reruns. Sonnet handles both final command-input cases; Scout shows no correction recovery in the initial cohort. These observations do not yet select an operational default.
+
 ## 3. Contribution drafts
 
 Add live search over relevant open and closed GitHub issues and discussions, then retrieve matching threads. Use REST for issue operations and GitHub's documented GraphQL API for discussions. Discover categories dynamically; file history uses `GET /repos/{owner}/{repo}/commits?path=...`. Refresh template/label configuration rather than assuming it remains correct forever.
