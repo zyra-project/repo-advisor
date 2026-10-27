@@ -3,6 +3,8 @@
 import { describe, expect, it } from "vitest";
 import { createProvider, providerReadiness, evaluationProviderIds } from "../src/providers";
 import type { Env, ModelInput } from "../src/types";
+import { ANSWER_SCHEMA } from "../src/prompts";
+import { strictSchema } from "../src/strict-schema";
 
 const input: ModelInput = { instructions: "Return JSON.", question: "Explain the project.", evidence: [],
   responseSchema: { type: "object", additionalProperties: false, properties: { ok: { type: "boolean" } }, required: ["ok"] } };
@@ -53,6 +55,73 @@ describe("model adapters", () => {
     const provider = createProvider(anthropic, "anthropic", async () => Response.json({ type: "message", content: [{ type: "text", text: "{}" }],
       stop_reason: stop, usage: { input_tokens: 12, output_tokens: 2 } }));
     expect(await provider.generate(input)).toMatchObject({ completionStatus: status, finishReason: stop, usage: { inputTokens: 12, outputTokens: 2 } });
+  });
+
+  it("sends explicit adaptive thinking and effort without replacing the JSON schema", async () => {
+    const provider = createProvider({ ...anthropic, ANTHROPIC_THINKING: "adaptive", ANTHROPIC_EFFORT: "medium",
+      ANTHROPIC_MAX_OUTPUT_TOKENS: "8192", ANTHROPIC_TIMEOUT_MS: "90000" }, "anthropic", async (_url, init) => {
+      expect(JSON.parse(String(init?.body))).toMatchObject({ max_tokens: 8192, thinking: { type: "adaptive", display: "omitted" },
+        output_config: { effort: "medium", format: { type: "json_schema", schema: input.responseSchema } } });
+      return Response.json({ type: "message", content: [{ type: "thinking", thinking: "Private reasoning must not be retained", signature: "signature" },
+        { type: "redacted_thinking", data: "private encrypted data" }, { type: "text", text: '{"ok":true}' }], stop_reason: "end_turn",
+      usage: { input_tokens: 10, output_tokens: 300 } });
+    });
+    expect(provider.settings).toMatchObject({ maxOutputTokens: 8192, thinking: "adaptive", thinkingDisplay: "omitted", effort: "medium", timeoutMs: 90000 });
+    const result = await provider.generate(input);
+    expect(result).toMatchObject({ text: '{"ok":true}', thinkingBlocksOmitted: 2, usage: { outputTokens: 300 } });
+    expect(JSON.stringify(result)).not.toMatch(/Private reasoning|private encrypted|signature/);
+  });
+
+  it.each([
+    { ANTHROPIC_MAX_OUTPUT_TOKENS: "8192junk" }, { ANTHROPIC_MAX_OUTPUT_TOKENS: "1000000" },
+    { ANTHROPIC_THINKING: "enabled" }, { ANTHROPIC_EFFORT: "unlimited" }, { ANTHROPIC_TIMEOUT_MS: "0" },
+  ])("rejects invalid native settings before making a call", (override) => {
+    expect(() => createProvider({ ...anthropic, ...override }, "anthropic")).toThrow("settings are invalid");
+  });
+
+  it("preserves usage when thinking exhausts the total output budget before answer text", async () => {
+    const provider = createProvider(anthropic, "anthropic", async () => Response.json({ type: "message",
+      content: [{ type: "thinking", thinking: "", signature: "discard" }], stop_reason: "max_tokens",
+      usage: { input_tokens: 20, output_tokens: 8192 } }));
+    expect(await provider.generate(input)).toMatchObject({ text: "", completionStatus: "incomplete",
+      thinkingBlocksOmitted: 1, usage: { inputTokens: 20, outputTokens: 8192 } });
+  });
+
+  it("does not silently drop unsupported native reasoning settings", async () => {
+    let calls = 0;
+    const provider = createProvider({ ...anthropic, ANTHROPIC_THINKING: "disabled" }, "anthropic", async () => {
+      calls++; return new Response("Unsupported model setting", { status: 400 });
+    });
+    await expect(provider.generate(input)).rejects.toMatchObject({ code: "provider_unavailable" });
+    expect(calls).toBe(1);
+  });
+
+  it("uses strict equivalent schemas and explicit reasoning settings for OpenAI-compatible calls", async () => {
+    const original = JSON.stringify(ANSWER_SCHEMA);
+    const provider = createProvider({ ...external, OPENAI_COMPATIBLE_BASE_URL: "https://api.openai.com/v1",
+      OPENAI_COMPATIBLE_MODEL: "gpt-6.1-sol", OPENAI_COMPATIBLE_RESPONSE_FORMAT: "json_schema",
+      OPENAI_COMPATIBLE_REASONING_EFFORT: "medium", OPENAI_COMPATIBLE_MAX_OUTPUT_TOKENS: "8192", OPENAI_COMPATIBLE_TIMEOUT_MS: "90000" },
+    "openai-compatible", async (_url, init) => {
+      const body = JSON.parse(String(init?.body));
+      expect(body).toMatchObject({ max_completion_tokens: 8192, reasoning_effort: "medium", response_format: {
+        type: "json_schema", json_schema: { name: "repo_advisor", strict: true, schema: strictSchema(ANSWER_SCHEMA) },
+      } });
+      expect(body).not.toHaveProperty("thinking");
+      return Response.json({ choices: [{ message: { content: '{"ok":true}' }, finish_reason: "stop" }], usage: { prompt_tokens: 15, completion_tokens: 120 } });
+    });
+    expect(provider.settings).toMatchObject({ responseFormat: "json_schema", effort: "medium", maxOutputTokens: 8192, schemaTransport: "closed-object-variants" });
+    expect((await provider.generate({ ...input, responseSchema: ANSWER_SCHEMA })).usage).toEqual({ inputTokens: 15, outputTokens: 120 });
+    expect(JSON.stringify(ANSWER_SCHEMA)).toBe(original);
+    const schema = strictSchema(ANSWER_SCHEMA) as { properties: { commands: { items: { properties: { options: { items: { anyOf: { required: string[]; properties: Record<string, unknown> }[] } } } } } } };
+    const options = schema.properties.commands.items.properties.options.items.anyOf;
+    expect(options.map((variant) => variant.required)).toEqual([["name"], ["name", "value"]]);
+    expect(options.map((variant) => Object.keys(variant.properties))).toEqual([["name"], ["name", "value"]]);
+  });
+
+  it("rejects unbounded/open strict schemas rather than widening the contract", () => {
+    expect(() => strictSchema({ type: "object", properties: { unsafe: { type: "string" } } })).toThrow();
+    expect(() => strictSchema({ type: "object", additionalProperties: false,
+      properties: Object.fromEntries(["a", "b", "c", "d"].map((key) => [key, { type: "string" }])), required: [] })).toThrow();
   });
 
   it.each([

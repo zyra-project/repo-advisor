@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
-import { answerPrepared, generateAnswer, parseAnswerRequest, prepareSources, COMMAND_INPUT_POLICY_VERSION, type AnswerRequest, type ModelCall } from "./answers";
+import { answerPrepared, generateAnswer, parseAnswerRequest, prepareSources, COMMAND_INPUT_POLICY_VERSION, SOURCE_PLAN_VERSION, type AnswerRequest, type ModelCall } from "./answers";
 import { AdvisorError } from "./errors";
 import { GitHubSources, type SourceSnapshot } from "./github";
 import { ANSWER_INSTRUCTIONS, ANSWER_SCHEMA, ANSWER_REPAIR_VERSION, MODEL_EVIDENCE_VERSION, modelMessages, PROMPT_VERSION } from "./prompts";
@@ -135,7 +135,7 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
         inputSha256: mode === "fixed-evidence" ? inputSha256 : null,
         dataMessageSha256: mode === "fixed-evidence" ? dataMessageSha256 : null,
         evidenceSha256: mode === "fixed-evidence" ? evidenceSha256 : null, snapshotSha256,
-        mode, sourceRequests,
+        mode, sourceRequests, sourcePlanVersion: mode === "planned" ? SOURCE_PLAN_VERSION : null,
         outputSchemaSha256: answer?.generation.origin !== "model" && answer ? null : provider.settings.responseFormat === "json_schema" ? answerSchemaSha256 : null,
         outcome: answer ? "answered" : "rejected", answer: answer ?? null, error: error ?? null,
         answerOrigin: answer?.generation.origin ?? "model",
@@ -147,6 +147,7 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
         modelCallInputs: await Promise.all(calls.map(async (call) => ({ phase: call.phase, completed: !call.failed,
           inputSha256: await digest(modelMessages(call.input)), instructionsSha256: await digest(call.input.instructions),
           outputSchemaSha256: call.input.responseSchema ? await digest(call.input.responseSchema) : null,
+          transportSchemaSha256: call.input.responseSchema ? await digest(provider.schemaForTransport?.(call.input.responseSchema) ?? call.input.responseSchema) : null,
           dataMessageSha256: await digest(modelMessages(call.input)[1]!.content),
           evidenceSources: call.input.evidence.map((item) => ({ project: item.project, source: item.source, status: item.status, commitSha: item.commitSha })),
           validationError: call.validationError ?? null }))),
@@ -165,6 +166,7 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
   }
   return { version: 1, evaluatedAt: new Date().toISOString(), snapshotSha256, promptVersion: PROMPT_VERSION,
     mode,
+    sourcePlanVersion: mode === "planned" ? SOURCE_PLAN_VERSION : null,
     answerRepairVersion: ANSWER_REPAIR_VERSION,
     commandInputPolicyVersion: COMMAND_INPUT_POLICY_VERSION,
     modelEvidenceVersion: MODEL_EVIDENCE_VERSION,

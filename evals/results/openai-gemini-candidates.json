@@ -1,0 +1,87 @@
+{
+  "catalog": {
+    "observedAt": "2026-10-27T16:19:28.632Z",
+    "httpStatus": 200,
+    "models": [
+      {
+        "id": "gpt-6.1-terra",
+        "owned_by": "system",
+        "created": 1791908780
+      },
+      {
+        "id": "gpt-6-luna",
+        "owned_by": "system",
+        "created": 1789406102
+      },
+      {
+        "id": "gpt-6-astra",
+        "owned_by": "system",
+        "created": 1787853604
+      },
+      {
+        "id": "gpt-6.1-sol",
+        "owned_by": "system",
+        "created": 1790552874
+      },
+      {
+        "id": "gpt-6-sol",
+        "owned_by": "system",
+        "created": 1789405937
+      }
+    ]
+  },
+  "schemaSmoke": {
+    "observedAt": "2026-10-27T16:22:56.952Z",
+    "endpoint": "https://api.openai.com/v1/chat/completions",
+    "credentialVariable": "OPENAI_COMPATIBLE_API_KEY",
+    "providerOwnershipConfirmedByUser": true,
+    "settings": {
+      "maxOutputTokens": 8192,
+      "responseFormat": "json_schema",
+      "temperature": "provider-default",
+      "tokenParameter": "max_completion_tokens",
+      "timeoutMs": 90000,
+      "effort": "medium",
+      "schemaTransport": "closed-object-variants"
+    },
+    "statuses": [
+      200
+    ],
+    "result": {
+      "text": "{\"summary\":{\"text\":\"Ready\",\"kind\":\"uncertain\",\"evidence\":[]},\"details\":[],\"nextSteps\":[],\"commands\":[]}",
+      "model": "gpt-6.1-sol",
+      "completionStatus": "complete",
+      "finishReason": "stop",
+      "usage": {
+        "inputTokens": 317,
+        "outputTokens": 35
+      }
+    }
+  },
+  "rates": {
+    "openai-compatible": {
+      "model": "gpt-6.1-sol",
+      "inputPerMillion": 2,
+      "outputPerMillion": 10,
+      "currency": "USD",
+      "sourceUrl": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "asOf": "2026-10-27"
+    }
+  },
+  "modelSource": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+  "gemini": {
+    "tested": false,
+    "reason": "No configured Gemini credential",
+    "prospectiveModels": [
+      {
+        "id": "gemini-4-argon",
+        "source": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon"
+      },
+      {
+        "id": "gemini-3.8-flash",
+        "source": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
+      }
+    ]
+  },
+  "deployed": false
+}

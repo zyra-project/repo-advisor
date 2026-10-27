@@ -3,7 +3,8 @@
 import { AdvisorError, isRecord } from "./errors";
 import { readLimitedText } from "./github";
 import { modelMessages } from "./prompts";
-import type { Env, Fetcher, ModelInput, ModelProvider, ModelResult } from "./types";
+import { strictSchema } from "./strict-schema";
+import type { Env, Fetcher, GenerationSettings, ModelInput, ModelProvider, ModelResult } from "./types";
 
 export const GENERATION_SETTINGS = Object.freeze({ maxOutputTokens: 2048, responseFormat: "json_object" as const, temperature: "provider-default" as const });
 export const PROVIDER_IDS = ["workers-ai", "openai-compatible", "anthropic"] as const;
@@ -54,9 +55,17 @@ function extract(value: unknown, requestedModel: string): ModelResult {
 
 function extractAnthropic(value: unknown, requestedModel: string): ModelResult {
   if (!isRecord(value) || value.type !== "message" || !Array.isArray(value.content) ||
-    value.content.some((block) => !isRecord(block) || block.type !== "text" || typeof block.text !== "string") ||
     typeof value.stop_reason !== "string") invalidResponse();
-  const text = value.content.map((block) => (block as { text: string }).text).join("");
+  const texts: string[] = [];
+  let thinkingBlocksOmitted = 0;
+  for (const block of value.content) {
+    if (!isRecord(block)) invalidResponse();
+    if (block.type === "text" && typeof block.text === "string") texts.push(block.text);
+    else if ((block.type === "thinking" && typeof block.thinking === "string") ||
+      (block.type === "redacted_thinking" && typeof block.data === "string")) thinkingBlocksOmitted++;
+    else invalidResponse();
+  }
+  const text = texts.join("");
   const completionStatus = value.stop_reason === "refusal" ? "refused" :
     ["end_turn", "stop_sequence"].includes(value.stop_reason) ? "complete" : "incomplete";
   if ((text.length === 0 && completionStatus === "complete") || text.length > 64 * 1024) invalidResponse();
@@ -70,7 +79,49 @@ function extractAnthropic(value: unknown, requestedModel: string): ModelResult {
     }
   }
   return { text, model: typeof value.model === "string" && value.model ? value.model : requestedModel,
-    completionStatus, finishReason: value.stop_reason, usage: normalizedUsage };
+    completionStatus, finishReason: value.stop_reason, usage: normalizedUsage,
+    ...(thinkingBlocksOmitted ? { thinkingBlocksOmitted } : {}) };
+}
+
+function anthropicSettings(env: Env): Partial<GenerationSettings> {
+  const integer = (value: string | undefined, fallback: number, min: number, max: number) => {
+    if (value === undefined) return fallback;
+    if (!/^[0-9]+$/.test(value) || !Number.isSafeInteger(Number(value)) || Number(value) < min || Number(value) > max) {
+      throw unavailable("The native Anthropic generation settings are invalid.");
+    }
+    return Number(value);
+  };
+  if (env.ANTHROPIC_THINKING !== undefined && !["adaptive", "disabled"].includes(env.ANTHROPIC_THINKING) ||
+    env.ANTHROPIC_EFFORT !== undefined && !["low", "medium", "high", "xhigh", "max"].includes(env.ANTHROPIC_EFFORT)) {
+    throw unavailable("The native Anthropic generation settings are invalid.");
+  }
+  return {
+    maxOutputTokens: integer(env.ANTHROPIC_MAX_OUTPUT_TOKENS, GENERATION_SETTINGS.maxOutputTokens, 256, 32768),
+    timeoutMs: integer(env.ANTHROPIC_TIMEOUT_MS, 45000, 1000, 90000),
+    ...(env.ANTHROPIC_THINKING ? { thinking: env.ANTHROPIC_THINKING as "adaptive" | "disabled" } : {}),
+    ...(env.ANTHROPIC_THINKING === "adaptive" ? { thinkingDisplay: "omitted" as const } : {}),
+    ...(env.ANTHROPIC_EFFORT ? { effort: env.ANTHROPIC_EFFORT as GenerationSettings["effort"] } : {}),
+  };
+}
+
+function compatibleSettings(env: Env): Partial<GenerationSettings> {
+  const format = env.OPENAI_COMPATIBLE_RESPONSE_FORMAT ?? "json_object";
+  const effort = env.OPENAI_COMPATIBLE_REASONING_EFFORT;
+  const integer = (value: string | undefined, fallback: number, min: number, max: number) => {
+    if (value === undefined) return fallback;
+    if (!/^[0-9]+$/.test(value) || !Number.isSafeInteger(Number(value)) || Number(value) < min || Number(value) > max) {
+      throw unavailable("The compatible generation settings are invalid.");
+    }
+    return Number(value);
+  };
+  if (!["json_object", "json_schema"].includes(format) || effort !== undefined && !["low", "medium", "high", "xhigh", "max"].includes(effort)) {
+    throw unavailable("The compatible generation settings are invalid.");
+  }
+  return { responseFormat: format as GenerationSettings["responseFormat"],
+    maxOutputTokens: integer(env.OPENAI_COMPATIBLE_MAX_OUTPUT_TOKENS, 2048, 256, 32768),
+    timeoutMs: integer(env.OPENAI_COMPATIBLE_TIMEOUT_MS, 45000, 1000, 90000),
+    ...(effort ? { effort: effort as GenerationSettings["effort"] } : {}),
+    ...(format === "json_schema" ? { schemaTransport: "closed-object-variants" as const } : {}) };
 }
 
 async function bounded<T>(promise: Promise<T>, signal: AbortSignal): Promise<T> {
@@ -119,7 +170,7 @@ export function providerReadiness(env: Env) {
 
 export function createProvider(env: Env, selection: string | undefined, fetcher: Fetcher = fetch): ModelProvider {
   if (!PROVIDER_IDS.includes(selection as ProviderId)) {
-    throw unavailable("Select a configured provider explicitly; no default model has been chosen.");
+    throw unavailable("Select a configured provider or configure ADVISOR_PROVIDER.");
   }
   const readiness = providerReadiness(env).find((item) => item.id === selection)!;
   if (!readiness.configured) throw unavailable("The selected provider is not configured.");
@@ -146,20 +197,30 @@ export function createProvider(env: Env, selection: string | undefined, fetcher:
     url = `https://api.cloudflare.com/client/v4/accounts/${env.CLOUDFLARE_ACCOUNT_ID}/ai/run/${model}`;
   }
 
+  const settings: GenerationSettings = { ...GENERATION_SETTINGS,
+    responseFormat: id === "openai-compatible" ? "json_object" : "json_schema",
+    tokenParameter: tokenParameter as "max_tokens" | "max_completion_tokens",
+    ...(id === "anthropic" ? anthropicSettings(env) : id === "openai-compatible" ? compatibleSettings(env) : {}) };
+  const schemaForTransport = id === "openai-compatible" && settings.responseFormat === "json_schema" ? strictSchema : undefined;
   return {
-    id, model, settings: { ...GENERATION_SETTINGS, responseFormat: id === "openai-compatible" ? "json_object" : "json_schema",
-      tokenParameter: tokenParameter as "max_tokens" | "max_completion_tokens" },
+    id, model, settings, ...(schemaForTransport ? { schemaForTransport } : {}),
     async generate(input: ModelInput): Promise<ModelResult> {
-      const signal = input.signal ? AbortSignal.any([input.signal, AbortSignal.timeout(45_000)]) : AbortSignal.timeout(45_000);
+      const timeout = settings.timeoutMs ?? 45000;
+      const signal = input.signal ? AbortSignal.any([input.signal, AbortSignal.timeout(timeout)]) : AbortSignal.timeout(timeout);
       // A cancelled request must not start inference, including through a binding.
       if (signal.aborted) throw unavailable();
-      if (id !== "openai-compatible" && !input.responseSchema) throw unavailable("Structured output requires a server-defined response schema.");
+      if ((id !== "openai-compatible" || settings.responseFormat === "json_schema") && !input.responseSchema) throw unavailable("Structured output requires a server-defined response schema.");
       const messages = modelMessages(input);
       const body = id === "anthropic" ? { model, system: messages[0]!.content, messages: messages.slice(1),
-        max_tokens: GENERATION_SETTINGS.maxOutputTokens,
-        output_config: { format: { type: "json_schema", schema: input.responseSchema } } } : { ...(id === "workers-ai" ? {} : { model }), messages,
-        response_format: id === "workers-ai" ? { type: "json_schema", json_schema: input.responseSchema } : { type: "json_object" },
-        [id === "workers-ai" ? "max_tokens" : tokenParameter]: GENERATION_SETTINGS.maxOutputTokens };
+        max_tokens: settings.maxOutputTokens,
+        ...(settings.thinking ? { thinking: { type: settings.thinking,
+          ...(settings.thinkingDisplay ? { display: settings.thinkingDisplay } : {}) } } : {}),
+        output_config: { format: { type: "json_schema", schema: input.responseSchema },
+          ...(settings.effort ? { effort: settings.effort } : {}) } } : { ...(id === "workers-ai" ? {} : { model }), messages,
+        response_format: id === "workers-ai" ? { type: "json_schema", json_schema: input.responseSchema } :
+          schemaForTransport ? { type: "json_schema", json_schema: { name: "repo_advisor", strict: true, schema: schemaForTransport(input.responseSchema!) } } : { type: "json_object" },
+        ...(id === "openai-compatible" && settings.effort ? { reasoning_effort: settings.effort } : {}),
+        [id === "workers-ai" ? "max_tokens" : tokenParameter]: settings.maxOutputTokens };
       try {
         let result: unknown;
         if (id === "workers-ai" && env.AI) {

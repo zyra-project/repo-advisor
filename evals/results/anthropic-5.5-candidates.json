@@ -1,0 +1,166 @@
+{
+  "observedAt": "2026-10-27T16:04:43.587Z",
+  "catalogHttpStatus": 200,
+  "catalogEndpoint": "https://api.anthropic.com/v1/models",
+  "models": [
+    {
+      "id": "claude-opus-5-5",
+      "displayName": "Claude Opus 5.5",
+      "structuredOutputs": true,
+      "adaptiveThinking": true,
+      "thinkingCanBeDisabled": false,
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ]
+    },
+    {
+      "id": "claude-sonnet-5-5",
+      "displayName": "Claude Sonnet 5.5",
+      "structuredOutputs": true,
+      "adaptiveThinking": true,
+      "thinkingCanBeDisabled": false,
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ]
+    },
+    {
+      "id": "claude-haiku-5-5",
+      "displayName": "Claude Haiku 5.5",
+      "structuredOutputs": true,
+      "adaptiveThinking": true,
+      "thinkingCanBeDisabled": true,
+      "effortLevels": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ]
+    }
+  ],
+  "schemaSmokes": [
+    {
+      "model": "claude-opus-5-5",
+      "statuses": [
+        200
+      ],
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "result": {
+        "text": "{\"ok\":true}",
+        "model": "claude-opus-5-5",
+        "completionStatus": "complete",
+        "finishReason": "end_turn",
+        "usage": {
+          "inputTokens": 239,
+          "outputTokens": 9
+        }
+      }
+    },
+    {
+      "model": "claude-sonnet-5-5",
+      "statuses": [
+        200
+      ],
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "result": {
+        "text": "{\"ok\":true}",
+        "model": "claude-sonnet-5-5",
+        "completionStatus": "complete",
+        "finishReason": "end_turn",
+        "usage": {
+          "inputTokens": 239,
+          "outputTokens": 9
+        }
+      }
+    },
+    {
+      "model": "claude-haiku-5-5",
+      "statuses": [
+        200
+      ],
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "result": {
+        "text": "{\"ok\":true}",
+        "model": "claude-haiku-5-5",
+        "completionStatus": "complete",
+        "finishReason": "end_turn",
+        "usage": {
+          "inputTokens": 239,
+          "outputTokens": 9
+        }
+      }
+    }
+  ],
+  "comparisonSettings": {
+    "thinking": "adaptive",
+    "thinkingDisplay": "omitted",
+    "effort": "medium",
+    "maxOutputTokens": 8192,
+    "timeoutMs": 90000,
+    "sameSchemaAndValidators": true,
+    "sameEvidenceFormat": "model-evidence-v2",
+    "samePrompt": "answers-v3",
+    "sameMediumSettingDoesNotImplyEqualReasoningCompute": true
+  },
+  "sources": {
+    "models": "https://platform.claude.com/docs/en/models/overview",
+    "pricing": "https://platform.claude.com/docs/en/about-claude/pricing",
+    "thinking": "https://platform.claude.com/docs/en/build-with-claude/thinking-steering-and-cost",
+    "effort": "https://platform.claude.com/docs/en/build-with-claude/effort"
+  },
+  "baseRatesUsdPerMillion": {
+    "claude-opus-5-5": {
+      "input": 4,
+      "output": 20
+    },
+    "claude-sonnet-5-5": {
+      "input": 2,
+      "output": 10
+    },
+    "claude-haiku-5-5": {
+      "input": 0.1,
+      "output": 0.5,
+      "condition": "Input <=100,000 tokens per request; verify observed usage."
+    }
+  },
+  "priceAsOf": "2026-10-27",
+  "coreSnapshotSha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+  "snapshotMutated": false,
+  "reasoningContentStored": false,
+  "deployed": false
+}

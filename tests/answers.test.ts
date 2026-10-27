@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { describe, expect, it } from "vitest";
-import { answerPrepared, generateAnswer, parseAnswerRequest, prepareSources, type AnswerRequest } from "../src/answers";
+import { answerPrepared, generateAnswer, parseAnswerRequest, prepareSources, sourcePlanSchema, type AnswerRequest } from "../src/answers";
 import { GitHubSources } from "../src/github";
 import { createApp } from "../src/index";
-import { ANSWER_SCHEMA, PLAN_SCHEMA, modelMessages, excerptDocument } from "../src/prompts";
+import { ANSWER_SCHEMA, modelMessages, excerptDocument } from "../src/prompts";
 import { DOMAIN_PATH, INDEX_PATH, ZYRA_SHA, TERRAVIZ_SHA, draft, fakeProvider, sourceFixture } from "./answer-fixtures";
 
 const request: AnswerRequest = { question: "Download data from https://example.com/data with the API command.", projects: [{ id: "zyra", ref: "v1" }] };
@@ -23,7 +23,7 @@ describe("answer orchestration", () => {
     expect(calls.filter((url) => url.startsWith("https://api.github.com/"))).toHaveLength(1);
     expect(calls.filter((url) => url.endsWith(DOMAIN_PATH))).toHaveLength(1);
     expect(result.metrics.calls.map((call) => call.phase)).toEqual(["plan", "answer"]);
-    expect(provider.inputs[0]?.responseSchema).toEqual(PLAN_SCHEMA);
+    expect(provider.inputs[0]?.responseSchema).toEqual(sourcePlanSchema(request));
     expect(provider.inputs[1]?.responseSchema).toEqual(ANSWER_SCHEMA);
     expect(result.validation.claimSemantics).toBe("requires-review");
   });
@@ -119,6 +119,21 @@ describe("answer orchestration", () => {
     await expect(generateAnswer(request, provider, github)).rejects.toMatchObject({ code: "invalid_model_output" });
     expect(calls.some((url) => url.includes("private"))).toBe(false);
     expect(provider.inputs).toHaveLength(1);
+  });
+
+  it.each([
+    { project: "zyra", source: "acquire-cli", command: "acquire http" },
+    { project: "zyra", source: "cli" },
+    { project: "zyra", source: "readme", options: [] },
+  ])("rejects mismatched source fields as model output before extra retrieval", async (selection) => {
+    const { github, calls } = sourceFixture();
+    const provider = fakeProvider([{ requests: [selection] }]);
+    await expect(generateAnswer(request, provider, github)).rejects.toMatchObject({ code: "invalid_model_output", status: 502 });
+    expect(provider.inputs).toHaveLength(1);
+    expect(calls.filter((url) => url.endsWith(DOMAIN_PATH))).toHaveLength(0);
+    const schema = provider.inputs[0]!.responseSchema as { properties: { requests: { items: { anyOf: { properties: Record<string, unknown>; required: string[] }[] } } } };
+    expect(schema.properties.requests.items.anyOf.filter((variant) => Object.hasOwn(variant.properties, "command"))).toHaveLength(1);
+    expect(schema.properties.requests.items.anyOf.find((variant) => Object.hasOwn(variant.properties, "command"))!.required).toContain("command");
   });
 
   it("stops before answer generation when a selected source is unavailable", async () => {

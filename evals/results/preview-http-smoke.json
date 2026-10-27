@@ -1,0 +1,238 @@
+{
+  "observedAt": "2026-10-27T16:35:01.582Z",
+  "transport": "Actual loopback HTTP -> createApp with Wrangler nonsecret variables -> live OpenAI",
+  "sourceMode": "Frozen GitHub responses at recorded immutable revisions; no live GitHub latency measurement",
+  "observations": [
+    {
+      "path": "/health",
+      "status": 200
+    },
+    {
+      "path": "/v1/projects",
+      "status": 200
+    },
+    {
+      "path": "/v1/answer",
+      "status": 200
+    }
+  ],
+  "calls": [
+    {
+      "kind": "frozen-github",
+      "status": 200
+    },
+    {
+      "kind": "frozen-github",
+      "status": 200
+    },
+    {
+      "kind": "frozen-github",
+      "status": 200
+    },
+    {
+      "kind": "live-openai",
+      "status": 200
+    },
+    {
+      "kind": "frozen-github",
+      "status": 200
+    },
+    {
+      "kind": "live-openai",
+      "status": 200
+    }
+  ],
+  "answer": {
+    "status": "answered",
+    "answer": {
+      "summary": {
+        "text": "Zyra supports downloading an HTTP(S) file to a local path with acquire http.",
+        "kind": "current",
+        "evidence": [
+          "E4"
+        ]
+      },
+      "details": [
+        {
+          "text": "The command below is a draft for you to run; this service has not executed it or downloaded the file.",
+          "kind": "uncertain",
+          "evidence": []
+        }
+      ],
+      "commands": [
+        {
+          "project": "zyra",
+          "name": "acquire http",
+          "options": [
+            {
+              "name": "--output",
+              "value": "weather.nc"
+            }
+          ],
+          "positionals": [
+            "https://example.org/weather.nc"
+          ],
+          "shell": "zyra acquire http 'https://example.org/weather.nc' --output 'weather.nc'",
+          "evidence": "E5"
+        }
+      ],
+      "nextSteps": []
+    },
+    "markdown": "Zyra supports downloading an HTTP(S) file to a local path with acquire http. [source 1](https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json) [source 2](https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/acquire.json)\n\n- uncertain: The command below is a draft for you to run; this service has not executed it or downloaded the file.\n\n```sh\nzyra acquire http 'https://example.org/weather.nc' --output 'weather.nc'\n```\n[manifest](https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json) [manifest](https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/acquire.json)\n\nCommand and option names were checked. Values, prerequisites, and execution were not validated.",
+    "sources": [
+      {
+        "id": "E1",
+        "project": "zyra",
+        "source": "readme",
+        "status": "evidence",
+        "classification": "documentation",
+        "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "citations": [
+          {
+            "repository": "NOAA-GSL/zyra",
+            "path": "README.md",
+            "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+            "url": "https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/README.md",
+            "retrievedAt": "2026-10-27T16:34:54.376Z"
+          }
+        ]
+      },
+      {
+        "id": "E2",
+        "project": "zyra",
+        "source": "cli-index",
+        "status": "index",
+        "classification": "capability",
+        "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "citations": [
+          {
+            "repository": "NOAA-GSL/zyra",
+            "path": "src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+            "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+            "url": "https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+            "retrievedAt": "2026-10-27T16:34:54.376Z"
+          }
+        ]
+      },
+      {
+        "id": "E3",
+        "project": "zyra",
+        "source": "acquire-cli",
+        "status": "catalog",
+        "classification": "capability",
+        "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "citations": [
+          {
+            "repository": "NOAA-GSL/zyra",
+            "path": "src/zyra/wizard/zyra_capabilities/acquire.json",
+            "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+            "url": "https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/acquire.json",
+            "retrievedAt": "2026-10-27T16:34:57.926Z"
+          }
+        ]
+      },
+      {
+        "id": "E4",
+        "project": "zyra",
+        "source": "cli",
+        "status": "supported",
+        "classification": "capability",
+        "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "citations": [
+          {
+            "repository": "NOAA-GSL/zyra",
+            "path": "src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+            "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+            "url": "https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+            "retrievedAt": "2026-10-27T16:34:54.376Z"
+          },
+          {
+            "repository": "NOAA-GSL/zyra",
+            "path": "src/zyra/wizard/zyra_capabilities/acquire.json",
+            "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+            "url": "https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/acquire.json",
+            "retrievedAt": "2026-10-27T16:34:57.926Z"
+          }
+        ]
+      },
+      {
+        "id": "E5",
+        "project": "zyra",
+        "source": "cli",
+        "status": "supported",
+        "classification": "capability",
+        "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "citations": [
+          {
+            "repository": "NOAA-GSL/zyra",
+            "path": "src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+            "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+            "url": "https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+            "retrievedAt": "2026-10-27T16:34:54.376Z"
+          },
+          {
+            "repository": "NOAA-GSL/zyra",
+            "path": "src/zyra/wizard/zyra_capabilities/acquire.json",
+            "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea",
+            "url": "https://github.com/NOAA-GSL/zyra/blob/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/acquire.json",
+            "retrievedAt": "2026-10-27T16:34:57.926Z"
+          }
+        ]
+      }
+    ],
+    "generation": {
+      "origin": "model"
+    },
+    "model": {
+      "provider": "openai-compatible",
+      "requested": "gpt-6.1-sol",
+      "reported": "gpt-6.1-sol"
+    },
+    "metrics": {
+      "elapsedMs": 7208.009819,
+      "calls": [
+        {
+          "phase": "plan",
+          "latencyMs": 3548.989721,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "inputTokens": 2763,
+            "outputTokens": 99
+          }
+        },
+        {
+          "phase": "answer",
+          "latencyMs": 3651.6822700000002,
+          "model": "gpt-6.1-sol",
+          "usage": {
+            "inputTokens": 5499,
+            "outputTokens": 123
+          }
+        }
+      ]
+    },
+    "promptVersion": "answers-v3",
+    "settings": {
+      "maxOutputTokens": 8192,
+      "responseFormat": "json_schema",
+      "temperature": "provider-default",
+      "tokenParameter": "max_completion_tokens",
+      "timeoutMs": 90000,
+      "effort": "medium",
+      "schemaTransport": "closed-object-variants"
+    },
+    "validation": {
+      "commands": "command-and-option-names-only",
+      "citations": "provided-evidence-only",
+      "claimSemantics": "requires-review"
+    }
+  },
+  "workerRuntime": false,
+  "commandExecuted": false,
+  "deployed": false
+}

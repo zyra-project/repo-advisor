@@ -1,17 +1,27 @@
 # Optional: increases GitHub's public API rate limit. Never commit real tokens.
 # GITHUB_TOKEN=
 
-# No default provider/model is selected. Uncomment and configure one provider.
-# ADVISOR_PROVIDER=openai-compatible
-# OPENAI_COMPATIBLE_BASE_URL=https://api.openai.com/v1
-# OPENAI_COMPATIBLE_MODEL=
+# wrangler.jsonc selects the evaluated GPT-6.1 Sol preview configuration.
+# Add its key for model answers; evidence and server-owned responses need no key.
 # OPENAI_COMPATIBLE_API_KEY=
+
+# Optional compatible endpoint overrides. Match the endpoint to the key's provider.
+# OPENAI_COMPATIBLE_BASE_URL=https://api.openai.com/v1
+# OPENAI_COMPATIBLE_MODEL=gpt-6.1-sol
 # OPENAI_COMPATIBLE_TOKEN_PARAMETER=max_completion_tokens
+# OPENAI_COMPATIBLE_RESPONSE_FORMAT=json_schema
+# OPENAI_COMPATIBLE_REASONING_EFFORT=medium
+# OPENAI_COMPATIBLE_MAX_OUTPUT_TOKENS=8192
+# OPENAI_COMPATIBLE_TIMEOUT_MS=90000
 
 # Native Anthropic Messages uses only ANTHROPIC_API_KEY at api.anthropic.com.
 # ADVISOR_PROVIDER=anthropic
-# ANTHROPIC_MODEL=
+# ANTHROPIC_MODEL=claude-opus-5-5
 # ANTHROPIC_API_KEY=
+# ANTHROPIC_THINKING=adaptive
+# ANTHROPIC_EFFORT=medium
+# ANTHROPIC_MAX_OUTPUT_TOKENS=8192
+# ANTHROPIC_TIMEOUT_MS=90000
 
 # Workers AI: add an AI binding with wrangler.ai.example.jsonc, OR use REST.
 # ADVISOR_PROVIDER=workers-ai

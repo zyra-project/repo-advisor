@@ -97,6 +97,7 @@ export interface ModelResult {
   model: string;
   completionStatus?: "complete" | "incomplete" | "refused";
   finishReason?: string;
+  thinkingBlocksOmitted?: number;
   usage?: { inputTokens: number; outputTokens: number };
 }
 
@@ -105,6 +106,11 @@ export interface GenerationSettings {
   responseFormat: "json_object" | "json_schema";
   temperature?: "provider-default";
   tokenParameter?: "max_tokens" | "max_completion_tokens";
+  thinking?: "adaptive" | "disabled";
+  thinkingDisplay?: "omitted";
+  effort?: "low" | "medium" | "high" | "xhigh" | "max";
+  timeoutMs?: number;
+  schemaTransport?: "closed-object-variants";
 }
 
 /** Providers consume the same explicit evidence regardless of vendor. */
@@ -112,6 +118,7 @@ export interface ModelProvider {
   readonly id: string;
   readonly model: string;
   readonly settings: GenerationSettings;
+  schemaForTransport?(schema: Record<string, unknown>): Record<string, unknown>;
   generate(input: ModelInput): Promise<ModelResult>;
 }
 
@@ -130,8 +137,16 @@ export interface Env {
   OPENAI_COMPATIBLE_BASE_URL?: string;
   OPENAI_COMPATIBLE_API_KEY?: string;
   OPENAI_COMPATIBLE_TOKEN_PARAMETER?: string;
+  OPENAI_COMPATIBLE_RESPONSE_FORMAT?: string;
+  OPENAI_COMPATIBLE_REASONING_EFFORT?: string;
+  OPENAI_COMPATIBLE_MAX_OUTPUT_TOKENS?: string;
+  OPENAI_COMPATIBLE_TIMEOUT_MS?: string;
   ANTHROPIC_MODEL?: string;
   ANTHROPIC_API_KEY?: string;
+  ANTHROPIC_MAX_OUTPUT_TOKENS?: string;
+  ANTHROPIC_THINKING?: string;
+  ANTHROPIC_EFFORT?: string;
+  ANTHROPIC_TIMEOUT_MS?: string;
 }
 
 export type Fetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Response>;

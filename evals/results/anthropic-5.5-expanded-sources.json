@@ -1,0 +1,104 @@
+{
+  "capturedAt": "2026-10-27T16:12:03.025795+00:00",
+  "purpose": "Separate planned-flow coverage snapshot: original 24 questions and immutable revisions, plus approved profile files absent from the fixed-evidence snapshot. Original snapshot remains unchanged.",
+  "originalSnapshotSha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+  "addedSources": [
+    {
+      "project": "zyra",
+      "source": "roadmap",
+      "path": "docs/source/wiki/Roadmap-and-Tracking.md",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/docs/source/wiki/Roadmap-and-Tracking.md",
+      "contentSha256": "6ab3db5d8998cc295ac8beec8f49755034eaf5840b1c58463896d611c99b9cba",
+      "bytes": 629
+    },
+    {
+      "project": "zyra",
+      "source": "bug-template",
+      "path": ".github/ISSUE_TEMPLATE/bug_report.md",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/.github/ISSUE_TEMPLATE/bug_report.md",
+      "contentSha256": "789ca601da2a239417e71b1a846689ad77e7296e03482e4ecd31effae3d60fdf",
+      "bytes": 649
+    },
+    {
+      "project": "zyra",
+      "source": "pipeline-runner",
+      "path": "src/zyra/pipeline_runner.py",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/pipeline_runner.py",
+      "contentSha256": "8c59440505e75403d1f370fc9fa2ec3a8ae02f8e952c7c4035e8e71b75dd0735",
+      "bytes": 33418
+    },
+    {
+      "project": "terraviz",
+      "source": "orbit-api",
+      "path": "functions/api/chat/completions.ts",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/functions/api/chat/completions.ts",
+      "contentSha256": "4300220550a07cecd63523ec9da3591ef4c61220f74f177c4cafd93277b2fb92",
+      "bytes": 30656
+    },
+    {
+      "project": "zyra",
+      "source": "feature-template",
+      "path": ".github/ISSUE_TEMPLATE/feature_request.md",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/.github/ISSUE_TEMPLATE/feature_request.md",
+      "contentSha256": "1871d62204923db4b46f64bd933767e8b7b0702b31e21514c757425c3783d5fb",
+      "bytes": 664
+    },
+    {
+      "project": "zyra",
+      "source": "transform-cli",
+      "path": "src/zyra/wizard/zyra_capabilities/transform.json",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/transform.json",
+      "contentSha256": "260c306f68de7e88972efc465d76bcbf5cf3a6bbd51aa4696602bf7e0f04e7d9",
+      "bytes": 11046
+    },
+    {
+      "project": "zyra",
+      "source": "search-cli",
+      "path": "src/zyra/wizard/zyra_capabilities/search.json",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/search.json",
+      "contentSha256": "5eafb15a1e3b4849bb9c4d8e122272ff8f12f153291d9e9e7b50e450516372e1",
+      "bytes": 4725
+    },
+    {
+      "project": "zyra",
+      "source": "run-cli",
+      "path": "src/zyra/wizard/zyra_capabilities/run.json",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/run.json",
+      "contentSha256": "f5283dcaf97c4ee9ac6149fca889a643a73c45415966a484b395e3848c4f9175",
+      "bytes": 4240
+    },
+    {
+      "project": "zyra",
+      "source": "simulate-cli",
+      "path": "src/zyra/wizard/zyra_capabilities/simulate.json",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/simulate.json",
+      "contentSha256": "27dcbc4d17a32a3187266f941a076207acdf7d9dadb299708576d600aa0b35b9",
+      "bytes": 823
+    },
+    {
+      "project": "zyra",
+      "source": "decide-cli",
+      "path": "src/zyra/wizard/zyra_capabilities/decide.json",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/decide.json",
+      "contentSha256": "9466b56e0a8adf100884bf99b19ce49ff81ab298acd59001e881236d02b9b66a",
+      "bytes": 1529
+    },
+    {
+      "project": "zyra",
+      "source": "narrate-cli",
+      "path": "src/zyra/wizard/zyra_capabilities/narrate.json",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/narrate.json",
+      "contentSha256": "8605f4d5dc41a54565420f4b3018ea6c7761799d5d2174c81ef7728e939a5e45",
+      "bytes": 5133
+    },
+    {
+      "project": "zyra",
+      "source": "verify-cli",
+      "path": "src/zyra/wizard/zyra_capabilities/verify.json",
+      "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/verify.json",
+      "contentSha256": "72698de3adcbadffe6ef9eae5aeb87c34a9795c3048fd1fc4803dca4f89f5a42",
+      "bytes": 889
+    }
+  ],
+  "failedSources": []
+}
