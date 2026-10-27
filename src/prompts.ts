@@ -5,6 +5,33 @@ import type { Evidence, ModelInput } from "./types";
 
 export const PROMPT_VERSION = "answers-v1";
 
+const strings = { type: "array", items: { type: "string" } };
+const claimSchema = { type: "object", additionalProperties: false, required: ["text", "kind", "evidence"],
+  properties: { text: { type: "string" }, kind: { type: "string", enum: ["current", "planned", "uncertain", "gap"] }, evidence: strings } };
+
+/** Transport-level shape constraints complement the stricter semantic validators. */
+export const ANSWER_SCHEMA = {
+  type: "object", additionalProperties: false, required: ["summary", "details", "commands", "nextSteps"],
+  properties: {
+    summary: claimSchema,
+    details: { type: "array", items: claimSchema },
+    nextSteps: { type: "array", items: claimSchema },
+    commands: { type: "array", items: { type: "object", additionalProperties: false,
+      required: ["project", "name", "positionals", "options"], properties: {
+        project: { type: "string", enum: ["zyra"] }, name: { type: "string" }, positionals: strings,
+        options: { type: "array", items: { type: "object", additionalProperties: false, required: ["name"],
+          properties: { name: { type: "string" }, value: { type: "string" } } } },
+      } } },
+  },
+};
+
+export const PLAN_SCHEMA = {
+  type: "object", additionalProperties: false, required: ["requests"],
+  properties: { requests: { type: "array", items: { type: "object", additionalProperties: false,
+    required: ["project", "source"], properties: { project: { type: "string" }, source: { type: "string" },
+      command: { type: "string" }, options: strings } } } },
+};
+
 const STOP_WORDS = new Set(["what", "how", "the", "and", "for", "with", "does", "this", "that", "can", "from", "should", "have", "into", "would"]);
 
 function terms(question: string): string[] {

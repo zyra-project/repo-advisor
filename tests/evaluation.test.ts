@@ -3,7 +3,7 @@
 import { describe, expect, it } from "vitest";
 import { captureEvaluation, compareEvaluation, estimateCost, type EvaluationCase, type TokenRates } from "../src/evaluation";
 import { draft, fakeProvider, sourceFixture } from "./answer-fixtures";
-import { modelMessages } from "../src/prompts";
+import { ANSWER_SCHEMA, modelMessages } from "../src/prompts";
 
 const cases: EvaluationCase[] = [{ id: "overview", projects: ["zyra"], question: "What is Zyra?", checks: ["Cite the overview"], sources: [] }];
 const rates: TokenRates = { model: "test-model", inputPerMillion: 1, outputPerMillion: 2, currency: "USD", sourceUrl: "https://provider.example/pricing", asOf: "2026-10-26" };
@@ -12,11 +12,15 @@ describe("reproducible provider comparison", () => {
   it("feeds both providers the same frozen evidence and records raw responses, usage, and hashes", async () => {
     const { github, calls } = sourceFixture();
     const snapshot = await captureEvaluation(cases, { zyra: "main" }, github);
-    const providerA = fakeProvider([draft()], "a");
+    const native = fakeProvider([draft()], "a");
+    const providerA = { ...native, settings: { ...native.settings, responseFormat: "json_schema" as const } };
     const providerB = fakeProvider([draft()], "b");
     const report = await compareEvaluation(snapshot, [providerA, providerB], { a: rates });
     expect(modelMessages(providerA.inputs[0]!)).toEqual(modelMessages(providerB.inputs[0]!));
+    expect(providerA.inputs[0]?.responseSchema).toEqual(ANSWER_SCHEMA);
     expect(report.records[0]?.evidenceSha256).toBe(report.records[1]?.evidenceSha256);
+    expect(report.records[0]?.outputSchemaSha256).toMatch(/^[a-f0-9]{64}$/);
+    expect(report.records[1]?.outputSchemaSha256).toBeNull();
     expect(report.records.every((record) => record.snapshotSha256 === report.snapshotSha256)).toBe(true);
     expect(report.records[0]).toMatchObject({ outcome: "answered", usage: { inputTokens: 100, outputTokens: 50 }, humanQualityScores: null });
     expect(report.records[0]?.estimatedTokenCost).toBeCloseTo(0.0002);

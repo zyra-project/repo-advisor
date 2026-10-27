@@ -4,11 +4,11 @@ import { readFile, writeFile, open } from "node:fs/promises";
 import { captureEvaluation, compareEvaluation, type EvaluationCase, type EvaluationSnapshot, type TokenRates } from "../src/evaluation";
 import { AdvisorError, isRecord } from "../src/errors";
 import { GitHubSources, type SourceSnapshot } from "../src/github";
-import { createProvider, providerReadiness, PROVIDER_IDS } from "../src/providers";
+import { createProvider, providerReadiness, PROVIDER_IDS, evaluationProviderIds } from "../src/providers";
 import type { Env } from "../src/types";
 
 const env: Env = Object.fromEntries([
-  "GITHUB_TOKEN", "WORKERS_AI_MODEL", "CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN",
+  "GITHUB_TOKEN", "WORKERS_AI_MODEL", "CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_API_TOKEN", "ANTHROPIC_MODEL", "ANTHROPIC_API_KEY",
   "OPENAI_COMPATIBLE_MODEL", "OPENAI_COMPATIBLE_BASE_URL", "OPENAI_COMPATIBLE_API_KEY", "OPENAI_COMPATIBLE_TOKEN_PARAMETER",
 ].map((key) => [key, process.env[key]]));
 
@@ -29,7 +29,8 @@ async function readJson(path: string): Promise<unknown> {
 
 async function main() {
   if (command === "check") {
-    const readiness = providerReadiness(env);
+    const selected = evaluationProviderIds(flag("providers"));
+    const readiness = providerReadiness(env).filter((item) => selected.includes(item.id));
     const configured = readiness.every((item) => item.configured);
     console.log(JSON.stringify({ status: configured ? "configured-not-evaluated" : "blocked", providers: readiness,
       liveRuns: 0, defaultProvider: null }, null, 2));
@@ -49,8 +50,8 @@ async function main() {
   }
   if (command === "run") {
     const out = required("out");
-    // Validate both provider configurations before making any inference calls.
-    const providers = PROVIDER_IDS.map((id) => createProvider(env, id));
+    // Validate every selected provider configuration before making inference calls.
+    const providers = evaluationProviderIds(flag("providers")).map((id) => createProvider(env, id));
     const snapshot = await readJson(required("snapshot")) as EvaluationSnapshot;
     let rates: Record<string, TokenRates> = {};
     if (flag("rates")) {

@@ -8,6 +8,11 @@
 # OPENAI_COMPATIBLE_API_KEY=
 # OPENAI_COMPATIBLE_TOKEN_PARAMETER=max_completion_tokens
 
+# Native Anthropic Messages uses only ANTHROPIC_API_KEY at api.anthropic.com.
+# ADVISOR_PROVIDER=anthropic
+# ANTHROPIC_MODEL=
+# ANTHROPIC_API_KEY=
+
 # Workers AI: add an AI binding with wrangler.ai.example.jsonc, OR use REST.
 # ADVISOR_PROVIDER=workers-ai
 # WORKERS_AI_MODEL=

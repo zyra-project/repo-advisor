@@ -2,7 +2,7 @@
 
 ## Responsibilities
 
-The advisor answers project questions using inspectable evidence: supported functionality, usage, troubleshooting, roadmap versus implementation, and contribution opportunities. The answer preview adds bounded source selection, two replaceable model transports, structured output validation, and a frozen-evidence comparison runner. A live provider comparison is still required before choosing a default or claiming measured answer quality.
+The advisor answers project questions using inspectable evidence: supported functionality, usage, troubleshooting, roadmap versus implementation, and contribution opportunities. The answer preview adds bounded source selection, replaceable Workers AI, OpenAI-compatible, and native Anthropic transports, structured output validation, and a frozen-evidence comparison runner. Live model results and remaining access limitations are recorded in the evaluation directory; selecting a default requires both quality review and usable output.
 
 ```mermaid
 flowchart TD
@@ -13,7 +13,7 @@ flowchart TD
   Service --> Revision[Resolve each project's requested revision]
   Revision --> Sources[Read files at immutable commit SHA]
   Sources --> Evidence[Typed evidence and source citations]
-  Evidence --> Provider[Workers AI or OpenAI-compatible provider]
+  Evidence --> Provider[Workers AI, OpenAI-compatible, or Anthropic provider]
   Provider --> Checks[Command, citation, and authority checks]
   Orbit --> App[Terraviz view context and application actions]
 ```
@@ -46,7 +46,7 @@ The CLI source requires an exact manifest command name, without shell arguments.
 
 ## Answer-provider boundary
 
-`ModelProvider` in `src/types.ts` defines instructions, question, evidence, cancellation, model identity, generation settings, and optional usage. Workers AI supports a binding or REST transport; the external adapter uses an explicitly configured HTTPS Chat Completions endpoint. There are no runtime SDK dependencies and no automatic default or fallback provider. See [model configuration](model-providers.md).
+`ModelProvider` in `src/types.ts` defines instructions, question, evidence, a server-defined response schema, cancellation, model identity, generation settings, and optional usage. Workers AI supports a binding or REST transport; the compatible adapter uses an explicitly configured HTTPS Chat Completions endpoint. Native Anthropic uses a fixed Messages endpoint and its own credential, with separate schemas for planning and answers. API schema constraints complement local citation, authority, and command checks. There are no runtime SDK dependencies and no automatic default or fallback provider. See [model configuration](model-providers.md).
 
 An answer request selects one or two configured projects and optional revisions. The service reads their overviews and Zyra's validated CLI index, then makes one planning call to select at most eight additional approved sources. For command advice, the planner selects relevant domain catalogs; exact lookups support questions about named commands or flags. All source selections are validated before retrieval. The second call produces an answer with typed claims, evidence IDs, and separate command suggestions.
 

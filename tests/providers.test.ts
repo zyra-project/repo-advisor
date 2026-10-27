@@ -1,16 +1,89 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { describe, expect, it } from "vitest";
-import { createProvider, providerReadiness } from "../src/providers";
+import { createProvider, providerReadiness, evaluationProviderIds } from "../src/providers";
 import type { Env, ModelInput } from "../src/types";
 
-const input: ModelInput = { instructions: "Return JSON.", question: "Explain the project.", evidence: [] };
+const input: ModelInput = { instructions: "Return JSON.", question: "Explain the project.", evidence: [],
+  responseSchema: { type: "object", additionalProperties: false, properties: { ok: { type: "boolean" } }, required: ["ok"] } };
 const external: Env = {
   OPENAI_COMPATIBLE_MODEL: "configured-model", OPENAI_COMPATIBLE_BASE_URL: "https://external.example/v1",
   OPENAI_COMPATIBLE_API_KEY: "external-test-secret",
 };
 
 describe("model adapters", () => {
+  const anthropic: Env = { ANTHROPIC_MODEL: "claude-test", ANTHROPIC_API_KEY: "anthropic-test-secret" };
+
+  it("permits an explicit native-only baseline while preserving the original default comparison pair", () => {
+    expect(evaluationProviderIds("anthropic")).toEqual(["anthropic"]);
+    expect(evaluationProviderIds()).toEqual(["workers-ai", "openai-compatible"]);
+    expect(evaluationProviderIds("workers-ai,anthropic")).toEqual(["workers-ai", "anthropic"]);
+  });
+
+  it.each(["anthropic,anthropic", "anthropic,unknown", ""])("rejects invalid evaluation selection %s", (selection) => {
+    expect(() => evaluationProviderIds(selection)).toThrow("Supply distinct known IDs");
+  });
+
+  it("uses Anthropic Messages with separate instructions and only its own credential", async () => {
+    const provider = createProvider({ ...external, ...anthropic }, "anthropic", async (url, init) => {
+      expect(String(url)).toBe("https://api.anthropic.com/v1/messages");
+      expect(init?.redirect).toBe("error");
+      const headers = new Headers(init?.headers);
+      expect(headers.get("x-api-key")).toBe("anthropic-test-secret");
+      expect(headers.get("anthropic-version")).toBe("2023-06-01");
+      expect(headers.has("Authorization")).toBe(false);
+      const body = JSON.parse(String(init?.body));
+      expect(body).toMatchObject({ model: "claude-test", max_tokens: 2048, system: input.instructions });
+      expect(body.system).not.toContain(input.question);
+      expect(body.messages.map((message: { role: string }) => message.role)).toEqual(["user"]);
+      expect(body).not.toHaveProperty("response_format");
+      expect(body.output_config).toEqual({ format: { type: "json_schema", schema: input.responseSchema } });
+      return Response.json({ type: "message", model: "reported-claude", content: [{ type: "text", text: '{"ok":' }, { type: "text", text: 'true}' }],
+        stop_reason: "end_turn", usage: { input_tokens: 10, cache_creation_input_tokens: 3, cache_read_input_tokens: 7, output_tokens: 5 } });
+    });
+    expect(provider.settings.responseFormat).toBe("json_schema");
+    expect(await provider.generate(input)).toMatchObject({ text: '{"ok":true}', model: "reported-claude", completionStatus: "complete",
+      usage: { inputTokens: 20, outputTokens: 5 } });
+  });
+
+  it.each([
+    { stop: "max_tokens", status: "incomplete" },
+    { stop: "refusal", status: "refused" },
+  ])("preserves Anthropic usage for $stop completions", async ({ stop, status }) => {
+    const provider = createProvider(anthropic, "anthropic", async () => Response.json({ type: "message", content: [{ type: "text", text: "{}" }],
+      stop_reason: stop, usage: { input_tokens: 12, output_tokens: 2 } }));
+    expect(await provider.generate(input)).toMatchObject({ completionStatus: status, finishReason: stop, usage: { inputTokens: 12, outputTokens: 2 } });
+  });
+
+  it.each([
+    { type: "message", content: [{ type: "tool_use", input: {} }], stop_reason: "tool_use" },
+    { type: "message", content: [], stop_reason: "end_turn" },
+    { type: "message", content: [{ type: "text", text: "x".repeat(65 * 1024) }], stop_reason: "end_turn" },
+    { type: "error", error: { message: "secret-value" } },
+  ])("rejects unusable native Anthropic content", async (response) => {
+    const provider = createProvider(anthropic, "anthropic", async () => Response.json(response));
+    await expect(provider.generate(input)).rejects.toMatchObject({ code: "invalid_model_output" });
+  });
+
+  it("redacts Anthropic errors and leaves malformed usage unknown", async () => {
+    const failing = createProvider(anthropic, "anthropic", async () => new Response("anthropic-test-secret", { status: 401 }));
+    await expect(failing.generate(input)).rejects.not.toThrow("anthropic-test-secret");
+    const provider = createProvider(anthropic, "anthropic", async () => Response.json({ type: "message", content: [{ type: "text", text: "{}" }],
+      stop_reason: "end_turn", usage: { input_tokens: 1, cache_read_input_tokens: -2, output_tokens: 2 } }));
+    expect((await provider.generate(input)).usage).toBeUndefined();
+    expect(providerReadiness(anthropic).find((item) => item.id === "anthropic")?.configured).toBe(true);
+    expect(JSON.stringify(providerReadiness(anthropic))).not.toContain("anthropic-test-secret");
+    expect(() => createProvider({ ...external }, "anthropic")).toThrow();
+  });
+
+  it("never starts a native request without a server-defined schema or after cancellation", async () => {
+    let called = false;
+    const provider = createProvider(anthropic, "anthropic", async () => { called = true; return Response.json({}); });
+    await expect(provider.generate({ ...input, responseSchema: undefined })).rejects.toMatchObject({ code: "provider_unavailable" });
+    await expect(provider.generate({ ...input, signal: AbortSignal.abort() })).rejects.toMatchObject({ code: "provider_unavailable" });
+    expect(called).toBe(false);
+  });
+
   it("normalizes Workers AI object JSON responses and usage through a binding", async () => {
     const calls: { model: string; body: Record<string, unknown> }[] = [];
     const provider = createProvider({ WORKERS_AI_MODEL: "@cf/test/model", AI: { async run(model, body) {

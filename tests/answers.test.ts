@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { answerPrepared, generateAnswer, parseAnswerRequest, prepareSources, type AnswerRequest } from "../src/answers";
 import { GitHubSources } from "../src/github";
 import { createApp } from "../src/index";
-import { modelMessages, excerptDocument } from "../src/prompts";
+import { ANSWER_SCHEMA, PLAN_SCHEMA, modelMessages, excerptDocument } from "../src/prompts";
 import { DOMAIN_PATH, INDEX_PATH, ZYRA_SHA, TERRAVIZ_SHA, draft, fakeProvider, sourceFixture } from "./answer-fixtures";
 
 const request: AnswerRequest = { question: "Download data with the API command.", projects: [{ id: "zyra", ref: "v1" }] };
@@ -23,6 +23,8 @@ describe("answer orchestration", () => {
     expect(calls.filter((url) => url.startsWith("https://api.github.com/"))).toHaveLength(1);
     expect(calls.filter((url) => url.endsWith(DOMAIN_PATH))).toHaveLength(1);
     expect(result.metrics.calls.map((call) => call.phase)).toEqual(["plan", "answer"]);
+    expect(provider.inputs[0]?.responseSchema).toEqual(PLAN_SCHEMA);
+    expect(provider.inputs[1]?.responseSchema).toEqual(ANSWER_SCHEMA);
     expect(result.validation.claimSemantics).toBe("requires-review");
   });
 

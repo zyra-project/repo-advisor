@@ -3,7 +3,7 @@
 import { answerPrepared, parseAnswerRequest, prepareSources, type AnswerRequest, type ModelCall } from "./answers";
 import { AdvisorError } from "./errors";
 import { GitHubSources, type SourceSnapshot } from "./github";
-import { ANSWER_INSTRUCTIONS, modelMessages, PROMPT_VERSION } from "./prompts";
+import { ANSWER_INSTRUCTIONS, ANSWER_SCHEMA, modelMessages, PROMPT_VERSION } from "./prompts";
 import type { EvidenceRequest, ModelProvider } from "./types";
 
 export interface EvaluationCase {
@@ -78,6 +78,7 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
   }
   const snapshotSha256 = await digest(snapshot);
   const instructionsSha256 = await digest(ANSWER_INSTRUCTIONS);
+  const answerSchemaSha256 = await digest(ANSWER_SCHEMA);
   const records = [];
   // Validate all cases and their frozen sources before spending on any provider.
   const preparedCases = [];
@@ -110,6 +111,7 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
         caseId: test.id, question: test.question, checks: test.checks,
         provider: provider.id, requestedModel: provider.model, settings: provider.settings,
         promptVersion: PROMPT_VERSION, instructionsSha256, inputSha256, evidenceSha256, snapshotSha256,
+        outputSchemaSha256: provider.settings.responseFormat === "json_schema" ? answerSchemaSha256 : null,
         outcome: answer ? "answered" : "rejected", answer: answer ?? null, error: error ?? null,
         latencyMs: performance.now() - started,
         rawModelResponses: calls.map((call) => ({ phase: call.phase, ...call.result })),

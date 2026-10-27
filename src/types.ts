@@ -85,6 +85,8 @@ export interface ModelInput {
   instructions: string;
   question: string;
   evidence: readonly Evidence[];
+  /** Server-defined output structure; never accepted from request or source data. */
+  responseSchema?: Record<string, unknown>;
   signal?: AbortSignal;
 }
 
@@ -98,7 +100,7 @@ export interface ModelResult {
 
 export interface GenerationSettings {
   maxOutputTokens: number;
-  responseFormat: "json_object";
+  responseFormat: "json_object" | "json_schema";
   temperature?: "provider-default";
   tokenParameter?: "max_tokens" | "max_completion_tokens";
 }
@@ -126,6 +128,8 @@ export interface Env {
   OPENAI_COMPATIBLE_BASE_URL?: string;
   OPENAI_COMPATIBLE_API_KEY?: string;
   OPENAI_COMPATIBLE_TOKEN_PARAMETER?: string;
+  ANTHROPIC_MODEL?: string;
+  ANTHROPIC_API_KEY?: string;
 }
 
 export type Fetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Response>;

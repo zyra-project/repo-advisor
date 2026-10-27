@@ -6,8 +6,16 @@ import { modelMessages } from "./prompts";
 import type { Env, Fetcher, ModelInput, ModelProvider, ModelResult } from "./types";
 
 export const GENERATION_SETTINGS = Object.freeze({ maxOutputTokens: 2048, responseFormat: "json_object" as const, temperature: "provider-default" as const });
-export const PROVIDER_IDS = ["workers-ai", "openai-compatible"] as const;
+export const PROVIDER_IDS = ["workers-ai", "openai-compatible", "anthropic"] as const;
 export type ProviderId = typeof PROVIDER_IDS[number];
+
+export function evaluationProviderIds(value = "workers-ai,openai-compatible"): ProviderId[] {
+  const selected = value.split(",");
+  if (new Set(selected).size !== selected.length || selected.some((id) => !PROVIDER_IDS.includes(id as ProviderId))) {
+    throw new AdvisorError("invalid_arguments", "Supply distinct known IDs in --providers=...", 400);
+  }
+  return selected as ProviderId[];
+}
 
 function unavailable(message = "The configured model provider is unavailable."): AdvisorError {
   return new AdvisorError("provider_unavailable", message, 503);
@@ -44,6 +52,27 @@ function extract(value: unknown, requestedModel: string): ModelResult {
     completionStatus, finishReason, usage: usage(value.usage) };
 }
 
+function extractAnthropic(value: unknown, requestedModel: string): ModelResult {
+  if (!isRecord(value) || value.type !== "message" || !Array.isArray(value.content) ||
+    value.content.some((block) => !isRecord(block) || block.type !== "text" || typeof block.text !== "string") ||
+    typeof value.stop_reason !== "string") invalidResponse();
+  const text = value.content.map((block) => (block as { text: string }).text).join("");
+  const completionStatus = value.stop_reason === "refusal" ? "refused" :
+    ["end_turn", "stop_sequence"].includes(value.stop_reason) ? "complete" : "incomplete";
+  if ((text.length === 0 && completionStatus === "complete") || text.length > 64 * 1024) invalidResponse();
+  let normalizedUsage: ModelResult["usage"];
+  if (isRecord(value.usage)) {
+    const counts = [value.usage.input_tokens, value.usage.cache_creation_input_tokens ?? 0,
+      value.usage.cache_read_input_tokens ?? 0, value.usage.output_tokens];
+    if (counts.every((count) => Number.isSafeInteger(count) && (count as number) >= 0)) {
+      const [input, created, read, output] = counts as [number, number, number, number];
+      if (Number.isSafeInteger(input + created + read)) normalizedUsage = { inputTokens: input + created + read, outputTokens: output };
+    }
+  }
+  return { text, model: typeof value.model === "string" && value.model ? value.model : requestedModel,
+    completionStatus, finishReason: value.stop_reason, usage: normalizedUsage };
+}
+
 async function bounded<T>(promise: Promise<T>, signal: AbortSignal): Promise<T> {
   if (signal.aborted) throw unavailable();
   let abort: () => void = () => {};
@@ -57,10 +86,10 @@ async function bounded<T>(promise: Promise<T>, signal: AbortSignal): Promise<T> 
   }
 }
 
-async function postJson(fetcher: Fetcher, url: string, key: string, body: unknown, signal: AbortSignal): Promise<unknown> {
+async function postJson(fetcher: Fetcher, url: string, headers: Record<string, string>, body: unknown, signal: AbortSignal): Promise<unknown> {
   const response = await fetcher(url, {
     method: "POST", redirect: "error", signal,
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
+    headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),
   });
   if (!response.ok) {
@@ -76,6 +105,9 @@ export function providerReadiness(env: Env) {
     if (id === "workers-ai") {
       if (!env.WORKERS_AI_MODEL) missing.push("WORKERS_AI_MODEL");
       if (!env.AI && !(env.CLOUDFLARE_ACCOUNT_ID && env.CLOUDFLARE_API_TOKEN)) missing.push("AI binding or CLOUDFLARE_ACCOUNT_ID + CLOUDFLARE_API_TOKEN");
+    } else if (id === "anthropic") {
+      if (!env.ANTHROPIC_MODEL) missing.push("ANTHROPIC_MODEL");
+      if (!env.ANTHROPIC_API_KEY) missing.push("ANTHROPIC_API_KEY");
     } else {
       for (const name of ["OPENAI_COMPATIBLE_MODEL", "OPENAI_COMPATIBLE_BASE_URL", "OPENAI_COMPATIBLE_API_KEY"] as const) {
         if (!env[name]) missing.push(name);
@@ -92,7 +124,7 @@ export function createProvider(env: Env, selection: string | undefined, fetcher:
   const readiness = providerReadiness(env).find((item) => item.id === selection)!;
   if (!readiness.configured) throw unavailable("The selected provider is not configured.");
   const id = selection as ProviderId;
-  const model = id === "workers-ai" ? env.WORKERS_AI_MODEL! : env.OPENAI_COMPATIBLE_MODEL!;
+  const model = id === "workers-ai" ? env.WORKERS_AI_MODEL! : id === "anthropic" ? env.ANTHROPIC_MODEL! : env.OPENAI_COMPATIBLE_MODEL!;
   let url: string | undefined;
   let tokenParameter = "max_tokens";
   if (id === "openai-compatible") {
@@ -105,6 +137,8 @@ export function createProvider(env: Env, selection: string | undefined, fetcher:
     } catch {
       throw unavailable("The external provider configuration is invalid.");
     }
+  } else if (id === "anthropic") {
+    url = "https://api.anthropic.com/v1/messages";
   } else if (!env.AI) {
     if (!/^[a-f0-9]{32}$/.test(env.CLOUDFLARE_ACCOUNT_ID!) ||
       !/^@(cf|hf)\/[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+$/.test(model) ||
@@ -113,26 +147,32 @@ export function createProvider(env: Env, selection: string | undefined, fetcher:
   }
 
   return {
-    id, model, settings: { ...GENERATION_SETTINGS, tokenParameter: (id === "workers-ai" ? "max_tokens" : tokenParameter) as "max_tokens" | "max_completion_tokens" },
+    id, model, settings: { ...GENERATION_SETTINGS, responseFormat: id === "anthropic" ? "json_schema" : "json_object",
+      tokenParameter: tokenParameter as "max_tokens" | "max_completion_tokens" },
     async generate(input: ModelInput): Promise<ModelResult> {
       const signal = input.signal ? AbortSignal.any([input.signal, AbortSignal.timeout(45_000)]) : AbortSignal.timeout(45_000);
       // A cancelled request must not start inference, including through a binding.
       if (signal.aborted) throw unavailable();
+      if (id === "anthropic" && !input.responseSchema) throw unavailable("Anthropic requires a server-defined response schema.");
       const messages = modelMessages(input);
-      const body = { ...(id === "workers-ai" ? {} : { model }), messages, response_format: { type: "json_object" },
+      const body = id === "anthropic" ? { model, system: messages[0]!.content, messages: messages.slice(1),
+        max_tokens: GENERATION_SETTINGS.maxOutputTokens,
+        output_config: { format: { type: "json_schema", schema: input.responseSchema } } } : { ...(id === "workers-ai" ? {} : { model }), messages, response_format: { type: "json_object" },
         [id === "workers-ai" ? "max_tokens" : tokenParameter]: GENERATION_SETTINGS.maxOutputTokens };
       try {
         let result: unknown;
         if (id === "workers-ai" && env.AI) {
           result = await bounded(env.AI.run(model, body), signal);
         } else {
-          result = await postJson(fetcher, url!, id === "workers-ai" ? env.CLOUDFLARE_API_TOKEN! : env.OPENAI_COMPATIBLE_API_KEY!, body, signal);
+          const headers: Record<string, string> = id === "anthropic" ? { "x-api-key": env.ANTHROPIC_API_KEY!, "anthropic-version": "2023-06-01" } :
+            { Authorization: `Bearer ${id === "workers-ai" ? env.CLOUDFLARE_API_TOKEN! : env.OPENAI_COMPATIBLE_API_KEY!}` };
+          result = await postJson(fetcher, url!, headers, body, signal);
           if (id === "workers-ai") {
             if (!isRecord(result) || result.success !== true) throw unavailable();
             result = result.result;
           }
         }
-        return extract(result, model);
+        return id === "anthropic" ? extractAnthropic(result, model) : extract(result, model);
       } catch (error) {
         if (error instanceof AdvisorError && error.code === "invalid_model_output") throw error;
         // SDK/provider exception text and HTTP bodies can contain credentials; never reflect them.

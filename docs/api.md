@@ -104,7 +104,7 @@ Requires JSON with the same 16 KiB body limit. Unknown fields are rejected.
 }
 ```
 
-`question` is nonempty and at most 4000 characters. `projects` contains one or two distinct configured IDs, each with an optional ref. `provider` is optional when `ADVISOR_PROVIDER` is configured server-side; otherwise it is required. The only supported IDs are `workers-ai` and `openai-compatible`. Provider model names, endpoints, credentials, source URLs, and arbitrary paths are not request fields. No default provider is selected automatically.
+`question` is nonempty and at most 4000 characters. `projects` contains one or two distinct configured IDs, each with an optional ref. `provider` is optional when `ADVISOR_PROVIDER` is configured server-side; otherwise it is required. Supported IDs are `workers-ai`, `openai-compatible`, and `anthropic`. Provider model names, endpoints, credentials, source URLs, and arbitrary paths are not request fields. No default provider is selected automatically.
 
 The route seeds overview/index evidence, makes one bounded source-planning call, reads approved sources at fixed project revisions, and makes one answer call. It then validates the output before returning it. Selected-source failures do not become unsupported-capability claims or partial unverified answers. There is no automatic retry or fallback provider. The overall cancellation signal is 90 seconds; each model call is limited to a 45-second wait. A binding may continue inference after the application stops waiting.
 

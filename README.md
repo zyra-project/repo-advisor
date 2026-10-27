@@ -2,7 +2,7 @@
 
 Source-backed repository guidance for the Zyra ecosystem. The shared service is intended to help users understand supported functionality, troubleshoot workflows, and prepare useful contributions across Zyra and Terraviz. Orbit remains Terraviz's embedded digital docent and can consult this service for project assistance.
 
-**Status: answer-generation preview.** The Cloudflare Worker retrieves sources at fixed revisions, discovers Zyra commands from manifests, and generates structured answers through Workers AI or an OpenAI-compatible API. Command/option names and citation references are checked before an answer is returned. Offline tests cover the contracts; live model comparison is blocked by rejected provider credentials (see the [resumed readiness record](evals/results/2026-10-26-resumed-readiness.json)). No default model has been selected. Public hosting, issue/discussion search, submissions, MCP, and Orbit integration remain later milestones.
+**Status: answer-generation preview.** The Cloudflare Worker retrieves sources at fixed revisions, discovers Zyra commands from manifests, and generates structured answers through Workers AI, an OpenAI-compatible API, or native Anthropic Messages. Command/option names and citation references are checked before an answer is returned. Live Anthropic authorization is verified, and Haiku/Sonnet evaluations use the same reconstructed 24-question snapshot. Workers AI access remains denied despite an active Cloudflare token (see [endpoint results](evals/results/2026-10-26-live-endpoints.json)). No default model has been selected. Public hosting, issue/discussion search, submissions, MCP, and Orbit integration remain later milestones.
 
 ## Local development
 
@@ -40,7 +40,7 @@ curl http://localhost:8787/v1/answer \
 
 For CLI evidence, `supported` means that the command and supplied option **names** appear in the selected manifest. It does not verify option values, required arguments, environment prerequisites, workflow semantics, or execution. `not_in_manifest` means absence from the checked manifest at the cited revision, not proof that the feature is impossible through Python, manual work, or another interface.
 
-See [model configuration](docs/model-providers.md) for the binding/REST adapters and [evaluation instructions](evals/README.md) to capture one source snapshot and compare both providers. Generation uses deterministic source excerpts, but model output itself is not deterministic and factual correctness still needs review.
+See [model configuration](docs/model-providers.md) for the adapters and [evaluation instructions](evals/README.md) to capture one source snapshot and compare selected providers. Generation uses deterministic source excerpts, but model output itself is not deterministic and factual correctness still needs review.
 
 ## Layout
 
