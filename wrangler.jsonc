@@ -4,5 +4,15 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-10-26",
   // Source retrieval works without an AI binding or a Cloudflare account locally.
+  // Evaluated preview default. Supply the API key separately; no provider fallback.
+  "vars": {
+    "ADVISOR_PROVIDER": "openai-compatible",
+    "OPENAI_COMPATIBLE_BASE_URL": "https://api.openai.com/v1",
+    "OPENAI_COMPATIBLE_MODEL": "gpt-6.1-sol",
+    "OPENAI_COMPATIBLE_RESPONSE_FORMAT": "json_schema",
+    "OPENAI_COMPATIBLE_REASONING_EFFORT": "medium",
+    "OPENAI_COMPATIBLE_MAX_OUTPUT_TOKENS": "8192",
+    "OPENAI_COMPATIBLE_TIMEOUT_MS": "90000"
+  },
   "workers_dev": false
 }

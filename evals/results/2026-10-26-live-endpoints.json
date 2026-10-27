@@ -1,0 +1,121 @@
+{
+  "recordedAt": "2026-10-27T02:48:20.607376+00:00",
+  "status": "anthropic-inference-authorized; workers-ai-denied; compatible-route-unverified",
+  "environmentReadiness": "all five configured variables ready; network policy enforced; observations current",
+  "modelCatalogProbes": [
+    {
+      "provider": "openai-compatible",
+      "host": "api.anthropic.com",
+      "operation": "model-catalog",
+      "inferenceRequests": 0,
+      "httpStatus": 404,
+      "errorBodyParsed": false
+    },
+    {
+      "provider": "workers-ai",
+      "host": "api.cloudflare.com",
+      "operation": "model-catalog",
+      "inferenceRequests": 0,
+      "httpStatus": 403,
+      "errorCode": null,
+      "errorCodes": [
+        10000
+      ]
+    },
+    {
+      "provider": "anthropic",
+      "host": "api.anthropic.com",
+      "operation": "model-catalog",
+      "inferenceRequests": 0,
+      "httpStatus": 200,
+      "models": [
+        "claude-haiku-5-5",
+        "claude-sonnet-5-5",
+        "claude-opus-5-5",
+        "claude-fable-5-1",
+        "claude-opus-5",
+        "claude-sonnet-5",
+        "claude-fable-5",
+        "claude-opus-4-8",
+        "claude-opus-4-7",
+        "claude-sonnet-4-6",
+        "claude-opus-4-6",
+        "claude-opus-4-5-20251101",
+        "claude-haiku-4-5-20251001",
+        "claude-sonnet-4-5-20250929"
+      ]
+    }
+  ],
+  "smokeProbes": [
+    {
+      "probe": "cloudflare-user-token",
+      "inferenceRequest": false,
+      "httpStatus": 200,
+      "model": null,
+      "usage": null,
+      "tokenStatus": "active"
+    },
+    {
+      "probe": "cloudflare-account-token",
+      "inferenceRequest": false,
+      "httpStatus": 401,
+      "errorCode": null,
+      "errorCodes": [
+        1000
+      ]
+    },
+    {
+      "probe": "anthropic-messages",
+      "inferenceRequest": true,
+      "httpStatus": 200,
+      "model": "claude-haiku-4-5-20251001",
+      "usage": {
+        "input_tokens": 18,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "output_tokens": 13,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "speed": "standard"
+      },
+      "stopReason": "end_turn",
+      "text": "```json\n{\"ok\":true}\n```"
+    }
+  ],
+  "cloudflareInference": {
+    "model": "@cf/meta/llama-3.1-8b-instruct",
+    "httpStatus": 401,
+    "errorCodes": [
+      10000
+    ]
+  },
+  "cloudflareAccountProbe": {
+    "httpStatus": 200,
+    "success": true,
+    "accountCount": 1,
+    "configuredAccountAccessible": true,
+    "paginated": false
+  },
+  "externalConfiguration": {
+    "baseUrl": "https://api.anthropic.com",
+    "modelConfigured": false,
+    "compatibilitySmoke": "not-executed; automatic approval review rejected routing OPENAI_COMPATIBLE_API_KEY to Anthropic",
+    "action": "Use native Anthropic with its own credential, or configure the intended compatible service URL and matching key in environment configuration."
+  },
+  "cloudflareAction": "Check account Workers AI entitlement and use a token with Workers AI - Read and Workers AI - Edit permissions. An active user token and account-list access do not imply Workers AI access.",
+  "cloudflareSetupSource": "https://developers.cloudflare.com/workers-ai/get-started/rest-api/",
+  "structuredOutputSmoke": {
+    "provider": "anthropic",
+    "model": "claude-haiku-4-5-20251001",
+    "httpStatus": 200,
+    "validBareJson": true,
+    "finishReason": "end_turn",
+    "inputTokens": 155,
+    "outputTokens": 8
+  },
+  "credentialValuesRecorded": false
+}

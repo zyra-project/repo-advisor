@@ -1,6 +1,6 @@
 # Roadmap
 
-## 1. Foundation — this change
+## 1. Foundation — merged in PR #1
 
 - Document service ownership, Orbit's boundary, and the source hierarchy.
 - Configure both Zyra and Terraviz from the beginning.
@@ -12,11 +12,19 @@
 
 Acceptance: a developer can start the Worker without Cloudflare credentials, discover the projects, retrieve Terraviz documentation, and check a Zyra command against a selected revision with immutable citations. Source requests additionally require GitHub connectivity. No natural-language answer quality is claimed at this milestone.
 
-## 2. Evidence-backed answers and provider comparison
+## 2. Evidence-backed answers and provider comparison — implementation preview
 
-Implement answer orchestration and a Workers AI adapter plus one external-provider adapter behind the same contract. Design structured command suggestions and post-generation checks before exposing answers. Add the additional source reads necessary for code behavior and cross-project interface questions. Run the questions in `evals/questions.json` with identical evidence, explicit project revisions, model identifiers, and generation settings.
+Implemented: answer orchestration, Workers AI binding/REST, OpenAI-compatible and native Anthropic Messages adapters, approved implementation reads, structured command suggestions, citation/command checks, and fixed-evidence/planned comparison modes. Source-specific planning schemas prevent catalog/document fields from being confused with exact command lookups. A complete invalid answer gets at most one correction on the same provider and evidence; provider, source-plan, retrieval, refusal and truncation failures stop without correction. Command guards reject empty/unprovided values and missing mandatory inputs where annotated, without claiming complete semantic or execution validation.
 
-Acceptance: recorded evaluation results include command/option validity, citation correctness, capability-gap handling, current-versus-planned distinctions, latency, token use, and cost. Select the default based on those results; do not infer quality from model size or token price.
+Recognized service-boundary questions use server-owned answers without retrieval or inference. Conditional cross-project ownership, implementation-plan and publishing-handoff questions retrieve curated contracts and return review checklists. Missing contracts fail retrieval. These bounded English routes are not a general semantic classifier or interoperability validator.
+
+The [current comparison](../evals/results/2026-10-27-current-model-comparison.json) reruns the final answer/evidence/command guards on the unchanged reconstructed 24-question snapshot with Opus, Sonnet and Haiku 5.5, plus GPT-6.1 Sol. Eight server-owned answers are excluded from each model's score. GPT and Opus each deliver all 16 core model cases and six additional/focused model cases; both also pass 16/16 model cases with source-plan-v2 and expanded frozen-source coverage. Assistant semantic review, observed latency and estimated base-token cost select **GPT-6.1 Sol as the configured preview default**, with Opus as an alternative. Missing credentials fail without fallback. OpenAI, native Anthropic and Workers AI inference are verified; Gemini remains untested without a credential.
+
+The original ignored snapshot was lost after an environment change. Its labeled reconstruction uses the same recorded revisions and corpus, remains unchanged, and is not presented as the original artifact. The expanded planned snapshot adds approved files at those same revisions and is a separate cohort. Reported usage, latency, canonical/transport input/schema hashes, model identities, raw-report/completion digests, source fingerprints and pricing sources support inspection. Unknown usage/pricing stays null; human scores remain null.
+
+Acceptance evidence now includes final-runtime command/option delivery, source citations, capability-gap and version handling, current/planned distinctions, missing-input behavior, costs, and frozen-source planning. Historical [v3](../evals/results/answers-v3-comparison.json), [guided-v1](../evals/results/guided-v1-comparison.json) and [correction/input](../evals/results/repair-v1-and-command-inputs.json) reports remain separate; older development candidates are superseded by the current preview selection.
+
+Remaining before production qualification: independently reviewed broader questions, factual entailment and contribution/setup completeness, compound-question routing, real HTTP/live-GitHub measurements, and the hosting controls in milestone 4. Guard delivery rates and one assistant-reviewed sample do not establish general accuracy. Nothing is deployed by this PR.
 
 ## 3. Contribution drafts
 

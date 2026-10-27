@@ -4,8 +4,8 @@ export interface SourceDefinition {
   id: string;
   title: string;
   path: string;
-  kind: "cli-manifest" | "document";
-  classification: "capability" | "documentation" | "vision" | "contribution" | "governance";
+  kind: "cli-manifest" | "cli-catalog" | "cli-index" | "document";
+  classification: "capability" | "documentation" | "implementation" | "vision" | "contribution" | "governance";
 }
 
 export interface ProjectProfile {
@@ -68,25 +68,85 @@ export interface CommandEvidence extends EvidenceBase {
   validation: "command-and-option-names-only";
 }
 
-export type Evidence = DocumentEvidence | CommandEvidence;
+export interface CatalogEvidence extends EvidenceBase {
+  status: "catalog";
+  commands: Record<string, Record<string, unknown>>;
+}
 
-/** Future answer providers consume the same explicit evidence regardless of vendor. */
+export interface IndexEvidence extends EvidenceBase {
+  status: "index";
+  domains: Record<string, string>;
+  aliases: Record<string, string>;
+}
+
+export type Evidence = DocumentEvidence | CommandEvidence | CatalogEvidence | IndexEvidence;
+
+export interface ModelInput {
+  instructions: string;
+  question: string;
+  evidence: readonly Evidence[];
+  /** Server-defined output structure; never accepted from request or source data. */
+  responseSchema?: Record<string, unknown>;
+  /** Rejected output remains untrusted data during the single correction attempt. */
+  correction?: { previousResponse: string; validationError: string };
+  signal?: AbortSignal;
+}
+
+export interface ModelResult {
+  text: string;
+  model: string;
+  completionStatus?: "complete" | "incomplete" | "refused";
+  finishReason?: string;
+  thinkingBlocksOmitted?: number;
+  usage?: { inputTokens: number; outputTokens: number };
+}
+
+export interface GenerationSettings {
+  maxOutputTokens: number;
+  responseFormat: "json_object" | "json_schema";
+  temperature?: "provider-default";
+  tokenParameter?: "max_tokens" | "max_completion_tokens";
+  thinking?: "adaptive" | "disabled";
+  thinkingDisplay?: "omitted";
+  effort?: "low" | "medium" | "high" | "xhigh" | "max";
+  timeoutMs?: number;
+  schemaTransport?: "closed-object-variants";
+}
+
+/** Providers consume the same explicit evidence regardless of vendor. */
 export interface ModelProvider {
   readonly id: string;
-  generate(input: {
-    instructions: string;
-    question: string;
-    evidence: readonly Evidence[];
-    signal?: AbortSignal;
-  }): Promise<{
-    text: string;
-    model: string;
-    usage?: { inputTokens: number; outputTokens: number };
-  }>;
+  readonly model: string;
+  readonly settings: GenerationSettings;
+  schemaForTransport?(schema: Record<string, unknown>): Record<string, unknown>;
+  generate(input: ModelInput): Promise<ModelResult>;
+}
+
+export interface AiBinding {
+  run(model: string, inputs: Record<string, unknown>): Promise<unknown>;
 }
 
 export interface Env {
   GITHUB_TOKEN?: string;
+  AI?: AiBinding;
+  ADVISOR_PROVIDER?: string;
+  WORKERS_AI_MODEL?: string;
+  CLOUDFLARE_ACCOUNT_ID?: string;
+  CLOUDFLARE_API_TOKEN?: string;
+  OPENAI_COMPATIBLE_MODEL?: string;
+  OPENAI_COMPATIBLE_BASE_URL?: string;
+  OPENAI_COMPATIBLE_API_KEY?: string;
+  OPENAI_COMPATIBLE_TOKEN_PARAMETER?: string;
+  OPENAI_COMPATIBLE_RESPONSE_FORMAT?: string;
+  OPENAI_COMPATIBLE_REASONING_EFFORT?: string;
+  OPENAI_COMPATIBLE_MAX_OUTPUT_TOKENS?: string;
+  OPENAI_COMPATIBLE_TIMEOUT_MS?: string;
+  ANTHROPIC_MODEL?: string;
+  ANTHROPIC_API_KEY?: string;
+  ANTHROPIC_MAX_OUTPUT_TOKENS?: string;
+  ANTHROPIC_THINKING?: string;
+  ANTHROPIC_EFFORT?: string;
+  ANTHROPIC_TIMEOUT_MS?: string;
 }
 
 export type Fetcher = (input: string | URL | Request, init?: RequestInit) => Promise<Response>;

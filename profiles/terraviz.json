@@ -4,14 +4,94 @@
   "repository": "NOAA-GSL/terraviz",
   "defaultRef": "main",
   "description": "Environmental visualization, dataset publishing, and the Orbit digital docent.",
-  "relatedProjects": ["zyra"],
+  "relatedProjects": [
+    "zyra"
+  ],
   "sources": [
-    { "id": "readme", "title": "Project overview and Orbit", "path": "README.md", "kind": "document", "classification": "documentation" },
-    { "id": "self-hosting", "title": "Self-hosting reference", "path": "docs/SELF_HOSTING.md", "kind": "document", "classification": "documentation" },
-    { "id": "catalog-development", "title": "Catalog backend development", "path": "docs/CATALOG_BACKEND_DEVELOPMENT.md", "kind": "document", "classification": "documentation" },
-    { "id": "contributing", "title": "Contribution and LLM integration conventions", "path": "CONTRIBUTING.md", "kind": "document", "classification": "contribution" },
-    { "id": "agent-decisions", "title": "Agent integration decision record", "path": "docs/AGENT_SDK_EVALUATION.md", "kind": "document", "classification": "governance" },
-    { "id": "roadmap", "title": "Project roadmap", "path": "ROADMAP.md", "kind": "document", "classification": "vision" }
+    {
+      "id": "readme",
+      "title": "Project overview and Orbit",
+      "path": "README.md",
+      "kind": "document",
+      "classification": "documentation"
+    },
+    {
+      "id": "self-hosting",
+      "title": "Self-hosting reference",
+      "path": "docs/SELF_HOSTING.md",
+      "kind": "document",
+      "classification": "documentation"
+    },
+    {
+      "id": "catalog-development",
+      "title": "Catalog backend development",
+      "path": "docs/CATALOG_BACKEND_DEVELOPMENT.md",
+      "kind": "document",
+      "classification": "documentation"
+    },
+    {
+      "id": "contributing",
+      "title": "Contribution and LLM integration conventions",
+      "path": "CONTRIBUTING.md",
+      "kind": "document",
+      "classification": "contribution"
+    },
+    {
+      "id": "agent-decisions",
+      "title": "Agent integration decision record",
+      "path": "docs/AGENT_SDK_EVALUATION.md",
+      "kind": "document",
+      "classification": "governance"
+    },
+    {
+      "id": "roadmap",
+      "title": "Project roadmap",
+      "path": "ROADMAP.md",
+      "kind": "document",
+      "classification": "vision"
+    },
+    {
+      "id": "orbit-provider",
+      "title": "Orbit provider and message contracts",
+      "path": "src/services/llmProvider.ts",
+      "kind": "document",
+      "classification": "implementation"
+    },
+    {
+      "id": "orbit-context",
+      "title": "Orbit prompt and tool contracts",
+      "path": "src/services/docentContext.ts",
+      "kind": "document",
+      "classification": "implementation"
+    },
+    {
+      "id": "orbit-service",
+      "title": "Orbit orchestration and application actions",
+      "path": "src/services/docentService.ts",
+      "kind": "document",
+      "classification": "implementation"
+    },
+    {
+      "id": "orbit-api",
+      "title": "Workers AI proxy implementation",
+      "path": "functions/api/chat/completions.ts",
+      "kind": "document",
+      "classification": "implementation"
+    },
+    {
+      "id": "catalog-validators",
+      "title": "Dataset metadata validation contract",
+      "path": "functions/api/v1/_lib/validators.ts",
+      "kind": "document",
+      "classification": "implementation"
+    },
+    {
+      "id": "dataset-mutations",
+      "title": "Dataset publishing implementation",
+      "path": "functions/api/v1/_lib/dataset-mutations.ts",
+      "kind": "document",
+      "classification": "implementation"
+    }
   ],
   "contributions": {
     "guidanceSource": "contributing",

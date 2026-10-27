@@ -1,0 +1,9 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "repo-advisor",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-26",
+  "workers_dev": false,
+  // Opt-in example: inference uses your Cloudflare account even in local dev.
+  "ai": { "binding": "AI" }
+}

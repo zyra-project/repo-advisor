@@ -1,0 +1,195 @@
+{
+  "status": "blocked-before-live-provider-verification",
+  "recordedAt": "2026-10-27T02:07:08.293439+00:00",
+  "implementationCommit": "1172f63b83470a37077337fb3371da766588ef2d",
+  "environment": {
+    "observationsCurrent": true,
+    "networkPolicyState": "enforced",
+    "runtimeVariablesReady": [
+      "ANTHROPIC_API_KEY",
+      "CLOUDFLARE_ACCOUNT_ID",
+      "CLOUDFLARE_API_TOKEN",
+      "OPENAI_COMPATIBLE_API_KEY",
+      "OPENAI_COMPATIBLE_BASE_URL"
+    ],
+    "note": "Readiness describes environment setup, not remote API authorization."
+  },
+  "credentialVerification": {
+    "shellGitHub": "rejected by gh auth status and authenticated Git fetch",
+    "openai-compatible": "not-run",
+    "workers-ai": "not-run",
+    "anthropic": "not-run",
+    "blocker": "Automatic approval review could not complete because the workspace is out of credits. The combined model-catalog probe command was not executed. This was not a provider authentication result or a finding that the action was unsafe."
+  },
+  "sourceSnapshot": {
+    "status": "reconstructed-from-recorded-immutable-revisions",
+    "localPath": "evals/local/2026-10-26-reconstructed-snapshot.json",
+    "originalArtifactAvailable": false,
+    "originalSnapshotSha256": "9c45bdb9eb7e982fa8449de00f5a80ec3ae4de7cd48ee11032575cd191e8c490",
+    "originalSourceContentSha256": "df061fe704b0aac12f63c33556a142b8e1930cbd3ccc98cd5ef3c8cfc4bfd6e1",
+    "originalDigestReproduced": false,
+    "note": "The original ignored local file did not survive the environment change. This is a newly captured reconstruction from the same recorded immutable revisions and corpus; it is not claimed to be the original frozen artifact. No mutable branch was recaptured. JSON digests include insertion order and capture metadata.",
+    "refs": {
+      "zyra": "70cb06bc543ade8780e526b6011caeba54b685ea",
+      "terraviz": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+    },
+    "promptVersion": "answers-v1",
+    "cases": 24,
+    "casesPrepared": 24,
+    "publicFiles": 23,
+    "responsesIncludingRevisionResolution": 25,
+    "sha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+    "sourceContentSha256": "9362fa90b9c7c9d95fd4549a6c3b5d4a927565c645a8b94b15e10f586e91fa38",
+    "digestMethod": "SHA-256 of JSON.stringify(parsed snapshot), and of snapshot.sources respectively",
+    "responseManifest": [
+      {
+        "url": "https://api.github.com/repos/NOAA-GSL/zyra/commits/70cb06bc543ade8780e526b6011caeba54b685ea",
+        "utf8Bytes": 50,
+        "sha256": "3cd23db32e18c935ddefb9c3d57d8d8bcbc3651239c26a2c43647341c3d47cfb"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/README.md",
+        "utf8Bytes": 7685,
+        "sha256": "ca9fade8d4ce0b4d39fc39236be7b613461689594ddf057e0d87ebe1ae2c6413"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/zyra_capabilities_index.json",
+        "utf8Bytes": 915,
+        "sha256": "bd94d666b296e4c84ff98b47b734f81d36adc01eba6378a05d78b1dc313d6c28"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/acquire.json",
+        "utf8Bytes": 51929,
+        "sha256": "29d201ab1b805ce0b8a18686af4008d1eb55f38cb330ae50ba76bcd94b38c078"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/docs/source/wiki/Getting-Started-with-Zyra.md",
+        "utf8Bytes": 2253,
+        "sha256": "3a25c38fb136388bc951e79aec81a1cbeb87235f6c206c9f1ee63c5b6b3e3cd8"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/process.json",
+        "utf8Bytes": 37145,
+        "sha256": "16f4f32ec069d507f4ba6feffbb2e2a63272d243fc4801b73876c9fd1c95c262"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/visualize.json",
+        "utf8Bytes": 69655,
+        "sha256": "9497bea494f1c4bec27222d50ce8f1a189fd8db0e9a9ef49dfe7faa5c68b1f7e"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/wizard/zyra_capabilities/disseminate.json",
+        "utf8Bytes": 28861,
+        "sha256": "5b6fd3c7d36ec6fa428f5716108974c5bcbaf294094e4db16f68930f93141fbf"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/docs/source/wiki/Pipeline-Schema.md",
+        "utf8Bytes": 28541,
+        "sha256": "bce287af0c8c63fe177b0ab11df1f6d8b6c0909b0b03a78a2ce6302c6cb5d9cd"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/.github/ISSUE_TEMPLATE/workflow_gap.md",
+        "utf8Bytes": 1042,
+        "sha256": "5e16db18cb54320d178c4d0a4172a402c475a64bb5313e05d73fdb42c264370c"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/CONTRIBUTING.md",
+        "utf8Bytes": 7573,
+        "sha256": "fee4f4dd4abf32daa3a52206ec48fb29dde0a204066d392e960d79816ae02b5f"
+      },
+      {
+        "url": "https://api.github.com/repos/NOAA-GSL/terraviz/commits/8d4855c1686ff180c7ece9029b0b6d3becb85445",
+        "utf8Bytes": 50,
+        "sha256": "930664d67cd5842f5bbede6d423a4b4ee92c13fb2efb882f3afd9ef29b08ee7c"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/README.md",
+        "utf8Bytes": 26937,
+        "sha256": "7fece1923b7d44bcb8b2cbbb39c9149acb20a17e31962dc2ee44f1c9c66b5991"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/docs/SELF_HOSTING.md",
+        "utf8Bytes": 124876,
+        "sha256": "fa401a74966f63062ecd65be1dca21e3410ea8be6b071aa1c4bdb7d17bb74cef"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/src/services/llmProvider.ts",
+        "utf8Bytes": 15718,
+        "sha256": "7d7ddf56edfdac72277536d3aceb690657a9375ff182ad5f6d35719c47af174b"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/src/services/docentService.ts",
+        "utf8Bytes": 109900,
+        "sha256": "18e16d9266d6fbdd13ce0cb37dc8bf93740f85669635dd5278b807c7f7a768c8"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/CONTRIBUTING.md",
+        "utf8Bytes": 12340,
+        "sha256": "48090d945cbb8c3a16b92679637b2808bc6d18e819ac6e6646a6ae6891f8438b"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/docs/AGENT_SDK_EVALUATION.md",
+        "utf8Bytes": 11554,
+        "sha256": "ee53c89f747cbbd66d10cd5c6f40f34cf68d23e86e6580ec72adc4ac9335e6a1"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/ROADMAP.md",
+        "utf8Bytes": 4765,
+        "sha256": "c9693361f9a9afbb9e1926876b10fbdddee5cbc90f9dbb37146192fa09ee037c"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/src/services/docentContext.ts",
+        "utf8Bytes": 60912,
+        "sha256": "f7b1f89965ddd9fa597a88ce40d40e0e8b19b05a8e13e5d45f6f4bce4039d696"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/workflow/api.py",
+        "utf8Bytes": 8889,
+        "sha256": "dfa246a3d6ef876f666a7ea67d2f3297f98b581e7a4a19349a5018d2fbc60d63"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/docs/CATALOG_BACKEND_DEVELOPMENT.md",
+        "utf8Bytes": 88079,
+        "sha256": "040437b562fe2ccc79c9781e1b34334bdb700ea87e0fcf2abcb1d42011da47ac"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/functions/api/v1/_lib/validators.ts",
+        "utf8Bytes": 33610,
+        "sha256": "08fb3b8bf922d3f780eb961b48e568ba9677a45b828fa666936b53f51e00bdaf"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/terraviz/8d4855c1686ff180c7ece9029b0b6d3becb85445/functions/api/v1/_lib/dataset-mutations.ts",
+        "utf8Bytes": 49359,
+        "sha256": "d5118633bf939287899262bef12c33fe048ffb4fbdc94dfc00519d63f66b6db6"
+      },
+      {
+        "url": "https://raw.githubusercontent.com/NOAA-GSL/zyra/70cb06bc543ade8780e526b6011caeba54b685ea/src/zyra/api/schemas/domain_args.py",
+        "utf8Bytes": 35543,
+        "sha256": "fc819d2ef43bcd88ad5d2d20ae04cc293e33db2e9ca39cb06e4d4e5300b3d855"
+      }
+    ]
+  },
+  "validation": {
+    "typecheck": "passed",
+    "offlineTests": {
+      "passed": 101,
+      "failed": 0
+    },
+    "workerBundleDryRun": "passed",
+    "deployed": false,
+    "evaluationPreparation": "all 24 cases passed through compareEvaluation with an empty provider list; no inference",
+    "captureExecution": "Bundled existing CLI with installed esbuild for offline execution because tsx is absent in the inherited node_modules. npm ci remains necessary when network execution resumes."
+  },
+  "inferenceRequests": 0,
+  "modelResults": [],
+  "humanQualityScores": null,
+  "defaultProvider": null,
+  "defaultModel": null,
+  "resume": [
+    "Restore workspace credits so automatic approval review can complete network commands.",
+    "Verify all three provider model catalogs without printing credential values; select authorized model candidates.",
+    "Anthropic is not implemented in the existing two-provider adapter; add and offline-test its Messages transport if Claude is included in the comparison.",
+    "Use the recovered original artifact if available; otherwise explicitly use the labeled reconstruction for every compared provider.",
+    "Run the identical evidence and generation inputs, record reported usage/latency and sourced pricing, review semantic quality and blocking failures, then choose a default."
+  ]
+}

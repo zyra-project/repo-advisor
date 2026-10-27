@@ -1,0 +1,104 @@
+{
+  "recordedAt": "2026-10-27T03:34:21.953442+00:00",
+  "status": "workers-ai-authorized-after-token-update",
+  "probes": [
+    {
+      "operation": "token-verify",
+      "inferenceRequest": false,
+      "httpStatus": 200,
+      "success": true,
+      "tokenStatus": "active"
+    },
+    {
+      "operation": "inference",
+      "inferenceRequest": true,
+      "httpStatus": 200,
+      "success": true,
+      "usage": {
+        "prompt_tokens": 38,
+        "completion_tokens": 3,
+        "total_tokens": 41,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "neurons": 0.2611088454723358
+      },
+      "text": "OK."
+    }
+  ],
+  "catalog": {
+    "operation": "model-catalog",
+    "httpStatus": 200,
+    "success": true,
+    "modelCount": 73,
+    "resultInfo": {
+      "count": 73,
+      "page": 1,
+      "per_page": 100,
+      "total_count": 326
+    }
+  },
+  "catalogScope": "Returned catalog page only; not claimed to exhaust all models.",
+  "candidate": {
+    "requestedModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "contextWindow": "24000",
+    "prices": [
+      {
+        "unit": "per M input tokens",
+        "price": 0.293,
+        "currency": "USD"
+      },
+      {
+        "unit": "per M output tokens",
+        "price": 2.253,
+        "currency": "USD"
+      }
+    ],
+    "pricingSource": "https://developers.cloudflare.com/workers-ai/models/llama-3.3-70b-instruct-fp8-fast/",
+    "catalogPricingAlsoObserved": true
+  },
+  "jsonModeSmoke": {
+    "httpStatus": 200,
+    "success": true,
+    "requestedModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "reportedModel": "@cf/meta/llama-3.3-70b-json",
+    "responseFormat": "json_object",
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 6,
+      "total_tokens": 59,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 2.642218589782715
+    },
+    "response": {
+      "ok": true
+    },
+    "finishReason": "stop"
+  },
+  "credentialValuesRecorded": false,
+  "supersedes": "Workers AI authorization failures in 2026-10-26-live-endpoints.json are historical. The updated token now permits model listing and inference.",
+  "note": "Model selection for this evaluation is command-local configuration; this record does not configure a service default or deploy anything.",
+  "jsonSchemaSmoke": {
+    "httpStatus": 200,
+    "success": true,
+    "requestedModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    "reportedModel": "@cf/meta/llama-3.3-70b-json",
+    "responseFormat": "json_schema",
+    "usage": {
+      "prompt_tokens": 53,
+      "completion_tokens": 6,
+      "total_tokens": 59,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 2.642218589782715
+    },
+    "response": {
+      "ok": true
+    },
+    "finishReason": "stop"
+  },
+  "schemaFormatSource": "https://developers.cloudflare.com/workers-ai/features/json-mode/"
+}

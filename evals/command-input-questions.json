@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "purpose": "Focused validation of required/user-supplied command inputs after the repair cohort exposed an empty-input draft.",
+  "cases": [
+    {
+      "id": "zyra-http",
+      "projects": [
+        "zyra"
+      ],
+      "question": "How can I download a file over HTTP into a local output file?",
+      "checks": [
+        "Fetch the acquire manifest before suggesting commands",
+        "Verify every suggested flag"
+      ],
+      "sources": [
+        {
+          "project": "zyra",
+          "source": "acquire-cli"
+        },
+        {
+          "project": "zyra",
+          "source": "getting-started"
+        }
+      ]
+    },
+    {
+      "id": "zyra-http-known-inputs",
+      "projects": [
+        "zyra"
+      ],
+      "question": "Use Zyra to download https://example.org/weather.nc into weather.nc.",
+      "checks": [
+        "Use the user-supplied URL and destination or ask for clarification",
+        "Never copy a different documentation example or omit annotated required inputs"
+      ],
+      "sources": [
+        {
+          "project": "zyra",
+          "source": "acquire-cli"
+        },
+        {
+          "project": "zyra",
+          "source": "getting-started"
+        }
+      ]
+    }
+  ]
+}

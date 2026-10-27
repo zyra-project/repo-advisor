@@ -1,0 +1,37 @@
+{
+  "status": "blocked",
+  "providers": [
+    {
+      "id": "workers-ai",
+      "configured": false,
+      "missing": [
+        "WORKERS_AI_MODEL",
+        "AI binding or CLOUDFLARE_ACCOUNT_ID + CLOUDFLARE_API_TOKEN"
+      ]
+    },
+    {
+      "id": "openai-compatible",
+      "configured": false,
+      "missing": [
+        "OPENAI_COMPATIBLE_MODEL",
+        "OPENAI_COMPATIBLE_BASE_URL",
+        "OPENAI_COMPATIBLE_API_KEY"
+      ]
+    }
+  ],
+  "liveRuns": 0,
+  "defaultProvider": null,
+  "recordedOn": "2026-10-26",
+  "sourceSnapshot": {
+    "status": "captured-and-validated",
+    "cases": 24,
+    "publicFiles": 23,
+    "refs": {
+      "zyra": "70cb06bc543ade8780e526b6011caeba54b685ea",
+      "terraviz": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+    },
+    "sha256": "45f140135f91de9509b061bdc42cc35697595edb4cfb8a25e38444891c2f4500"
+  },
+  "modelResults": [],
+  "humanQualityScores": null
+}

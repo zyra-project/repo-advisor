@@ -1,6 +1,6 @@
 {
   "name": "repo-advisor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Source-backed repository advice for the Zyra ecosystem",
   "scripts": {
@@ -8,7 +8,10 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
     "test": "vitest run",
     "check": "npm run typecheck && npm test",
-    "build": "wrangler deploy --dry-run --outdir dist"
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "eval:check": "node --import tsx scripts/evaluate.ts check",
+    "eval:capture": "node --import tsx scripts/evaluate.ts capture",
+    "eval:run": "node --import tsx scripts/evaluate.ts run"
   },
   "repository": {
     "type": "git",
@@ -27,6 +30,7 @@
   "homepage": "https://github.com/zyra-project/repo-advisor#readme",
   "devDependencies": {
     "@types/node": "^22.20.5",
+    "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5",
     "wrangler": "^4.153.0"

@@ -1,0 +1,1551 @@
+{
+  "version": 1,
+  "recordedAt": "2026-10-27T16:36:15.451894+00:00",
+  "baseCommit": "5d6383873cabe6a22f311aaa2fed87dc4d8d83aa",
+  "scope": "Final answer/evidence/command guard comparison; separate frozen-source planning cohorts.",
+  "snapshots": {
+    "core": {
+      "localPath": "evals/local/2026-10-26-reconstructed-snapshot.json",
+      "sha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+      "questions": 24,
+      "refs": {
+        "zyra": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "terraviz": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+      },
+      "sourceResponses": 25
+    },
+    "additional": {
+      "localPath": "evals/local/guided-v1-additional-snapshot.json",
+      "sha256": "2f061e83967bb80684c9ae3bf4e48eb25396258c957ed0b6a9cc5d603fe16f2a",
+      "questions": 12,
+      "refs": {
+        "zyra": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "terraviz": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+      },
+      "sourceResponses": 25
+    },
+    "commands": {
+      "localPath": "evals/local/command-inputs-v1-snapshot.json",
+      "sha256": "8da8db47c0b9855167fc2d1854750b71270988005cd0313ff0ac93c69b1dc3a1",
+      "questions": 2,
+      "refs": {
+        "zyra": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "terraviz": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+      },
+      "sourceResponses": 25
+    },
+    "planned": {
+      "localPath": "evals/local/anthropic-5.5-expanded-snapshot.json",
+      "sha256": "6afedf2f1deba9036b5e02315f757e2419327b666e93a1ad681d3b7242cac63f",
+      "questions": 24,
+      "refs": {
+        "zyra": "70cb06bc543ade8780e526b6011caeba54b685ea",
+        "terraviz": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+      },
+      "sourceResponses": 37
+    }
+  },
+  "originalSnapshotRecovered": false,
+  "coreReconstructionUnchanged": true,
+  "snapshotProvenance": "The lost original artifact is not claimed to be recovered. All fixed comparisons reuse the unchanged labeled reconstruction. Planned cohorts add 12 approved files at the SAME immutable revisions; see anthropic-5.5-expanded-sources.json.",
+  "schemaComparison": "All models use the same canonical answer contract, prompts, evidence and validators. OpenAI strict mode expresses optional fields as equivalent closed-object variants, with canonical and transport hashes recorded separately. Wire schemas are not byte-identical across providers.",
+  "reasoning": {
+    "effort": "medium",
+    "maxOutputTokens": 8192,
+    "temperature": "provider-default",
+    "anthropicThinking": "adaptive",
+    "anthropicDisplay": "omitted",
+    "reasoningContentStored": false,
+    "equalEffortDoesNotImplyEqualCompute": true,
+    "usage": "Total reported output includes reasoning; no separate count inferred."
+  },
+  "credentials": {
+    "anthropic": "Current key authorizes catalog and schema inference at fixed native endpoint.",
+    "openai": "Owner confirmed OPENAI_COMPATIBLE_API_KEY is OpenAI; catalog and strict-schema Chat Completions succeeded at api.openai.com with explicit endpoint override.",
+    "workersAi": "Earlier updated-token verification and inference remain recorded in 2026-10-26-workers-ai-retry.json; not rerun in this cohort.",
+    "gemini": "GEMINI_API_KEY and GOOGLE_API_KEY absent; not tested."
+  },
+  "selection": {
+    "status": "evaluated-preview-default",
+    "provider": "openai-compatible",
+    "model": "gpt-6.1-sol",
+    "endpoint": "https://api.openai.com/v1",
+    "configuration": "Nonsecret Wrangler variables; credentials remain external. Missing configuration fails without provider fallback. No deployment.",
+    "reason": "GPT and Opus both deliver all 22 fixed model cases and all 16 model cases with source-plan-v2. Assistant review finds no rubric-blocking fabrication in their accepted answers. GPT is more concise and has lower observed core latency and base-token cost, so choose it for the preview; Opus is an explicit quality alternative.",
+    "productionQualified": false,
+    "independentHumanReview": false
+  },
+  "assistantReview": {
+    "method": "Qualitative reading of accepted core/follow-up answers and both final planned cohorts, alongside checked revisions, available source views and rubric. Guard success is delivery, not a factual accuracy score. No independent human numeric scores.",
+    "gpt-6.1-sol": {
+      "strengths": [
+        "Concise exact alias identity and negative manifest lookups bounded to the revision.",
+        "Requests URL/output instead of copying example values; drafts the literal supplied URL/output in focused case.",
+        "Does not equate main with installed release, roadmap with deployment, or failed retrieval with unsupported functionality.",
+        "Separates desktop CORS support from web uncertainty and rejects vendor SDK dependence using governance.",
+        "Provides a bug-report draft while disclosing no duplicate search or submission."
+      ],
+      "limits": [
+        "The publisher follow-up omits Git LFS and Workers Paid from its preparation list; the core setup answer includes both. Treat follow-up lists as incomplete.",
+        "Local-model follow-up needs one correction for a planned-claim evidence classification. Semantic entailment remains a review obligation.",
+        "The planned option-values case selects only seed evidence and asks which command is meant, giving a less specific answer than the fixed-evidence run. Conservative delivery does not prove optimal retrieval."
+      ]
+    },
+    "claude-opus-5-5": {
+      "strengths": [
+        "Core and final planned cases need no answer correction.",
+        "Detailed missing-input, version, alias, unavailable-source and local-model guidance.",
+        "Core setup guidance includes fork, Cloudflare DNS/Workers Paid and Git LFS."
+      ],
+      "limits": [
+        "More verbose and more expensive than GPT in these samples.",
+        "Publisher follow-up omits Git LFS and qualifies partial evidence.",
+        "Planned invented-option answer mentions the Feature Request template alongside Workflow Gap guidance, potentially confusing which to use for a CLI change; the dedicated gap answer correctly directs CLI work to Workflow Gap."
+      ]
+    },
+    "claude-sonnet-5-5": {
+      "strengths": [
+        "Core 16/16 delivery and both focused commands accepted.",
+        "Lower observed core latency and cost than Opus."
+      ],
+      "limits": [
+        "Additional local-model answer repeats a planned claim with README-only evidence and rejects after correction.",
+        "Core network-error answer wrongly says the advisor cannot fetch live GitHub content; configured pinned public reads are implemented."
+      ]
+    },
+    "claude-haiku-5-5": {
+      "strengths": [
+        "Very low published token rates and both focused command cases accepted."
+      ],
+      "limits": [
+        "Core self-hosting answer exceeds the detail bound in both attempts and remains rejected.",
+        "Often verbose and pads capability answers with service-scope qualifications."
+      ]
+    }
+  },
+  "cohorts": [
+    {
+      "id": "anthropic-5.5-core-opus",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:08:08.752Z",
+      "rawReportPath": "evals/local/anthropic-5.5-core-opus.json",
+      "rawReportSha256": "b591d707b880277670b3344d5786e3730a0eef7d81ceab5e5dfa84c7d0a72d29",
+      "snapshot": "core",
+      "snapshotSha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-opus-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-opus-5-5",
+        "inputPerMillion": 4,
+        "outputPerMillion": 20,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 16,
+      "firstPassAccepted": 16,
+      "correctedAccepted": 0,
+      "accepted": 16,
+      "correctionCalls": 0,
+      "modelCalls": 16,
+      "medianModelCaseLatencyMs": 8441.078056999999,
+      "maxModelCaseLatencyMs": 16109.006575000007,
+      "reportedUsage": {
+        "inputTokens": 136174,
+        "outputTokens": 11643
+      },
+      "estimatedBaseTokenCostUsd": 0.777556,
+      "maximumReportedInputTokensPerCall": 18859,
+      "maximumReportedOutputTokensPerCall": 1613,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "terraviz-fallback",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "terraviz-view",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cross-project-pipeline",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-owner",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-contribution",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "source-instructions",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "contribution-submit",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-project",
+            "origin": "service-policy"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 1,
+        "count": 16
+      }
+    },
+    {
+      "id": "anthropic-5.5-core-sonnet",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:07:16.271Z",
+      "rawReportPath": "evals/local/anthropic-5.5-core-sonnet.json",
+      "rawReportSha256": "9ee552423e7d3578dec9cb0b09e7ce6ead143dd4d1d34d38bef28204adbfbbc9",
+      "snapshot": "core",
+      "snapshotSha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-sonnet-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-sonnet-5-5",
+        "inputPerMillion": 2,
+        "outputPerMillion": 10,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 16,
+      "firstPassAccepted": 15,
+      "correctedAccepted": 1,
+      "accepted": 16,
+      "correctionCalls": 1,
+      "modelCalls": 17,
+      "medianModelCaseLatencyMs": 5462.897431500001,
+      "maxModelCaseLatencyMs": 7755.936705,
+      "reportedUsage": {
+        "inputTokens": 145905,
+        "outputTokens": 9245
+      },
+      "estimatedBaseTokenCostUsd": 0.38426,
+      "maximumReportedInputTokensPerCall": 18859,
+      "maximumReportedOutputTokensPerCall": 876,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "terraviz-fallback",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "terraviz-view",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cross-project-pipeline",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-owner",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-contribution",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "source-instructions",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "contribution-submit",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-project",
+            "origin": "service-policy"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 17,
+        "count": 16
+      }
+    },
+    {
+      "id": "anthropic-5.5-core-haiku",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:08:04.990Z",
+      "rawReportPath": "evals/local/anthropic-5.5-core-haiku.json",
+      "rawReportSha256": "5308ac0a11f450faab1d30aab98ef3f3538afcc6ec458652cfe41431b0db99d4",
+      "snapshot": "core",
+      "snapshotSha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-haiku-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-haiku-5-5",
+        "inputPerMillion": 0.1,
+        "outputPerMillion": 0.5,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 16,
+      "firstPassAccepted": 14,
+      "correctedAccepted": 1,
+      "accepted": 15,
+      "correctionCalls": 2,
+      "modelCalls": 18,
+      "medianModelCaseLatencyMs": 8468.484634499997,
+      "maxModelCaseLatencyMs": 15395.454829999995,
+      "reportedUsage": {
+        "inputTokens": 155382,
+        "outputTokens": 24568
+      },
+      "estimatedBaseTokenCostUsd": 0.0278222,
+      "maximumReportedInputTokensPerCall": 18859,
+      "maximumReportedOutputTokensPerCall": 3057,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "terraviz-fallback",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "terraviz-view",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cross-project-pipeline",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-owner",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-contribution",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "source-instructions",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "contribution-submit",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-project",
+            "origin": "service-policy"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 33,
+        "count": 16
+      }
+    },
+    {
+      "id": "anthropic-5.5-additional-opus",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:09:32.515Z",
+      "rawReportPath": "evals/local/anthropic-5.5-additional-opus.json",
+      "rawReportSha256": "4e762dd302fe60bc033e44fff5a1ed17572d0ac7a97d407d89cbecb3d3ddfc07",
+      "snapshot": "additional",
+      "snapshotSha256": "2f061e83967bb80684c9ae3bf4e48eb25396258c957ed0b6a9cc5d603fe16f2a",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-opus-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-opus-5-5",
+        "inputPerMillion": 4,
+        "outputPerMillion": 20,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 4,
+      "firstPassAccepted": 3,
+      "correctedAccepted": 1,
+      "accepted": 4,
+      "correctionCalls": 1,
+      "modelCalls": 5,
+      "medianModelCaseLatencyMs": 10052.376494499998,
+      "maxModelCaseLatencyMs": 16266.643664000001,
+      "reportedUsage": {
+        "inputTokens": 40107,
+        "outputTokens": 3995
+      },
+      "estimatedBaseTokenCostUsd": 0.240328,
+      "maximumReportedInputTokensPerCall": 8841,
+      "maximumReportedOutputTokensPerCall": 1048,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "submission-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cursor-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "availability-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "source-authority-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "ownership-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "plan-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "handoff-paraphrase",
+            "origin": "integration-guidance"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 49,
+        "count": 4
+      }
+    },
+    {
+      "id": "anthropic-5.5-additional-sonnet",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:08:24.504Z",
+      "rawReportPath": "evals/local/anthropic-5.5-additional-sonnet.json",
+      "rawReportSha256": "dd8242da05d6c721a952c038b6071913e9d03f0ef09e6cfb47e8455055b0c7fd",
+      "snapshot": "additional",
+      "snapshotSha256": "2f061e83967bb80684c9ae3bf4e48eb25396258c957ed0b6a9cc5d603fe16f2a",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-sonnet-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-sonnet-5-5",
+        "inputPerMillion": 2,
+        "outputPerMillion": 10,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 4,
+      "firstPassAccepted": 3,
+      "correctedAccepted": 0,
+      "accepted": 3,
+      "correctionCalls": 1,
+      "modelCalls": 5,
+      "medianModelCaseLatencyMs": 6623.5840255,
+      "maxModelCaseLatencyMs": 8792.048702999999,
+      "reportedUsage": {
+        "inputTokens": 39882,
+        "outputTokens": 3107
+      },
+      "estimatedBaseTokenCostUsd": 0.110834,
+      "maximumReportedInputTokensPerCall": 8616,
+      "maximumReportedOutputTokensPerCall": 978,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "submission-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cursor-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "availability-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "source-authority-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "ownership-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "plan-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "handoff-paraphrase",
+            "origin": "integration-guidance"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 53,
+        "count": 4
+      }
+    },
+    {
+      "id": "anthropic-5.5-additional-haiku",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:09:23.376Z",
+      "rawReportPath": "evals/local/anthropic-5.5-additional-haiku.json",
+      "rawReportSha256": "070ab9ecb98f34c0ff858ed64a39e378515de795a9307ad6fa2055ab4d7bca18",
+      "snapshot": "additional",
+      "snapshotSha256": "2f061e83967bb80684c9ae3bf4e48eb25396258c957ed0b6a9cc5d603fe16f2a",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-haiku-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-haiku-5-5",
+        "inputPerMillion": 0.1,
+        "outputPerMillion": 0.5,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 4,
+      "firstPassAccepted": 3,
+      "correctedAccepted": 1,
+      "accepted": 4,
+      "correctionCalls": 1,
+      "modelCalls": 5,
+      "medianModelCaseLatencyMs": 8221.635058499998,
+      "maxModelCaseLatencyMs": 11740.019453,
+      "reportedUsage": {
+        "inputTokens": 40363,
+        "outputTokens": 6434
+      },
+      "estimatedBaseTokenCostUsd": 0.0072533,
+      "maximumReportedInputTokensPerCall": 9097,
+      "maximumReportedOutputTokensPerCall": 1701,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "submission-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cursor-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "availability-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "source-authority-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "ownership-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "plan-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "handoff-paraphrase",
+            "origin": "integration-guidance"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 57,
+        "count": 4
+      }
+    },
+    {
+      "id": "anthropic-5.5-commands-opus",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:09:48.724Z",
+      "rawReportPath": "evals/local/anthropic-5.5-commands-opus.json",
+      "rawReportSha256": "7d090d071d1de34a67cba8ff38d62bd6118ec1701a21c7872f1c1fa030d770ab",
+      "snapshot": "commands",
+      "snapshotSha256": "8da8db47c0b9855167fc2d1854750b71270988005cd0313ff0ac93c69b1dc3a1",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-opus-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-opus-5-5",
+        "inputPerMillion": 4,
+        "outputPerMillion": 20,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 2,
+      "firstPassAccepted": 2,
+      "correctedAccepted": 0,
+      "accepted": 2,
+      "correctionCalls": 0,
+      "modelCalls": 2,
+      "medianModelCaseLatencyMs": 7936.109625499999,
+      "maxModelCaseLatencyMs": 10540.423495,
+      "reportedUsage": {
+        "inputTokens": 19981,
+        "outputTokens": 1300
+      },
+      "estimatedBaseTokenCostUsd": 0.105924,
+      "maximumReportedInputTokensPerCall": 10362,
+      "maximumReportedOutputTokensPerCall": 829,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 0,
+        "accepted": 0,
+        "excludedFromModelMetrics": true,
+        "routes": []
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 61,
+        "count": 2
+      }
+    },
+    {
+      "id": "anthropic-5.5-commands-sonnet",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:08:36.070Z",
+      "rawReportPath": "evals/local/anthropic-5.5-commands-sonnet.json",
+      "rawReportSha256": "7643c74e35dbfbaf2a742273ae7133f52ba83ee37cf276a5e4c14084ced20068",
+      "snapshot": "commands",
+      "snapshotSha256": "8da8db47c0b9855167fc2d1854750b71270988005cd0313ff0ac93c69b1dc3a1",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-sonnet-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-sonnet-5-5",
+        "inputPerMillion": 2,
+        "outputPerMillion": 10,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 2,
+      "firstPassAccepted": 1,
+      "correctedAccepted": 1,
+      "accepted": 2,
+      "correctionCalls": 1,
+      "modelCalls": 3,
+      "medianModelCaseLatencyMs": 5617.3797245000005,
+      "maxModelCaseLatencyMs": 7195.5254700000005,
+      "reportedUsage": {
+        "inputTokens": 30353,
+        "outputTokens": 1137
+      },
+      "estimatedBaseTokenCostUsd": 0.072076,
+      "maximumReportedInputTokensPerCall": 10372,
+      "maximumReportedOutputTokensPerCall": 393,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 0,
+        "accepted": 0,
+        "excludedFromModelMetrics": true,
+        "routes": []
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 63,
+        "count": 2
+      }
+    },
+    {
+      "id": "anthropic-5.5-commands-haiku",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:09:39.668Z",
+      "rawReportPath": "evals/local/anthropic-5.5-commands-haiku.json",
+      "rawReportSha256": "49d7d986f5e48ea453026aa41e6b399e286865471a47f12f311ccb30332f4cc1",
+      "snapshot": "commands",
+      "snapshotSha256": "8da8db47c0b9855167fc2d1854750b71270988005cd0313ff0ac93c69b1dc3a1",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-haiku-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-haiku-5-5",
+        "inputPerMillion": 0.1,
+        "outputPerMillion": 0.5,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 2,
+      "firstPassAccepted": 2,
+      "correctedAccepted": 0,
+      "accepted": 2,
+      "correctionCalls": 0,
+      "modelCalls": 2,
+      "medianModelCaseLatencyMs": 7989.712829499999,
+      "maxModelCaseLatencyMs": 8200.379310999999,
+      "reportedUsage": {
+        "inputTokens": 19981,
+        "outputTokens": 2849
+      },
+      "estimatedBaseTokenCostUsd": 0.0034226,
+      "maximumReportedInputTokensPerCall": 10362,
+      "maximumReportedOutputTokensPerCall": 1449,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 0,
+        "accepted": 0,
+        "excludedFromModelMetrics": true,
+        "routes": []
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 65,
+        "count": 2
+      }
+    },
+    {
+      "id": "anthropic-5.5-planned-opus",
+      "diagnosticBeforeSourcePlanV2": true,
+      "mode": "planned",
+      "evaluatedAt": "2026-10-27T16:14:24.632Z",
+      "rawReportPath": "evals/local/anthropic-5.5-planned-opus.json",
+      "rawReportSha256": "de659c5c067bca785657e34fe5e3f5dbfcf5003ebb0d5c256b7045f53b7a9052",
+      "snapshot": "planned",
+      "snapshotSha256": "6afedf2f1deba9036b5e02315f757e2419327b666e93a1ad681d3b7242cac63f",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-opus-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-opus-5-5",
+        "inputPerMillion": 4,
+        "outputPerMillion": 20,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 16,
+      "firstPassAccepted": 8,
+      "correctedAccepted": 0,
+      "accepted": 8,
+      "correctionCalls": 0,
+      "modelCalls": 24,
+      "medianModelCaseLatencyMs": 7759.845601499999,
+      "maxModelCaseLatencyMs": 15434.619403999997,
+      "reportedUsage": {
+        "inputTokens": 160169,
+        "outputTokens": 9476
+      },
+      "estimatedBaseTokenCostUsd": 0.830196,
+      "maximumReportedInputTokensPerCall": 17383,
+      "maximumReportedOutputTokensPerCall": 1180,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "terraviz-fallback",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "terraviz-view",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cross-project-pipeline",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-owner",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-contribution",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "source-instructions",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "contribution-submit",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-project",
+            "origin": "service-policy"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 67,
+        "count": 16
+      }
+    },
+    {
+      "id": "anthropic-5.5-planned-v2-opus",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "planned",
+      "evaluatedAt": "2026-10-27T16:21:25.407Z",
+      "rawReportPath": "evals/local/anthropic-5.5-planned-v2-opus.json",
+      "rawReportSha256": "4fae380072bcc57da8500e4b2246d507415752528737a9dae1aaefa9dd1630f2",
+      "snapshot": "planned",
+      "snapshotSha256": "6afedf2f1deba9036b5e02315f757e2419327b666e93a1ad681d3b7242cac63f",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": "source-plan-v2",
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "anthropic",
+      "requestedModel": "claude-opus-5-5",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_tokens",
+        "timeoutMs": 90000,
+        "thinking": "adaptive",
+        "thinkingDisplay": "omitted",
+        "effort": "medium"
+      },
+      "rates": {
+        "model": "claude-opus-5-5",
+        "inputPerMillion": 4,
+        "outputPerMillion": 20,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 16,
+      "firstPassAccepted": 16,
+      "correctedAccepted": 0,
+      "accepted": 16,
+      "correctionCalls": 0,
+      "modelCalls": 32,
+      "medianModelCaseLatencyMs": 11585.7923275,
+      "maxModelCaseLatencyMs": 17992.879259,
+      "reportedUsage": {
+        "inputTokens": 273003,
+        "outputTokens": 13759
+      },
+      "estimatedBaseTokenCostUsd": 1.367192,
+      "maximumReportedInputTokensPerCall": 17702,
+      "maximumReportedOutputTokensPerCall": 1356,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "terraviz-fallback",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "terraviz-view",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cross-project-pipeline",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-owner",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-contribution",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "source-instructions",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "contribution-submit",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-project",
+            "origin": "service-policy"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 83,
+        "count": 16
+      }
+    },
+    {
+      "id": "gpt-6.1-sol-core",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:28:16.322Z",
+      "rawReportPath": "evals/local/gpt-6.1-sol-core.json",
+      "rawReportSha256": "779ab03ab62f4280305f1f16d4711380aac03793922d5a04e9dc70c097266dea",
+      "snapshot": "core",
+      "snapshotSha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "openai-compatible",
+      "requestedModel": "gpt-6.1-sol",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_completion_tokens",
+        "timeoutMs": 90000,
+        "effort": "medium",
+        "schemaTransport": "closed-object-variants"
+      },
+      "rates": {
+        "model": "gpt-6.1-sol",
+        "inputPerMillion": 2,
+        "outputPerMillion": 10,
+        "currency": "USD",
+        "sourceUrl": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 16,
+      "firstPassAccepted": 16,
+      "correctedAccepted": 0,
+      "accepted": 16,
+      "correctionCalls": 0,
+      "modelCalls": 16,
+      "medianModelCaseLatencyMs": 4236.5200835,
+      "maxModelCaseLatencyMs": 11803.116824000012,
+      "reportedUsage": {
+        "inputTokens": 79152,
+        "outputTokens": 4005
+      },
+      "estimatedBaseTokenCostUsd": 0.198354,
+      "maximumReportedInputTokensPerCall": 11755,
+      "maximumReportedOutputTokensPerCall": 569,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "terraviz-fallback",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "terraviz-view",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cross-project-pipeline",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-owner",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-contribution",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "source-instructions",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "contribution-submit",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-project",
+            "origin": "service-policy"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 99,
+        "count": 16
+      }
+    },
+    {
+      "id": "gpt-6.1-sol-additional",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:28:22.738Z",
+      "rawReportPath": "evals/local/gpt-6.1-sol-additional.json",
+      "rawReportSha256": "0058127c4638c1be9d672702d71335a6dc0ca633e1186a85b7f75ffa8a9c6b09",
+      "snapshot": "additional",
+      "snapshotSha256": "2f061e83967bb80684c9ae3bf4e48eb25396258c957ed0b6a9cc5d603fe16f2a",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "openai-compatible",
+      "requestedModel": "gpt-6.1-sol",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_completion_tokens",
+        "timeoutMs": 90000,
+        "effort": "medium",
+        "schemaTransport": "closed-object-variants"
+      },
+      "rates": {
+        "model": "gpt-6.1-sol",
+        "inputPerMillion": 2,
+        "outputPerMillion": 10,
+        "currency": "USD",
+        "sourceUrl": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 4,
+      "firstPassAccepted": 3,
+      "correctedAccepted": 1,
+      "accepted": 4,
+      "correctionCalls": 1,
+      "modelCalls": 5,
+      "medianModelCaseLatencyMs": 9513.219865500001,
+      "maxModelCaseLatencyMs": 13866.784722,
+      "reportedUsage": {
+        "inputTokens": 22878,
+        "outputTokens": 1730
+      },
+      "estimatedBaseTokenCostUsd": 0.063056,
+      "maximumReportedInputTokensPerCall": 4906,
+      "maximumReportedOutputTokensPerCall": 522,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "submission-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cursor-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "availability-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "source-authority-paraphrase",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "ownership-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "plan-paraphrase",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "handoff-paraphrase",
+            "origin": "integration-guidance"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 115,
+        "count": 4
+      }
+    },
+    {
+      "id": "gpt-6.1-sol-commands",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "fixed-evidence",
+      "evaluatedAt": "2026-10-27T16:27:53.015Z",
+      "rawReportPath": "evals/local/gpt-6.1-sol-commands.json",
+      "rawReportSha256": "ad9098edc030497774b7b346f53f4dc76693534b6328ab340571e15a771dfa93",
+      "snapshot": "commands",
+      "snapshotSha256": "8da8db47c0b9855167fc2d1854750b71270988005cd0313ff0ac93c69b1dc3a1",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": null,
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "openai-compatible",
+      "requestedModel": "gpt-6.1-sol",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_completion_tokens",
+        "timeoutMs": 90000,
+        "effort": "medium",
+        "schemaTransport": "closed-object-variants"
+      },
+      "rates": {
+        "model": "gpt-6.1-sol",
+        "inputPerMillion": 2,
+        "outputPerMillion": 10,
+        "currency": "USD",
+        "sourceUrl": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 2,
+      "firstPassAccepted": 2,
+      "correctedAccepted": 0,
+      "accepted": 2,
+      "correctionCalls": 0,
+      "modelCalls": 2,
+      "medianModelCaseLatencyMs": 3113.080282,
+      "maxModelCaseLatencyMs": 3331.033617,
+      "reportedUsage": {
+        "inputTokens": 11696,
+        "outputTokens": 244
+      },
+      "estimatedBaseTokenCostUsd": 0.025832,
+      "maximumReportedInputTokensPerCall": 6054,
+      "maximumReportedOutputTokensPerCall": 152,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 0,
+        "accepted": 0,
+        "excludedFromModelMetrics": true,
+        "routes": []
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 119,
+        "count": 2
+      }
+    },
+    {
+      "id": "gpt-6.1-sol-planned-v2",
+      "diagnosticBeforeSourcePlanV2": false,
+      "mode": "planned",
+      "evaluatedAt": "2026-10-27T16:31:38.995Z",
+      "rawReportPath": "evals/local/gpt-6.1-sol-planned-v2.json",
+      "rawReportSha256": "4d98bf8f469ff718d15b86699f149f8e588a1da88d5fa0894a8f04507c5fdcb3",
+      "snapshot": "planned",
+      "snapshotSha256": "6afedf2f1deba9036b5e02315f757e2419327b666e93a1ad681d3b7242cac63f",
+      "versions": {
+        "promptVersion": "answers-v3",
+        "snapshotPromptVersion": "answers-v1",
+        "promptChangeAccepted": true,
+        "sourcePlanVersion": "source-plan-v2",
+        "answerRepairVersion": "answer-repair-v1",
+        "commandInputPolicyVersion": "command-inputs-v1",
+        "modelEvidenceVersion": "model-evidence-v2",
+        "servicePolicyVersion": "service-policy-v1",
+        "integrationGuidanceVersion": "integration-guidance-v1"
+      },
+      "provider": "openai-compatible",
+      "requestedModel": "gpt-6.1-sol",
+      "settings": {
+        "maxOutputTokens": 8192,
+        "responseFormat": "json_schema",
+        "temperature": "provider-default",
+        "tokenParameter": "max_completion_tokens",
+        "timeoutMs": 90000,
+        "effort": "medium",
+        "schemaTransport": "closed-object-variants"
+      },
+      "rates": {
+        "model": "gpt-6.1-sol",
+        "inputPerMillion": 2,
+        "outputPerMillion": 10,
+        "currency": "USD",
+        "sourceUrl": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+        "asOf": "2026-10-27"
+      },
+      "modelCases": 16,
+      "firstPassAccepted": 16,
+      "correctedAccepted": 0,
+      "accepted": 16,
+      "correctionCalls": 0,
+      "modelCalls": 32,
+      "medianModelCaseLatencyMs": 7800.729982499994,
+      "maxModelCaseLatencyMs": 19422.995922000016,
+      "reportedUsage": {
+        "inputTokens": 138268,
+        "outputTokens": 5498
+      },
+      "estimatedBaseTokenCostUsd": 0.331516,
+      "maximumReportedInputTokensPerCall": 10708,
+      "maximumReportedOutputTokensPerCall": 722,
+      "missingSnapshotSources": [],
+      "serverOwned": {
+        "cases": 8,
+        "accepted": 8,
+        "excludedFromModelMetrics": true,
+        "routes": [
+          {
+            "caseId": "terraviz-fallback",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "terraviz-view",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "cross-project-pipeline",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-owner",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "cross-project-contribution",
+            "origin": "integration-guidance"
+          },
+          {
+            "caseId": "source-instructions",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "contribution-submit",
+            "origin": "service-policy"
+          },
+          {
+            "caseId": "private-project",
+            "origin": "service-policy"
+          }
+        ]
+      },
+      "caseRecords": {
+        "path": "evals/results/2026-10-27-current-model-cases.jsonl",
+        "firstLine": 121,
+        "count": 16
+      }
+    }
+  ],
+  "runtimeSourceSha256": {
+    "src/answers.ts": "1c67ff3a0c0c3b9dbd96ef89c1f43a34c86242b9e9c3fb0edb19ac012c2361aa",
+    "src/errors.ts": "e2854dc298e740978ed03bcf4bebb15f122c301764c304e1a84ea86bdd4e30f4",
+    "src/evaluation.ts": "f5fc44ed37a7d165a7c10af80a98f6295173433f9455efc924e1022beca43290",
+    "src/evidence.ts": "ebc43296a52a735fffa740f7447b25a163a62a4ddee2a30972f9095f497ba678",
+    "src/github.ts": "b2aeeec0689eaf3d584a1c9036ae8e39c9246368104d6a48f4b33cf5fbca5f92",
+    "src/index.ts": "4ffc2ed6a7a7193309a21a6e3b3142681e5f84b8f02aaf719221b435fe580a67",
+    "src/integration-guidance.ts": "6860d5c1f3f436425824918357c7f9ba842fb64161d7499d13f2abdb5d298599",
+    "src/profiles.ts": "237f95d49992b01ae1be50443db8a17a6ee24317bbc71fc0f6d24a9d46ca9d36",
+    "src/prompts.ts": "a6a6d4d9c1d0879edb4a13614c1fdf3014f0fb1c7e1ed39de8f10dee5977fb6e",
+    "src/providers.ts": "ec45f5ddd2952422dcd1eba9553e9490de4b4c0d754f8d825b0470b69f33446d",
+    "src/service-policy.ts": "3c6178ea47c79f8e23036e37ea41d577e6614e58692819ac8c3874da41a9bfd7",
+    "src/strict-schema.ts": "f5c7a683df6aaa51b9f3ffe51240137bf16a4b0ef12b2604228e51af6479fe91",
+    "src/types.ts": "aa0c63116df6aa9e8cd72c8278b3fc6eef59d64962bc8bca04c0ed35fcf91a9e",
+    "profiles/terraviz.json": "df81ea8fec348e5c50f5c3f2ca13ac7c8167247cda1ea5551ca2002aeef0b0a6",
+    "profiles/zyra.json": "fa9a01dc9a17c87336a1f3895012fd10c12261c0fa523a666b8e7b69af8c8e96",
+    "wrangler.jsonc": "873529ab2d1804f8145b00ba444f2113527a182b1194ca38933f74556f1d8955",
+    ".dev.vars.example": "7863c830476c978f92ec8c9e3c57ae4129932c746a8c46e1ecb9b74c82dc1559"
+  },
+  "newBenchmarkModelCalls": 184,
+  "newBenchmarkEstimatedBaseTokenCostUsd": 4.5456221,
+  "costLimits": "Official rate sources/dates retained per cohort. Estimates include reported planning, rejected and correction tokens, exclude caching adjustments, discounts, non-token charges and live retrieval. Not bills. Haiku calls remain below its 100k input pricing boundary.",
+  "limitations": [
+    "One sample per question/configuration; runs are not interleaved or repeated. No causal or population-quality claim.",
+    "Questions are reused; extra/focused cases are assistant-authored, not independently held out.",
+    "Eight core responses per configuration are server-owned and excluded from model scores; additional corpus has eight server-owned responses.",
+    "Planned cohorts use frozen sources, excluding live GitHub latency and actual HTTP ingress. Offline HTTP tests cover route behavior.",
+    "Initial generic-planner diagnostic remains separate: 8/16 malformed plans, fixed through source-specific schema rather than retry or guard relaxation.",
+    "Production hosting, budgets, origin policy, independent review, mixed-question routing and live-source HTTP measurements remain follow-up work."
+  ],
+  "httpSmoke": {
+    "path": "evals/results/preview-http-smoke.json",
+    "sha256": "b1292ca63d2d2271a82fa94bc5edd81b92a5b5af0595e35b1f48db262d30f570",
+    "health": 200,
+    "projects": 200,
+    "answer": 200,
+    "modelCalls": 2,
+    "sourceMode": "Frozen GitHub; live OpenAI; actual Node loopback HTTP using createApp and Wrangler nonsecret vars, not the Worker runtime.",
+    "excludedFromBenchmarkTotals": true
+  },
+  "humanQualityScores": null,
+  "deployed": false,
+  "caseRecordsSha256": "d17b11bc44744fd3904d9805db35b7d21fc706f00bb87eb3a2766f6256ff6bfa",
+  "caseRecordsFormat": "One JSON object per line, with cohort ID, full accepted answer, compact evidence references, per-call input hashes and completion digests. Cohort metadata gives first line and count. Evidence reference strings use project:source:status at the snapshot refs; this is a compact report view, not the original model input."
+}

@@ -72,7 +72,7 @@ export async function collectEvidence(request: EvidenceRequest, github: GitHubSo
   const source = profile.sources.find((entry) => entry.id === request.source);
   if (!source) throw new AdvisorError("unknown_source", "Source is not configured for this project.", 404);
   if (source.kind === "cli-manifest" && !request.command) invalid("This source requires a command name.");
-  if (source.kind === "document" && (request.command !== undefined || request.options !== undefined)) {
+  if (source.kind !== "cli-manifest" && (request.command !== undefined || request.options !== undefined)) {
     invalid("command and options apply only to a CLI manifest source.");
   }
 
@@ -89,6 +89,13 @@ export async function collectEvidence(request: EvidenceRequest, github: GitHubSo
     citations: [file.citation],
   };
   if (source.kind === "document") return { ...base, status: "evidence", content: file.text };
+  if (source.kind === "cli-index") {
+    const index = parseIndex(github.parseJson(file.text));
+    return { ...base, status: "index", domains: Object.fromEntries(index.files), aliases: Object.fromEntries(index.aliases) };
+  }
+  if (source.kind === "cli-catalog") {
+    return { ...base, status: "catalog", commands: parseCommands(github.parseJson(file.text)) };
+  }
 
   const index = parseIndex(github.parseJson(file.text));
   const command = request.command!;
