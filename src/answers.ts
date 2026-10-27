@@ -6,6 +6,8 @@ import { GitHubSources } from "./github";
 import { getProfile } from "./profiles";
 import { ANSWER_INSTRUCTIONS, ANSWER_SCHEMA, PLAN_SCHEMA, PROMPT_VERSION } from "./prompts";
 import { PROVIDER_IDS, type ProviderId } from "./providers";
+import { SERVICE_POLICY_VERSION, serviceReply, type ServiceTopic } from "./service-policy";
+import { INTEGRATION_GUIDANCE_VERSION, integrationTask, integrationSelections, integrationDraft, type IntegrationTask } from "./integration-guidance";
 import type { Evidence, EvidenceRequest, ModelInput, ModelProvider, ModelResult } from "./types";
 
 export interface AnswerRequest {
@@ -51,11 +53,42 @@ export interface AnswerResponse {
   answer: Omit<AnswerDraft, "commands"> & { commands: (CommandDraft & { shell: string; evidence: string })[] };
   markdown: string;
   sources: { id: string; project: string; source: string; status: Evidence["status"]; classification: Evidence["classification"]; requestedRef: string; commitSha: string; citations: Evidence["citations"] }[];
-  model: { provider: string; requested: string; reported: string };
+  generation: { origin: "model" } | { origin: "service-policy"; version: string; topics: ServiceTopic[] } |
+    { origin: "integration-guidance"; version: string; task: IntegrationTask };
+  model: { provider: string; requested: string; reported: string } | null;
   metrics: { elapsedMs: number; calls: { phase: string; latencyMs: number; model: string; usage?: ModelResult["usage"] }[] };
   promptVersion: string;
-  settings: ModelProvider["settings"];
+  settings: ModelProvider["settings"] | null;
   validation: { commands: "command-and-option-names-only"; citations: "provided-evidence-only"; claimSemantics: "requires-review" };
+}
+
+/** Trusted service facts have no upstream citations and never require inference. */
+export function serviceAnswer(request: AnswerRequest): AnswerResponse | undefined {
+  const started = performance.now();
+  const reply = serviceReply(request.question);
+  if (!reply) return undefined;
+  const claim = (text: string): Claim => ({ text, kind: "uncertain", evidence: [] });
+  const answer = { summary: claim(reply.summary), details: reply.details.map(claim), commands: [], nextSteps: reply.nextSteps.map(claim) };
+  return { status: "answered", answer,
+    markdown: [reply.summary, ...reply.details.map((text) => "- " + text), ...reply.nextSteps.map((text) => "- " + text)].join("\n\n"),
+    sources: [], generation: { origin: "service-policy", version: SERVICE_POLICY_VERSION, topics: reply.topics },
+    model: null, settings: null, metrics: { elapsedMs: performance.now() - started, calls: [] }, promptVersion: PROMPT_VERSION,
+    validation: { commands: "command-and-option-names-only", citations: "provided-evidence-only", claimSemantics: "requires-review" } };
+}
+
+export async function guidedAnswer(request: AnswerRequest, github: GitHubSources): Promise<AnswerResponse | undefined> {
+  const policy = serviceAnswer(request);
+  if (policy) return policy;
+  const task = integrationTask(request);
+  if (!task) return;
+  const startedAt = performance.now();
+  const prepared = await prepareSources(request, integrationSelections(task), github);
+  const draft = integrationDraft(task, prepared.evidence);
+  if (!draft) invalidModel("Integration guidance requires both projects' configured contract sources.");
+  return renderAnswer(draft, prepared.evidence, {
+    generation: { origin: "integration-guidance", version: INTEGRATION_GUIDANCE_VERSION, task },
+    model: null, settings: null, calls: [], startedAt,
+  });
 }
 
 export function invalidModel(message = "The model response did not meet the answer contract."): never {
@@ -209,6 +242,17 @@ export async function answerPrepared(
   prepared: PreparedQuestion, provider: ModelProvider, github: GitHubSources,
   options: { signal?: AbortSignal; calls?: ModelCall[]; onCall?: (call: ModelCall) => void; startedAt?: number } = {},
 ): Promise<AnswerResponse> {
+  const policy = serviceAnswer(prepared.request);
+  if (policy) return policy;
+  const task = integrationTask(prepared.request);
+  if (task) {
+    const draft = integrationDraft(task, prepared.evidence);
+    if (!draft) invalidModel("Integration guidance requires both projects' configured contract sources.");
+    return renderAnswer(draft, prepared.evidence, {
+      generation: { origin: "integration-guidance", version: INTEGRATION_GUIDANCE_VERSION, task },
+      model: null, settings: null, calls: [], startedAt: options.startedAt ?? performance.now(),
+    });
+  }
   const start = options.startedAt ?? performance.now();
   const calls = options.calls ?? [];
   const result = await callModel(provider, "answer", {
@@ -234,6 +278,13 @@ export async function answerPrepared(
       option.value === undefined ? [option.name] : [option.name, shellQuote(option.value)])];
     commands.push({ ...command, shell: ["zyra", command.name, ...args].join(" "), evidence: `E${evidence.length}` });
   }
+  return renderAnswer({ ...draft, commands }, evidence, { generation: { origin: "model" },
+    model: { provider: provider.id, requested: provider.model, reported: result.model }, settings: provider.settings, calls, startedAt: start });
+}
+
+function renderAnswer(draft: Omit<AnswerDraft, "commands"> & { commands: AnswerResponse["answer"]["commands"] }, evidence: Evidence[],
+  context: { generation: AnswerResponse["generation"]; model: AnswerResponse["model"]; settings: AnswerResponse["settings"]; calls: ModelCall[]; startedAt: number }): AnswerResponse {
+  const { commands } = draft;
   const sources: AnswerResponse["sources"] = evidence.map((item, i) => ({
     id: `E${i + 1}`, project: item.project, source: item.source, status: item.status,
     classification: item.classification, requestedRef: item.requestedRef, commitSha: item.commitSha, citations: item.citations,
@@ -247,14 +298,16 @@ export async function answerPrepared(
   ].join("\n\n");
   return {
     status: "answered", answer: { ...draft, commands }, markdown, sources,
-    model: { provider: provider.id, requested: provider.model, reported: result.model },
-    metrics: { elapsedMs: performance.now() - start, calls: calls.map((call) => ({ phase: call.phase, latencyMs: call.latencyMs, model: call.model, usage: call.result.usage })) },
-    promptVersion: PROMPT_VERSION, settings: provider.settings,
+    generation: context.generation, model: context.model,
+    metrics: { elapsedMs: performance.now() - context.startedAt, calls: context.calls.map((call) => ({ phase: call.phase, latencyMs: call.latencyMs, model: call.model, usage: call.result.usage })) },
+    promptVersion: PROMPT_VERSION, settings: context.settings,
     validation: { commands: "command-and-option-names-only", citations: "provided-evidence-only", claimSemantics: "requires-review" },
   };
 }
 
 export async function generateAnswer(request: AnswerRequest, provider: ModelProvider, github: GitHubSources, signal?: AbortSignal): Promise<AnswerResponse> {
+  const guided = await guidedAnswer(request, github);
+  if (guided) return guided;
   const startedAt = performance.now();
   const calls: ModelCall[] = [];
   const seed = await prepareSources(request, [], github);

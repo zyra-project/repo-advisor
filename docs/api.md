@@ -104,7 +104,7 @@ Requires JSON with the same 16 KiB body limit. Unknown fields are rejected.
 }
 ```
 
-`question` is nonempty and at most 4000 characters. `projects` contains one or two distinct configured IDs, each with an optional ref. `provider` is optional when `ADVISOR_PROVIDER` is configured server-side; otherwise it is required. Supported IDs are `workers-ai`, `openai-compatible`, and `anthropic`. Provider model names, endpoints, credentials, source URLs, and arbitrary paths are not request fields. No default provider is selected automatically.
+`question` is nonempty and at most 4000 characters. `projects` contains one or two distinct configured IDs, each with an optional ref. Model-generated answers require `provider` or server-side `ADVISOR_PROVIDER`. Supported IDs are `workers-ai`, `openai-compatible`, and `anthropic`. Provider model names, endpoints, credentials, source URLs, and arbitrary paths are not request fields. No default provider is selected automatically. Recognized server-policy and integration-guidance requests need no model configuration.
 
 The route seeds overview/index evidence, makes one bounded source-planning call, reads approved sources at fixed project revisions, and makes one answer call. It then validates the output before returning it. Selected-source failures do not become unsupported-capability claims or partial unverified answers. There is no automatic retry or fallback provider. The overall cancellation signal is 90 seconds; each model call is limited to a 45-second wait. A binding may continue inference after the application stops waiting.
 
@@ -115,9 +115,16 @@ An answered response has:
 - `answer.commands[]`: structured Zyra names, positional strings, named options with optional string values, a server-rendered `shell` string, and an evidence ID for the final exact check.
 - `sources[]`: IDs, project/source names, status/classification, requested refs, resolved commits, and immutable citations. Raw documents are available through the evidence route rather than duplicated here.
 - `markdown`: server-rendered prose, source links, and checked command suggestions. Clients must still use a safe Markdown renderer.
-- `model`: provider ID, requested model, and reported model identity.
+- `generation`: `origin: "model"` for inference, `origin: "service-policy"` with policy version and matched topics, or `origin: "integration-guidance"` with guidance version and task.
+- `model`: provider ID, requested model, and reported model identity for inference; `null` for server-owned responses.
 - `metrics`: elapsed time and per-call phase, model latency, and reported usage when supplied. Missing usage is omitted rather than estimated.
 - `promptVersion`, `settings`, and `validation`: input/output limits, explicit provider-default temperature behavior, and the limits of validation.
+
+Recognized English questions about this advisor's GitHub submission history, private/arbitrary-source access, cursor readings, advisor outages affecting Orbit, or source instructions receive a versioned server-policy response before provider configuration, retrieval or inference. They have empty sources, no fabricated repository citations, `settings: null`, and no model calls. The existing `uncertain` claim kind means these service facts are not repository evidence; the server-owned prose does not prefix known policy with uncertainty.
+
+Recognized questions selecting both projects about metadata ownership, coordinated implementation plans or a publishing handoff receive a conditional review checklist. Curated selectors retrieve the producer schema and consumer validation/mutation sources at independent pinned revisions; plan guidance also retrieves contribution sources. Missing sources return a retrieval error rather than a guessed answer or model fallback. Links identify sources to inspect, not proof that a payload is valid. The checklist asks for errors, versions and payloads, separates conditional repository changes, and specifies integration tests and documentation. It neither diagnoses the actual error nor claims a ready-made integration or successful publishing.
+
+Routing uses a bounded English topic recognizer, not an unrestricted semantic classifier. It can miss paraphrases or route a compound request to only its recognized boundary/checklist; ask unrelated repository questions separately. Unrecognized questions use the model flow and its existing guards. `generation` is assigned by the server; models cannot add or forge it. Server-owned responses make no issue searches, submissions or commands.
 
 Claim references must name supplied evidence IDs. Current claims cannot cite roadmap-only or negative capability evidence; planned claims require vision/governance sources; gap claims require a successful exact negative lookup. Partial catalogs and excerpts are not proof of absence. Uncertain claims may have no references when the needed evidence is unavailable or unspecified.
 

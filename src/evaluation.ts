@@ -4,6 +4,8 @@ import { answerPrepared, parseAnswerRequest, prepareSources, type AnswerRequest,
 import { AdvisorError } from "./errors";
 import { GitHubSources, type SourceSnapshot } from "./github";
 import { ANSWER_INSTRUCTIONS, ANSWER_SCHEMA, modelMessages, PROMPT_VERSION } from "./prompts";
+import { SERVICE_POLICY_VERSION } from "./service-policy";
+import { INTEGRATION_GUIDANCE_VERSION } from "./integration-guidance";
 import type { EvidenceRequest, ModelProvider } from "./types";
 
 export interface EvaluationCase {
@@ -119,13 +121,17 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
         provider: provider.id, requestedModel: provider.model, settings: provider.settings,
         promptVersion: PROMPT_VERSION, snapshotPromptVersion: snapshot.promptVersion, promptChangeAccepted,
         instructionsSha256, inputSha256, dataMessageSha256, evidenceSha256, snapshotSha256,
-        outputSchemaSha256: provider.settings.responseFormat === "json_schema" ? answerSchemaSha256 : null,
+        outputSchemaSha256: answer?.generation.origin !== "model" && answer ? null : provider.settings.responseFormat === "json_schema" ? answerSchemaSha256 : null,
         outcome: answer ? "answered" : "rejected", answer: answer ?? null, error: error ?? null,
+        answerOrigin: answer?.generation.origin ?? "model",
+        inputSentToModel: calls.length > 0,
+        servicePolicyVersion: SERVICE_POLICY_VERSION,
+        integrationGuidanceVersion: INTEGRATION_GUIDANCE_VERSION,
         latencyMs: performance.now() - started,
         rawModelResponses: calls.map((call) => ({ phase: call.phase, ...call.result })),
-        usage: completeUsage ? calls.reduce((total, call) => ({ inputTokens: total.inputTokens + call.result.usage!.inputTokens,
+        usage: answer && answer.generation.origin !== "model" ? { inputTokens: 0, outputTokens: 0 } : completeUsage ? calls.reduce((total, call) => ({ inputTokens: total.inputTokens + call.result.usage!.inputTokens,
           outputTokens: total.outputTokens + call.result.usage!.outputTokens }), { inputTokens: 0, outputTokens: 0 }) : null,
-        estimatedTokenCost: estimateCost(calls, rates[provider.id]),
+        estimatedTokenCost: answer && answer.generation.origin !== "model" ? 0 : estimateCost(calls, rates[provider.id]),
         rates: rates[provider.id] ?? null,
         // Automated guards establish neither factual accuracy nor task completion.
         humanQualityScores: null,
@@ -133,6 +139,8 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
     }
   }
   return { version: 1, evaluatedAt: new Date().toISOString(), snapshotSha256, promptVersion: PROMPT_VERSION,
+    servicePolicyVersion: SERVICE_POLICY_VERSION,
+    integrationGuidanceVersion: INTEGRATION_GUIDANCE_VERSION,
     snapshotPromptVersion: snapshot.promptVersion, promptChangeAccepted,
     scope: "answer-generation-with-fixed-evidence; excludes planner latency and usage",
     costBasis: "Optional operator-supplied token rates; excludes caching, non-token charges, and usage absent from responses.",

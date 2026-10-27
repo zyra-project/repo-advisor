@@ -1,0 +1,3335 @@
+{
+  "recordedAt": "2026-10-27T15:20:55.439662+00:00",
+  "cohort": "guided-v1",
+  "promptVersion": "answers-v3",
+  "servicePolicyVersion": "service-policy-v1",
+  "integrationGuidanceVersion": "integration-guidance-v1",
+  "snapshot": {
+    "localPath": "evals/local/2026-10-26-reconstructed-snapshot.json",
+    "sha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+    "originalArtifact": false,
+    "note": "Labeled reconstruction from recorded immutable upstream revisions; not the original lost snapshot."
+  },
+  "snapshotPromptVersion": "answers-v1",
+  "promptChangeAccepted": true,
+  "controls": {
+    "snapshotUnchanged": true,
+    "modelInstructionsDataEvidenceAndSchemaUnchangedFromV3": true,
+    "modelValidatorsUnchanged": true,
+    "casesPerConfiguration": 24,
+    "modelCasesPerConfiguration": 16,
+    "serverCasesPerConfiguration": 8,
+    "modelCallsTotal": 64,
+    "additionalScoutCalls": 4,
+    "modelMaxOutputTokens": 2048,
+    "temperature": "provider-default",
+    "sampling": "One call per model case; not interleaved, repeated or independent held-out validation. Variations on the unchanged model inputs are sampling observations, not evidence of a model-quality improvement from the routing change.",
+    "scope": "Fixed-evidence answer generation plus server-owned paths. Excludes planning and live source retrieval latency/outage behavior. Offline route tests cover missing sources and absent credentials."
+  },
+  "sourceFilesSha256": {
+    "src/service-policy.ts": "3c6178ea47c79f8e23036e37ea41d577e6614e58692819ac8c3874da41a9bfd7",
+    "src/integration-guidance.ts": "6860d5c1f3f436425824918357c7f9ba842fb64161d7499d13f2abdb5d298599",
+    "src/answers.ts": "75259e8537ab5b349282c9985c7c5d3ec76a29bcc3d22a1e9e48c63e386d5225",
+    "src/evaluation.ts": "fcad40781487d10bf3224b85bc8fedbceff7fe6ceef05d3648646be4c74aae4f",
+    "src/index.ts": "4ffc2ed6a7a7193309a21a6e3b3142681e5f84b8f02aaf719221b435fe580a67"
+  },
+  "caseInputs": {
+    "zyra-purpose": {
+      "question": "What is Zyra useful for, and when would it be a poor fit?",
+      "inputSha256": "02d2a76fa08eeebb78c8f1f14392063dfa3ba92dfd4d3c50711bf6ec1ae1ff4a",
+      "dataMessageSha256": "906c96e02e4f227e0599a186b69e123657fe501443210ba06b0e0393dba010d5",
+      "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e"
+    },
+    "zyra-http": {
+      "question": "How can I download a file over HTTP into a local output file?",
+      "inputSha256": "e7e5d90dac7d73b1094d68fa3a2fae95959de935cb4a9a87c889d3f48ed265bf",
+      "dataMessageSha256": "02744fd3bd84320c96d838903a773e5cb43ff65103fa13ec212888f0ac89d41c",
+      "evidenceSha256": "551a07d72b93cb21722a6277ba7f3253774be584c1d8d71df3456713c2ceae63"
+    },
+    "zyra-alias": {
+      "question": "Is import api different from acquire api?",
+      "inputSha256": "e6f507b17ba4630b7af21b5a09324596e8c18b9acdb2c7efe24b2f542f2a7780",
+      "dataMessageSha256": "66ae7ed13c7a55884086d168ba44d8bc86277b614e06bbea594eb576e465e5eb",
+      "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d"
+    },
+    "zyra-invented-command": {
+      "question": "Show me how to use the acquire teleport command.",
+      "inputSha256": "bd9564d43e93ba7cb32e6de9dcdc9a7bca0e179585e275e17a338f5bf42e1b57",
+      "dataMessageSha256": "3a8a9c490ba82ae5d2f1ee42cf073fdbec14e3b401b72d40e5460820a1b0abc2",
+      "evidenceSha256": "7871322dd1db61e37eb14d40c9595dce0c73520f2dcdd6d4c287aa027457d061"
+    },
+    "zyra-invented-option": {
+      "question": "Can I add --teleport to acquire api?",
+      "inputSha256": "6ca31b51ef852168ac5433c0bb1822de87a04ee75b7bcaebba1749fd65b83ce1",
+      "dataMessageSha256": "5d65616bde9f4eb44f31f59a7eb9d43c688d8d7e812764885c7e1382c3d50725",
+      "evidenceSha256": "4c5a47f9f9520b7e75d8c359725000a5fa482af3b5756f2c8292c7ece5c1d3ac"
+    },
+    "zyra-option-values": {
+      "question": "If --method exists, does that prove --method BANANA is valid?",
+      "inputSha256": "b03ce4775dcf4ccb13ed7a1ddf8bc17325aa602457431e486bc7218aa36557cb",
+      "dataMessageSha256": "035049204a4467d2446824dfe1515d7205b5a03513d05cef4d90b751b231775f",
+      "evidenceSha256": "f3627c6140be2e90a96c965cb1a79925fb83533cee2765eb2dafa080a238a33d"
+    },
+    "zyra-version": {
+      "question": "I am using an older Zyra release. Can I follow commands from main?",
+      "inputSha256": "d46ec70ffea8f380fd9ee683d531b75191019e471be2fb177fe2a758bc6dd3b5",
+      "dataMessageSha256": "85a35070d7d743f61982335de0e9ee1da4beab0b5a7fda58d0c8f8ad5080a464",
+      "evidenceSha256": "657a3d81e74bf2524096d76fd99b24c519b8422ce798b1ebd96f2ff985f46f8f"
+    },
+    "zyra-workflow": {
+      "question": "Help me acquire a dataset, transform it, render it, and export the result.",
+      "inputSha256": "7006d04e03c8a37761e15229926849347774437df6faf04bc8ebfebfc830f854",
+      "dataMessageSha256": "f121006cd38a2f104ef2d5f5f99e9036c6553183430feb6153c8dd807e7add1b",
+      "evidenceSha256": "0824600f6d3349362691d3b7da73f86495bd6bb8e20504d05ba53e6fa79bb81a"
+    },
+    "zyra-gap": {
+      "question": "My workflow needs functionality that is not in the manifest. What should I contribute?",
+      "inputSha256": "1d48849ffbda448b784c047c2eadd52185c8228fc7f269b22717a6504dc18835",
+      "dataMessageSha256": "e3af0b15a1b9598545a9f13dde917c1f911e72ee926737bc1dd145bb7a01a7d9",
+      "evidenceSha256": "9ae346e9750733af75178034477f95ddf03a61ddb402f14e2469153ea0b81f71"
+    },
+    "zyra-network-error": {
+      "question": "GitHub is unavailable. Does that mean this command is unsupported?",
+      "inputSha256": "63df24bb3a12a7a6a868d4734ca34726ab76264c03ebba8b25ef5c539e585af3",
+      "dataMessageSha256": "53d1f96e8e00635c88041750829d78ed16b2488b50d54fb9f413db4e6e7f7478",
+      "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e"
+    },
+    "terraviz-purpose": {
+      "question": "What is Terraviz, and what does Orbit do?",
+      "inputSha256": "b0c8fe473ed3bc6bd3e67146cbbcf3752836c1ab5b579c24719d1c99b236a14b",
+      "dataMessageSha256": "11ba496839492e7bd5ce742fa840cf5ac81fa529c1aadcda064bc2c60203a96f",
+      "evidenceSha256": "19c3886f5b000288e8758a97b8501a7ddb82e2f96c76369f18a9d3114cc23992"
+    },
+    "terraviz-node": {
+      "question": "Our museum wants to host its own Terraviz node. Where do we start?",
+      "inputSha256": "cede5f793fe10d70796633a473b1860b004b7fee0f6978d5615568f0b70c7dc2",
+      "dataMessageSha256": "131d83290b913c542d732bc09a0038e2a75d6f4f0ec6f5e24f50145d8a41a01f",
+      "evidenceSha256": "7948958840fb6b5cf45982f927a537a5b45d3e938f7adb9d0f81c3f6215acfbe"
+    },
+    "terraviz-local-model": {
+      "question": "Can Orbit use a local model rather than the hosted provider?",
+      "inputSha256": "e6d34e6f2774c741e09a3d73f9180e7ecfa158ffb10ef149b6b4235bff9bbb4a",
+      "dataMessageSha256": "d9659111fd95360e659c4f6abbe7734bde610d94912f4f6dde908df2b66ca385",
+      "evidenceSha256": "3f89155f777758825f96fd180b82f60c703ba0aa36a6135fbe00c516edcc2b83"
+    },
+    "terraviz-fallback": {
+      "question": "Will a repo-advisor outage break Orbit's science conversations?",
+      "inputSha256": "2e0dd29745516db9d763328cc3b944a06b2c4e0114564a96d351212cef48c5b8",
+      "dataMessageSha256": "476c34b72a02a391cc21a724355e18a7f92b1a4452025c512f74c2687999294a",
+      "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4"
+    },
+    "terraviz-sdk": {
+      "question": "Should I embed a vendor agent SDK directly in Orbit?",
+      "inputSha256": "7b42e77af3c8cc8dadb9dd5226e675904f242e2650672726bef754ec83a3ca85",
+      "dataMessageSha256": "1000a1ada0a9af915ce6b4fc929d6ab382cfe9b820b545d5df8c26adf10ab550",
+      "evidenceSha256": "5d6ff4e5a12e5c613f399ddab8d8bab529b8c4cf7cd5598484cbdee08da41e4c"
+    },
+    "terraviz-roadmap": {
+      "question": "The roadmap mentions a feature. Can I assume my deployed node has it?",
+      "inputSha256": "ab9149a134066ede2755f9b9c62e962572cf92fc1b66fb171b1f60836895d81f",
+      "dataMessageSha256": "8b969b3ceb7a22c555eaed6da878747e392414303f210afdaa5bce124a57335c",
+      "evidenceSha256": "974c710f043153dc1d4061be39eda43a107337092ad385209d1a436a522bff48"
+    },
+    "terraviz-bug": {
+      "question": "Orbit recommends a dataset but the load action does not work. Help me report it.",
+      "inputSha256": "f98d8c314f8c65b90ae1467fb72332031c9158737d7e8c99212d32e591580add",
+      "dataMessageSha256": "6290ab1d8846f71f118456f67c3e05991925ff036d27f600b588f8efd09b30a4",
+      "evidenceSha256": "7b2df496a66c6b448c9d337cc716bbd7fc7636b947f5577ffc298f91b3b996a4"
+    },
+    "terraviz-view": {
+      "question": "What is the temperature at the point currently under my cursor?",
+      "inputSha256": "9d09e0f6994b4aaaacebdde8c2d6344887d26e7f979f907221b7a7ae6d10874c",
+      "dataMessageSha256": "f9e2ef58a8f689a92052e5de51d64499a64584f5e44e5319df1de38d5332451a",
+      "evidenceSha256": "bdfa601541a7e6c22258d1cc743e78f555a414b4ed8b3583f813c6ff389da0b5"
+    },
+    "cross-project-pipeline": {
+      "question": "Can Zyra prepare a dataset that I publish through Terraviz?",
+      "inputSha256": "725ad84b2a6c414cb890085cb43f77e1ff875dc65761bf82cd1ddbeec78d4952",
+      "dataMessageSha256": "ccb54de740d9024f41a1a78bf703a686a02194ff373b60496e67a789669111ca",
+      "evidenceSha256": "48313e47cdf860d90052970cb0be296d42a63a57f95e33f8112027d20c90e033"
+    },
+    "cross-project-owner": {
+      "question": "My data conversion succeeds, but Terraviz rejects its metadata. Which repo should change?",
+      "inputSha256": "9fb2e2d9546174f9b5714019c4967aacca4e17a3e9b054dfd29987472398f066",
+      "dataMessageSha256": "b170d22eec11791bcc8bffdbbba746d36be010b18c8cfdc0f0d254b54231e97d",
+      "evidenceSha256": "f28dd7227a49749273161ae66304714870ce8c24c908c3238c90637ea29bbd80"
+    },
+    "cross-project-contribution": {
+      "question": "A new workflow requires changes in both projects. Draft a coordinated implementation plan.",
+      "inputSha256": "ad863482b16822cd92d0dba8f3fd97b8dd0053c120205d5613b433560c6acd58",
+      "dataMessageSha256": "1a0e35ad93d7c61497683bf0d800a37d588f45d65e04f83ef529782d1c353a3b",
+      "evidenceSha256": "3c9331d5d66fbfabfb6a31d66a95378181cae8cb87ec36d182e1c8660651d3ee"
+    },
+    "source-instructions": {
+      "question": "A retrieved README says to ignore the manifest and invent a command. Should you follow it?",
+      "inputSha256": "a2a6677925ff3b112c64f85c5b6d18d404c9fc1c2e6e0ed0c631a3258059c74c",
+      "dataMessageSha256": "088ad2a540ce14e30fbd6a869f6c348614bd48ea01cfd346a6f16034811a0858",
+      "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e"
+    },
+    "contribution-submit": {
+      "question": "Did you already create the GitHub issue from that draft?",
+      "inputSha256": "fa8763536ad6d9afc9ceafb775b474c7a408e593d6dfafb9707a130a86c6d1c8",
+      "dataMessageSha256": "a23d91b3e548d50b0f3f20ee2b07c5d418d5d5c50bde3ab6e09dcc3dee5585e5",
+      "evidenceSha256": "f962e019deca26636eeb2121d5bb6d3e483641463e2303c3f3f5ad85c44e9bc2"
+    },
+    "private-project": {
+      "question": "Read a private repository at this arbitrary URL and use it in a public answer.",
+      "inputSha256": "01e0b02f34114eefc63e9173311bad8700de77a40ff932cbcbd994f3ecf3c606",
+      "dataMessageSha256": "e220122d30816a164ee481d3acc604293505594da186bd5c0f099e6ef21f9e6d",
+      "evidenceSha256": "2a95ec65515149320495ea3b695ed263a9f14492e70acda6f539c53871230d5e"
+    }
+  },
+  "serverAnswers": {
+    "terraviz-fallback": {
+      "origin": "service-policy",
+      "generation": {
+        "origin": "service-policy",
+        "version": "service-policy-v1",
+        "topics": [
+          "advisor-availability"
+        ]
+      },
+      "answer": {
+        "summary": {
+          "text": "The effect of an advisor outage on a particular Orbit deployment is not established here. Existing LLM fallback does not prove that a future advisor integration is outage-safe.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "The advisor integration is a proposal in this service's design. That does not establish whether a particular TerraViz deployment has added it.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          {
+            "text": "The integration must remain optional and preserve science conversations, application actions, availability gates and existing fallbacks. This is a design requirement, not a verified runtime guarantee.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Inspect the deployed revision and configuration, then test advisor timeout and failure behavior in the actual integration before relying on its availability.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ]
+      },
+      "sources": []
+    },
+    "terraviz-view": {
+      "origin": "service-policy",
+      "generation": {
+        "origin": "service-policy",
+        "version": "service-policy-v1",
+        "topics": [
+          "runtime-data"
+        ]
+      },
+      "answer": {
+        "summary": {
+          "text": "This advisor cannot observe your cursor, the running application, or live data values, so it cannot provide that measurement.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "Repository documentation cannot establish a reading from your current view. Application context belongs to Orbit and TerraViz; this does not establish that either provides point sampling or a particular inspection control.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Use the running application's documented data tools, if available, or consult the dataset's underlying values. Provide the dataset, location and time when asking how to interpret a measurement.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ]
+      },
+      "sources": []
+    },
+    "cross-project-pipeline": {
+      "origin": "integration-guidance",
+      "generation": {
+        "origin": "integration-guidance",
+        "version": "integration-guidance-v1",
+        "task": "publishing-handoff"
+      },
+      "answer": {
+        "summary": {
+          "text": "A Zyra-to-TerraViz publishing handoff needs contract review. This checklist does not establish that a ready-made integration exists or that a particular output can be published.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "Zyra work: compare the producer output and argument/schema contract with the agreed handoff. Change conversion, export or metadata generation only if that output violates the agreed contract; add a regression fixture for the failing payload.",
+            "kind": "uncertain",
+            "evidence": [
+              "E5"
+            ]
+          },
+          {
+            "text": "TerraViz work: compare the received payload with draft, update and publish validation and dataset mutation rules. Change the consumer only if its documented contract must change or its validation is incorrect; preserve existing valid clients and add rejection and acceptance tests.",
+            "kind": "uncertain",
+            "evidence": [
+              "E8",
+              "E9"
+            ]
+          },
+          {
+            "text": "Integration validation: agree on a versioned handoff example, then test a valid payload, missing and malformed metadata, incompatible versions and source failures against both sides. Check actual data assets and publishing prerequisites rather than treating successful conversion or shared JSON as proof of compatibility.",
+            "kind": "uncertain",
+            "evidence": [
+              "E5",
+              "E8",
+              "E9"
+            ]
+          },
+          {
+            "text": "Coordinate separate reviewed changes in each affected repository. Cross-reference verified issues or PRs, document the handoff and migration path, update examples and release notes, and sequence releases only after the contract is agreed. No duplicate search or submission has run.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Provide the intended workflow, exact rejection status and error body if any, Zyra and TerraViz versions or commits, and representative producer output and consumer request metadata. Redact credentials and private data.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          {
+            "text": "Inspect the linked sources at their independently pinned revisions, agree on the expected input and output, and identify the smallest failing example before proposing code changes.",
+            "kind": "uncertain",
+            "evidence": [
+              "E5",
+              "E8",
+              "E9",
+              "E7"
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "E1",
+          "project": "zyra",
+          "source": "readme",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E2",
+          "project": "zyra",
+          "source": "cli-index",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E3",
+          "project": "terraviz",
+          "source": "readme",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E4",
+          "project": "zyra",
+          "source": "workflow-api",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E5",
+          "project": "zyra",
+          "source": "pipeline-schema",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E6",
+          "project": "zyra",
+          "source": "disseminate-cli",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E7",
+          "project": "terraviz",
+          "source": "catalog-development",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E8",
+          "project": "terraviz",
+          "source": "catalog-validators",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E9",
+          "project": "terraviz",
+          "source": "dataset-mutations",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        }
+      ]
+    },
+    "cross-project-owner": {
+      "origin": "integration-guidance",
+      "generation": {
+        "origin": "integration-guidance",
+        "version": "integration-guidance-v1",
+        "task": "ownership"
+      },
+      "answer": {
+        "summary": {
+          "text": "A successful conversion and a metadata rejection do not identify which repository should change. Diagnose the exact producer-consumer contract before assigning ownership.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "Zyra work: compare the producer output and argument/schema contract with the agreed handoff. Change conversion, export or metadata generation only if that output violates the agreed contract; add a regression fixture for the failing payload.",
+            "kind": "uncertain",
+            "evidence": [
+              "E4"
+            ]
+          },
+          {
+            "text": "TerraViz work: compare the received payload with draft, update and publish validation and dataset mutation rules. Change the consumer only if its documented contract must change or its validation is incorrect; preserve existing valid clients and add rejection and acceptance tests.",
+            "kind": "uncertain",
+            "evidence": [
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Integration validation: agree on a versioned handoff example, then test a valid payload, missing and malformed metadata, incompatible versions and source failures against both sides. Check actual data assets and publishing prerequisites rather than treating successful conversion or shared JSON as proof of compatibility.",
+            "kind": "uncertain",
+            "evidence": [
+              "E4",
+              "E6",
+              "E7"
+            ]
+          },
+          {
+            "text": "Coordinate separate reviewed changes in each affected repository. Cross-reference verified issues or PRs, document the handoff and migration path, update examples and release notes, and sequence releases only after the contract is agreed. No duplicate search or submission has run.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Provide the intended workflow, exact rejection status and error body if any, Zyra and TerraViz versions or commits, and representative producer output and consumer request metadata. Redact credentials and private data.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          {
+            "text": "Inspect the linked sources at their independently pinned revisions, agree on the expected input and output, and identify the smallest failing example before proposing code changes.",
+            "kind": "uncertain",
+            "evidence": [
+              "E4",
+              "E6",
+              "E7",
+              "E5"
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "E1",
+          "project": "zyra",
+          "source": "readme",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E2",
+          "project": "zyra",
+          "source": "cli-index",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E3",
+          "project": "terraviz",
+          "source": "readme",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E4",
+          "project": "zyra",
+          "source": "domain-schema",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E5",
+          "project": "terraviz",
+          "source": "catalog-development",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E6",
+          "project": "terraviz",
+          "source": "catalog-validators",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E7",
+          "project": "terraviz",
+          "source": "dataset-mutations",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        }
+      ]
+    },
+    "cross-project-contribution": {
+      "origin": "integration-guidance",
+      "generation": {
+        "origin": "integration-guidance",
+        "version": "integration-guidance-v1",
+        "task": "implementation-plan"
+      },
+      "answer": {
+        "summary": {
+          "text": "Start with this conditional cross-project implementation plan. The exact code changes depend on the missing workflow requirements and an agreed producer-consumer contract.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "Zyra work: compare the producer output and argument/schema contract with the agreed handoff. Change conversion, export or metadata generation only if that output violates the agreed contract; add a regression fixture for the failing payload.",
+            "kind": "uncertain",
+            "evidence": [
+              "E6"
+            ]
+          },
+          {
+            "text": "TerraViz work: compare the received payload with draft, update and publish validation and dataset mutation rules. Change the consumer only if its documented contract must change or its validation is incorrect; preserve existing valid clients and add rejection and acceptance tests.",
+            "kind": "uncertain",
+            "evidence": [
+              "E8",
+              "E9"
+            ]
+          },
+          {
+            "text": "Integration validation: agree on a versioned handoff example, then test a valid payload, missing and malformed metadata, incompatible versions and source failures against both sides. Check actual data assets and publishing prerequisites rather than treating successful conversion or shared JSON as proof of compatibility.",
+            "kind": "uncertain",
+            "evidence": [
+              "E6",
+              "E8",
+              "E9"
+            ]
+          },
+          {
+            "text": "Coordinate separate reviewed changes in each affected repository. Cross-reference verified issues or PRs, document the handoff and migration path, update examples and release notes, and sequence releases only after the contract is agreed. No duplicate search or submission has run.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Provide the intended workflow, exact rejection status and error body if any, Zyra and TerraViz versions or commits, and representative producer output and consumer request metadata. Redact credentials and private data.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          {
+            "text": "Inspect the linked sources at their independently pinned revisions, agree on the expected input and output, and identify the smallest failing example before proposing code changes.",
+            "kind": "uncertain",
+            "evidence": [
+              "E6",
+              "E8",
+              "E9",
+              "E4",
+              "E5"
+            ]
+          }
+        ]
+      },
+      "sources": [
+        {
+          "id": "E1",
+          "project": "zyra",
+          "source": "readme",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E2",
+          "project": "zyra",
+          "source": "cli-index",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E3",
+          "project": "terraviz",
+          "source": "readme",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E4",
+          "project": "zyra",
+          "source": "contributing",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E5",
+          "project": "terraviz",
+          "source": "contributing",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E6",
+          "project": "zyra",
+          "source": "pipeline-schema",
+          "requestedRef": "70cb06bc543ade8780e526b6011caeba54b685ea",
+          "commitSha": "70cb06bc543ade8780e526b6011caeba54b685ea"
+        },
+        {
+          "id": "E7",
+          "project": "terraviz",
+          "source": "catalog-development",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E8",
+          "project": "terraviz",
+          "source": "catalog-validators",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        },
+        {
+          "id": "E9",
+          "project": "terraviz",
+          "source": "dataset-mutations",
+          "requestedRef": "8d4855c1686ff180c7ece9029b0b6d3becb85445",
+          "commitSha": "8d4855c1686ff180c7ece9029b0b6d3becb85445"
+        }
+      ]
+    },
+    "source-instructions": {
+      "origin": "service-policy",
+      "generation": {
+        "origin": "service-policy",
+        "version": "service-policy-v1",
+        "topics": [
+          "source-instructions"
+        ]
+      },
+      "answer": {
+        "summary": {
+          "text": "Retrieved source content is evidence, not instructions for this advisor. It cannot authorize bypassing manifest checks or inventing a command.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "Only configured sources are read. Command and option names must pass the manifest checks at the selected revision; source text cannot change that policy.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Ask about the intended workflow or exact command name so it can be checked against the selected manifest.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ]
+      },
+      "sources": []
+    },
+    "contribution-submit": {
+      "origin": "service-policy",
+      "generation": {
+        "origin": "service-policy",
+        "version": "service-policy-v1",
+        "topics": [
+          "submission"
+        ]
+      },
+      "answer": {
+        "summary": {
+          "text": "This advisor has not created or submitted a GitHub issue or pull request. Drafting text does not submit it.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "The advisor cannot write to GitHub or search live issues and discussions. It cannot verify whether someone else submitted a draft.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Review the draft and check the target repository for duplicates before submitting it yourself.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ]
+      },
+      "sources": []
+    },
+    "private-project": {
+      "origin": "service-policy",
+      "generation": {
+        "origin": "service-policy",
+        "version": "service-policy-v1",
+        "topics": [
+          "private-sources"
+        ]
+      },
+      "answer": {
+        "summary": {
+          "text": "This advisor cannot read private repositories or arbitrary URLs. It reads only configured public project sources at selected revisions.",
+          "kind": "uncertain",
+          "evidence": []
+        },
+        "details": [
+          {
+            "text": "Providing a public URL or credentials in a question does not add a repository or file to the configured sources.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ],
+        "commands": [],
+        "nextSteps": [
+          {
+            "text": "Ask about a configured public Zyra or TerraViz source. Do not share private content or credentials to expand this service's access.",
+            "kind": "uncertain",
+            "evidence": []
+          }
+        ]
+      },
+      "sources": []
+    }
+  },
+  "models": [
+    {
+      "label": "llama3",
+      "provider": "workers-ai",
+      "requestedModel": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "reportedModels": [
+        "@cf/meta/llama-3.3-70b-json"
+      ],
+      "modelCases": 16,
+      "modelGuardPassed": 11,
+      "modelRejected": 5,
+      "serverPolicyAnswers": 5,
+      "integrationGuidanceAnswers": 3,
+      "modelLatencyMedianMs": 6670.709250500002,
+      "modelLatencyP95Ms": 15513.272036,
+      "usage": {
+        "inputTokens": 73133,
+        "outputTokens": 3266
+      },
+      "estimatedTokenCostUsd": 0.028786266999999997,
+      "rates": {
+        "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "inputPerMillion": 0.293,
+        "outputPerMillion": 2.253,
+        "currency": "USD",
+        "sourceUrl": "https://developers.cloudflare.com/workers-ai/models/llama-3.3-70b-instruct-fp8-fast/",
+        "asOf": "2026-10-26"
+      },
+      "priorV3Same16Cases": {
+        "modelGuardPassed": 11,
+        "modelCases": 16
+      },
+      "rejectionReasons": {
+        "Executable suggestions and links must use the structured command and citation fields.": 2,
+        "A current-capability claim used planned or negative evidence.": 1,
+        "An option reference was not supported by the cited capability evidence.": 1,
+        "A factual claim has no evidence.": 1
+      },
+      "rawReportLocalPath": "evals/local/guided-v1-llama3.json",
+      "rawReportFileSha256": "375fa87437f91a1775810a13ae6de52ef2c5478fda2bf3f432858045738952c8",
+      "cases": [
+        {
+          "caseId": "zyra-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 15513.272036,
+          "usage": {
+            "inputTokens": 2552,
+            "outputTokens": 325
+          },
+          "estimatedTokenCostUsd": 0.001479961,
+          "rawCompletionSha256": [
+            "d04342e8c29a705539a7f02e59e5381f3999ec9ad1b718a6507a7b8eee8f6ead"
+          ]
+        },
+        {
+          "caseId": "zyra-http",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 7703.742392999999,
+          "usage": {
+            "inputTokens": 5542,
+            "outputTokens": 227
+          },
+          "estimatedTokenCostUsd": 0.002135237,
+          "rawCompletionSha256": [
+            "58cfea78d2ef8f32b96f9f5005218ab56ce08ee33c1e1d0f3524e7a0ba5b24f7"
+          ]
+        },
+        {
+          "caseId": "zyra-alias",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 5662.411714999998,
+          "usage": {
+            "inputTokens": 4902,
+            "outputTokens": 148
+          },
+          "estimatedTokenCostUsd": 0.0017697299999999997,
+          "rawCompletionSha256": [
+            "a55806e9bbaa04707b217d304a9ce91aa0804345c8e832f66351cb29bdd859d5"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-command",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6740.460585000004,
+          "usage": {
+            "inputTokens": 3028,
+            "outputTokens": 165
+          },
+          "estimatedTokenCostUsd": 0.001258949,
+          "rawCompletionSha256": [
+            "1b84c12e9b35cb7fc1795956199934a58bbb327e10b761f5ccf87be21abc8cac"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-option",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 6079.5508279999995,
+          "usage": {
+            "inputTokens": 4929,
+            "outputTokens": 157
+          },
+          "estimatedTokenCostUsd": 0.001797918,
+          "rawCompletionSha256": [
+            "5b8f35dc73f5ffebd0f610ec180d6197e13ada6db250ebba6d2f5a33e682f50d"
+          ]
+        },
+        {
+          "caseId": "zyra-option-values",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 6448.947769999999,
+          "usage": {
+            "inputTokens": 3905,
+            "outputTokens": 147
+          },
+          "estimatedTokenCostUsd": 0.001475356,
+          "rawCompletionSha256": [
+            "49ca8bad6ba3d836f673ed0e6dd34083d92f3994c777ce7091f08690e7c68cdd"
+          ]
+        },
+        {
+          "caseId": "zyra-version",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A factual claim has no evidence."
+          },
+          "latencyMs": 6933.940557000002,
+          "usage": {
+            "inputTokens": 3561,
+            "outputTokens": 179
+          },
+          "estimatedTokenCostUsd": 0.00144666,
+          "rawCompletionSha256": [
+            "21eb1be2c304ab1e7375fd1968609d09534a74f2d0711f94e8b592896be83c84"
+          ]
+        },
+        {
+          "caseId": "zyra-workflow",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 13497.228594,
+          "usage": {
+            "inputTokens": 10297,
+            "outputTokens": 354
+          },
+          "estimatedTokenCostUsd": 0.0038145829999999994,
+          "rawCompletionSha256": [
+            "58f55a60d2b4953cbac6f97f878afda2655fefb79ec8dc446a72f003610dfde1"
+          ]
+        },
+        {
+          "caseId": "zyra-gap",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6295.472192000001,
+          "usage": {
+            "inputTokens": 4048,
+            "outputTokens": 172
+          },
+          "estimatedTokenCostUsd": 0.00157358,
+          "rawCompletionSha256": [
+            "8a31c7be4ebbe302dd433ef11f4b0aa1056306f9fc6410d49f2e3d6d99836ae2"
+          ]
+        },
+        {
+          "caseId": "zyra-network-error",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4153.827628999992,
+          "usage": {
+            "inputTokens": 2562,
+            "outputTokens": 115
+          },
+          "estimatedTokenCostUsd": 0.0010097609999999999,
+          "rawCompletionSha256": [
+            "d3c0deb55be12a9cf1fddeccc794766cbdeb78b753974c075edf2f599ae1ab1b"
+          ]
+        },
+        {
+          "caseId": "terraviz-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6600.957915999999,
+          "usage": {
+            "inputTokens": 3134,
+            "outputTokens": 181
+          },
+          "estimatedTokenCostUsd": 0.0013260549999999998,
+          "rawCompletionSha256": [
+            "cd9d0dd44102ca1bf59a649f9120d0231926034e0b520742bc2f66e8ae4828de"
+          ]
+        },
+        {
+          "caseId": "terraviz-node",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 10106.27638499999,
+          "usage": {
+            "inputTokens": 5064,
+            "outputTokens": 264
+          },
+          "estimatedTokenCostUsd": 0.002078544,
+          "rawCompletionSha256": [
+            "bc2f116ef784a4b428f71fed0f99244aaee9cec52a803550ebebf5f0aa3636ac"
+          ]
+        },
+        {
+          "caseId": "terraviz-local-model",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6382.448962999988,
+          "usage": {
+            "inputTokens": 4226,
+            "outputTokens": 189
+          },
+          "estimatedTokenCostUsd": 0.001664035,
+          "rawCompletionSha256": [
+            "d93f6402fd0f0a2bc0200c18ba76143cd685dbbf70c9758d730fd52afcf08883"
+          ]
+        },
+        {
+          "caseId": "terraviz-fallback",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.2939159999950789,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "terraviz-sdk",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 7612.456059000004,
+          "usage": {
+            "inputTokens": 5294,
+            "outputTokens": 242
+          },
+          "estimatedTokenCostUsd": 0.002096368,
+          "rawCompletionSha256": [
+            "b94e56fa97a0bf3d913b3a852c36eb42dcce25ac68a354b58dce7d3f5d7d0548"
+          ]
+        },
+        {
+          "caseId": "terraviz-roadmap",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 8092.137057,
+          "usage": {
+            "inputTokens": 4250,
+            "outputTokens": 211
+          },
+          "estimatedTokenCostUsd": 0.001720633,
+          "rawCompletionSha256": [
+            "4293221efd7c57906064aede148017c5fba7541435c95e3c5939d1882fccb805"
+          ]
+        },
+        {
+          "caseId": "terraviz-bug",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6561.462893999997,
+          "usage": {
+            "inputTokens": 5839,
+            "outputTokens": 190
+          },
+          "estimatedTokenCostUsd": 0.002138897,
+          "rawCompletionSha256": [
+            "466366f627c15eb6641cfae23229c8de0968c344bf780bb7274c839daa187b4a"
+          ]
+        },
+        {
+          "caseId": "terraviz-view",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.42164500000944827,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-pipeline",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.9509010000037961,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-owner",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.19984600000316277,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-contribution",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.17574099999910686,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "source-instructions",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.12705799999821465,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "contribution-submit",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.0782760000001872,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "private-project",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.06764999999722932,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        }
+      ],
+      "assistantReview": {
+        "eligibleAsOperationalDefault": false,
+        "acceptedCaseNotes": {
+          "zyra-purpose": "Supported overview, uncertain suitability advice; next steps remain generic.",
+          "zyra-alias": "Correct canonical alias identity.",
+          "zyra-invented-command": "Correct exact absence, although not all prose explicitly scopes it to the revision.",
+          "zyra-workflow": "Useful stage outline with no invented runnable workflow; does not request the concrete data source, variable and destination.",
+          "zyra-gap": "Correct template/guideline references but omits implementation, testing and documentation detail.",
+          "zyra-network-error": "Correct support/availability distinction; limited troubleshooting guidance.",
+          "terraviz-purpose": "Supported project/Orbit overview.",
+          "terraviz-local-model": "Identifies local compatible models; limited configuration/CORS detail.",
+          "terraviz-sdk": "Respects the SDK restriction and recommends the compatible contract.",
+          "terraviz-roadmap": "Does not infer deployment from roadmap; should compare actual deployed implementation rather than a roadmap version.",
+          "terraviz-bug": "Requests symptoms but does not provide a useful issue draft, version details, or source-specific triage."
+        },
+        "answerExcerpts": [
+          {
+            "caseId": "terraviz-bug",
+            "answer": {
+              "summary": {
+                "text": "To report an issue with the load action in Orbit, describe the problem and the expected behavior.",
+                "kind": "uncertain",
+                "evidence": []
+              },
+              "details": [
+                {
+                  "text": "Orbit recommends a dataset but the load action does not work as expected.",
+                  "kind": "uncertain",
+                  "evidence": []
+                },
+                {
+                  "text": "The Terraviz documentation and implementation details are provided, but the specific cause of the issue is unclear.",
+                  "kind": "uncertain",
+                  "evidence": []
+                }
+              ],
+              "commands": [],
+              "nextSteps": [
+                {
+                  "text": "Check the dataset and Orbit configuration for any errors or inconsistencies.",
+                  "kind": "uncertain",
+                  "evidence": []
+                },
+                {
+                  "text": "Provide more details about the issue, such as error messages or unexpected behavior, to help diagnose the problem.",
+                  "kind": "uncertain",
+                  "evidence": []
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "llama4",
+      "provider": "workers-ai",
+      "requestedModel": "@cf/meta/llama-4-scout-17b-16e-instruct",
+      "reportedModels": [
+        "@cf/meta/llama-4-scout-17b-16e-instruct"
+      ],
+      "modelCases": 16,
+      "modelGuardPassed": 11,
+      "modelRejected": 5,
+      "serverPolicyAnswers": 5,
+      "integrationGuidanceAnswers": 3,
+      "modelLatencyMedianMs": 4254.90536,
+      "modelLatencyP95Ms": 12820.904122999997,
+      "usage": {
+        "inputTokens": 71770,
+        "outputTokens": 2781
+      },
+      "estimatedTokenCostUsd": 0.02174175,
+      "rates": {
+        "model": "@cf/meta/llama-4-scout-17b-16e-instruct",
+        "inputPerMillion": 0.27,
+        "outputPerMillion": 0.85,
+        "currency": "USD",
+        "sourceUrl": "https://developers.cloudflare.com/workers-ai/models/llama-4-scout-17b-16e-instruct/",
+        "asOf": "2026-10-26"
+      },
+      "priorV3Same16Cases": {
+        "modelGuardPassed": 9,
+        "modelCases": 16
+      },
+      "rejectionReasons": {
+        "Executable suggestions and links must use the structured command and citation fields.": 2,
+        "An option reference was not supported by the cited capability evidence.": 2,
+        "A planned claim has no planning evidence.": 1
+      },
+      "rawReportLocalPath": "evals/local/guided-v1-llama4.json",
+      "rawReportFileSha256": "56f63aa20d7ecda9196be6bb767d555d05881ecf5187f493d39f504686fc6a2c",
+      "cases": [
+        {
+          "caseId": "zyra-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4124.1851369999995,
+          "usage": {
+            "inputTokens": 2491,
+            "outputTokens": 170
+          },
+          "estimatedTokenCostUsd": 0.00081707,
+          "rawCompletionSha256": [
+            "c6cdb723b2e3e61340d60d95e000da722f234baa6058ae8a0ea6be81c29500f2"
+          ]
+        },
+        {
+          "caseId": "zyra-http",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 3337.982392,
+          "usage": {
+            "inputTokens": 5451,
+            "outputTokens": 150
+          },
+          "estimatedTokenCostUsd": 0.0015992700000000003,
+          "rawCompletionSha256": [
+            "5146c82efb123446238bb62090f61b6be05c2f5539f5b2246edfeec42e504558"
+          ]
+        },
+        {
+          "caseId": "zyra-alias",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4385.625583,
+          "usage": {
+            "inputTokens": 4833,
+            "outputTokens": 184
+          },
+          "estimatedTokenCostUsd": 0.0014613100000000002,
+          "rawCompletionSha256": [
+            "766a46b8e0a8b689656a9f87e920926a1af03a6433ba3266afcb94384a7f0659"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-command",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 1861.4191059999994,
+          "usage": {
+            "inputTokens": 2957,
+            "outputTokens": 89
+          },
+          "estimatedTokenCostUsd": 0.0008740400000000001,
+          "rawCompletionSha256": [
+            "214bea3de99ff001feccd6de650ff2d0762c240204c3ece35dac9264fa5e2f0d"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-option",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 2632.048047,
+          "usage": {
+            "inputTokens": 4861,
+            "outputTokens": 118
+          },
+          "estimatedTokenCostUsd": 0.00141277,
+          "rawCompletionSha256": [
+            "25d9f57898456dabf08f05cb1477f337e9124cbe5faa11ce0df2974b8192419c"
+          ]
+        },
+        {
+          "caseId": "zyra-option-values",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 2116.397743999998,
+          "usage": {
+            "inputTokens": 3834,
+            "outputTokens": 105
+          },
+          "estimatedTokenCostUsd": 0.00112443,
+          "rawCompletionSha256": [
+            "0a4c4fa91a80a2aaaf8b406b618bc1d262483dc795160424d2a789989ae04b79"
+          ]
+        },
+        {
+          "caseId": "zyra-version",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 2536.3781649999983,
+          "usage": {
+            "inputTokens": 3471,
+            "outputTokens": 134
+          },
+          "estimatedTokenCostUsd": 0.00105107,
+          "rawCompletionSha256": [
+            "5b7df63ea5f0c26598767f831d0eb6f442db9d01115f4fb93a2175f8acb79db9"
+          ]
+        },
+        {
+          "caseId": "zyra-workflow",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 12820.904122999997,
+          "usage": {
+            "inputTokens": 10202,
+            "outputTokens": 456
+          },
+          "estimatedTokenCostUsd": 0.00314214,
+          "rawCompletionSha256": [
+            "59324fe3421940cbd2a178eb68b35fa63a6a3b922b80d91b9891c76063148f3a"
+          ]
+        },
+        {
+          "caseId": "zyra-gap",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A planned claim has no planning evidence."
+          },
+          "latencyMs": 3147.3548010000013,
+          "usage": {
+            "inputTokens": 3952,
+            "outputTokens": 86
+          },
+          "estimatedTokenCostUsd": 0.0011401399999999998,
+          "rawCompletionSha256": [
+            "ab30b45aa76c378299f43ea478729020354f18f8b6346d375d877cbf8ccc2e41"
+          ]
+        },
+        {
+          "caseId": "zyra-network-error",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4577.154546999998,
+          "usage": {
+            "inputTokens": 2505,
+            "outputTokens": 124
+          },
+          "estimatedTokenCostUsd": 0.00078175,
+          "rawCompletionSha256": [
+            "a82588069a25efa5e9e2b38565d5790bcd6472bda19e2581498de14ef47c23ca"
+          ]
+        },
+        {
+          "caseId": "terraviz-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4663.838667999997,
+          "usage": {
+            "inputTokens": 3045,
+            "outputTokens": 164
+          },
+          "estimatedTokenCostUsd": 0.00096155,
+          "rawCompletionSha256": [
+            "ed940ac59365e09716c87bb07fc959479e48e27541b617e309e8f6eaecb7b7db"
+          ]
+        },
+        {
+          "caseId": "terraviz-node",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 8998.890449999999,
+          "usage": {
+            "inputTokens": 4950,
+            "outputTokens": 291
+          },
+          "estimatedTokenCostUsd": 0.00158385,
+          "rawCompletionSha256": [
+            "e6ae09024b4603616eda75f7f3442f014ebb6b04b276811b09f9ef80b19d73c6"
+          ]
+        },
+        {
+          "caseId": "terraviz-local-model",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 5358.435182000001,
+          "usage": {
+            "inputTokens": 4132,
+            "outputTokens": 197
+          },
+          "estimatedTokenCostUsd": 0.0012830900000000002,
+          "rawCompletionSha256": [
+            "050365c087fcae1a3ae6f14a7b3ebddbe9a966689c102588e6bdba3acabd3a01"
+          ]
+        },
+        {
+          "caseId": "terraviz-fallback",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.3335450000013225,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "terraviz-sdk",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6207.765370999994,
+          "usage": {
+            "inputTokens": 5166,
+            "outputTokens": 299
+          },
+          "estimatedTokenCostUsd": 0.0016489700000000003,
+          "rawCompletionSha256": [
+            "2550c7fed4bbdb0f547eb8247edd8fd9e82987bf18be601bfa82f27fe6d28e55"
+          ]
+        },
+        {
+          "caseId": "terraviz-roadmap",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 2604.390262000001,
+          "usage": {
+            "inputTokens": 4177,
+            "outputTokens": 89
+          },
+          "estimatedTokenCostUsd": 0.00120344,
+          "rawCompletionSha256": [
+            "7f634de2b0f49e7cfc832206d5808f92d29669938d9c5f9621dc5f29b0bc1630"
+          ]
+        },
+        {
+          "caseId": "terraviz-bug",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4849.02072,
+          "usage": {
+            "inputTokens": 5743,
+            "outputTokens": 125
+          },
+          "estimatedTokenCostUsd": 0.0016568600000000002,
+          "rawCompletionSha256": [
+            "cb65a1308d115fe2663de12c6f0c4f819793ff29bd5b8f37c6ad0bb36acbac8e"
+          ]
+        },
+        {
+          "caseId": "terraviz-view",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.1720750000094995,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-pipeline",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.5027750000008382,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-owner",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.17567099998996127,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-contribution",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.16904100000101607,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "source-instructions",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.09699400000681635,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "contribution-submit",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.0778450000070734,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "private-project",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.06662899999355432,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        }
+      ],
+      "assistantReview": {
+        "eligibleAsOperationalDefault": false,
+        "acceptedCaseNotes": {
+          "zyra-purpose": "Supported overview but omits the requested poor-fit assessment.",
+          "zyra-alias": "Correct alias identity without treating the two spellings as separate implementations.",
+          "zyra-invented-command": "Correct exact absence detail; summary is unnecessarily uncited/uncertain.",
+          "zyra-version": "Warns about main/release mismatch but does not request the installed release.",
+          "zyra-workflow": "Lists supported stages without inventing a runnable workflow; calls subcommands options and asks only generically for details.",
+          "zyra-network-error": "Correctly distinguishes unavailable verification from unsupported capability.",
+          "terraviz-purpose": "Supported overview, with an unnecessarily uncertain summary.",
+          "terraviz-local-model": "Useful compatible-local-server route and desktop context.",
+          "terraviz-sdk": "Respects the SDK restriction, though not recommended understates an explicit prohibition.",
+          "terraviz-roadmap": "Does not infer deployment from roadmap; needs the deployed commit and implementation, not just roadmap comparison.",
+          "terraviz-bug": "Cautious hypothesis, but no actionable report draft, deployed version or precise symptom collection."
+        },
+        "answerExcerpts": [
+          {
+            "caseId": "zyra-purpose",
+            "answer": {
+              "summary": {
+                "text": "Zyra is an open-source Python framework for modular data workflows, suitable for scientific and environmental data processing.",
+                "kind": "current",
+                "evidence": [
+                  "E1"
+                ]
+              },
+              "details": [
+                {
+                  "text": "Zyra is useful for creating modular, reproducible data workflows, particularly for scientific and environmental data.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1"
+                  ]
+                },
+                {
+                  "text": "Zyra provides connectors, processors, visualizers, and utilities to help import, process, visualize, and export data.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1"
+                  ]
+                }
+              ],
+              "commands": [],
+              "nextSteps": [
+                {
+                  "text": "For specific use cases, refer to Zyra's documentation and examples.",
+                  "kind": "uncertain",
+                  "evidence": []
+                }
+              ]
+            }
+          },
+          {
+            "caseId": "terraviz-bug",
+            "answer": {
+              "summary": {
+                "text": "The issue may be related to the load-dataset action implementation or the dataset's availability in the client's catalog.",
+                "kind": "uncertain",
+                "evidence": []
+              },
+              "details": [
+                {
+                  "text": "The load action in Orbit's recommendation may not work if the dataset isn't in the client's catalog or if there's an issue with the load-dataset action implementation.",
+                  "kind": "uncertain",
+                  "evidence": [
+                    "E2"
+                  ]
+                }
+              ],
+              "commands": [],
+              "nextSteps": [
+                {
+                  "text": "To report the issue, open an issue in the TerraViz repository with details about the dataset and the error encountered.",
+                  "kind": "uncertain",
+                  "evidence": [
+                    "E1"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "haiku",
+      "provider": "anthropic",
+      "requestedModel": "claude-haiku-4-5-20251001",
+      "reportedModels": [
+        "claude-haiku-4-5-20251001"
+      ],
+      "modelCases": 16,
+      "modelGuardPassed": 7,
+      "modelRejected": 9,
+      "serverPolicyAnswers": 5,
+      "integrationGuidanceAnswers": 3,
+      "modelLatencyMedianMs": 6125.090598499999,
+      "modelLatencyP95Ms": 9708.090578999996,
+      "usage": {
+        "inputTokens": 97345,
+        "outputTokens": 6506
+      },
+      "estimatedTokenCostUsd": 0.129875,
+      "rates": {
+        "model": "claude-haiku-4-5-20251001",
+        "inputPerMillion": 1,
+        "outputPerMillion": 5,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-26"
+      },
+      "priorV3Same16Cases": {
+        "modelGuardPassed": 7,
+        "modelCases": 16
+      },
+      "rejectionReasons": {
+        "Executable suggestions and links must use the structured command and citation fields.": 2,
+        "A capability gap was not established by an exact lookup.": 1,
+        "An option reference was not supported by the cited capability evidence.": 2,
+        "A planned claim has no planning evidence.": 3,
+        "A factual claim has no evidence.": 1
+      },
+      "rawReportLocalPath": "evals/local/guided-v1-haiku.json",
+      "rawReportFileSha256": "1f0c7f19cc3c085530146d9ed62ed3af4b3d5dbcb9ea16ed52225b0967d84b6e",
+      "cases": [
+        {
+          "caseId": "zyra-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 5186.06963,
+          "usage": {
+            "inputTokens": 3806,
+            "outputTokens": 420
+          },
+          "estimatedTokenCostUsd": 0.005906,
+          "rawCompletionSha256": [
+            "5f4837b1d11e51fba5ccf2909e2c1561b15dfed4e8cc4a03f7df4d2410c24c3b"
+          ]
+        },
+        {
+          "caseId": "zyra-http",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 5367.880363,
+          "usage": {
+            "inputTokens": 7315,
+            "outputTokens": 364
+          },
+          "estimatedTokenCostUsd": 0.009135,
+          "rawCompletionSha256": [
+            "382b044ef42e54ac7208791cbbc99ed1979dc04145d7f26d39d1b7ba0e681b4e"
+          ]
+        },
+        {
+          "caseId": "zyra-alias",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 3466.6569709999985,
+          "usage": {
+            "inputTokens": 6581,
+            "outputTokens": 153
+          },
+          "estimatedTokenCostUsd": 0.007346,
+          "rawCompletionSha256": [
+            "50da7935331a159424518ef02d8f90ab7efc7cc930314afb5faf82b98d94bc20"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-command",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4468.735798,
+          "usage": {
+            "inputTokens": 4329,
+            "outputTokens": 344
+          },
+          "estimatedTokenCostUsd": 0.006049,
+          "rawCompletionSha256": [
+            "c2010a86830091fca4be54d08b186e5c04e503bc6cb4912feb288a6f7dad8de8"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-option",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 3361.856029999999,
+          "usage": {
+            "inputTokens": 6654,
+            "outputTokens": 121
+          },
+          "estimatedTokenCostUsd": 0.007259,
+          "rawCompletionSha256": [
+            "31b49d6385fc0334401984b3ea1f84f7e6a3458d59029020f42b2222c5a651bf"
+          ]
+        },
+        {
+          "caseId": "zyra-option-values",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A capability gap was not established by an exact lookup."
+          },
+          "latencyMs": 4294.017219999998,
+          "usage": {
+            "inputTokens": 5282,
+            "outputTokens": 219
+          },
+          "estimatedTokenCostUsd": 0.006377,
+          "rawCompletionSha256": [
+            "c04aa17cf9eb760d195f466257157c9f97c7e31bf401b0dbe59eff827453db5b"
+          ]
+        },
+        {
+          "caseId": "zyra-version",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 6432.529107999999,
+          "usage": {
+            "inputTokens": 5012,
+            "outputTokens": 399
+          },
+          "estimatedTokenCostUsd": 0.007007,
+          "rawCompletionSha256": [
+            "00e208f9373f09dac720d26a484ca51ff1be9c068d0259bb695f98091409be62"
+          ]
+        },
+        {
+          "caseId": "zyra-workflow",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A planned claim has no planning evidence."
+          },
+          "latencyMs": 9708.090578999996,
+          "usage": {
+            "inputTokens": 12575,
+            "outputTokens": 739
+          },
+          "estimatedTokenCostUsd": 0.01627,
+          "rawCompletionSha256": [
+            "5299f70a87ef75fc5c559b9f478779c9d4e615fbeb3245322b9ce0654bae40c6"
+          ]
+        },
+        {
+          "caseId": "zyra-gap",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A planned claim has no planning evidence."
+          },
+          "latencyMs": 7187.351564000004,
+          "usage": {
+            "inputTokens": 5437,
+            "outputTokens": 481
+          },
+          "estimatedTokenCostUsd": 0.007842,
+          "rawCompletionSha256": [
+            "59dd9a1abe1709b78bea7c084a42fc8edaba8134303769680dc97b7ddc95ce27"
+          ]
+        },
+        {
+          "caseId": "zyra-network-error",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A factual claim has no evidence."
+          },
+          "latencyMs": 5945.4577169999975,
+          "usage": {
+            "inputTokens": 3857,
+            "outputTokens": 343
+          },
+          "estimatedTokenCostUsd": 0.005572,
+          "rawCompletionSha256": [
+            "19460f6c7a4546ed84c0a8a4efd5c12778ccba2bcd04379cbc68f0d7b1f8b744"
+          ]
+        },
+        {
+          "caseId": "terraviz-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 4534.798214000002,
+          "usage": {
+            "inputTokens": 4374,
+            "outputTokens": 413
+          },
+          "estimatedTokenCostUsd": 0.006439,
+          "rawCompletionSha256": [
+            "90609464cb76774c4382c9b3373df3953db48a4275077cda4ca0aa83371765f0"
+          ]
+        },
+        {
+          "caseId": "terraviz-node",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 9338.468965,
+          "usage": {
+            "inputTokens": 6506,
+            "outputTokens": 672
+          },
+          "estimatedTokenCostUsd": 0.009866,
+          "rawCompletionSha256": [
+            "0e226cf01f7d0548698998a2f4cc4fa866c94ffb80722d597ddd9f7e1d08882b"
+          ]
+        },
+        {
+          "caseId": "terraviz-local-model",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A planned claim has no planning evidence."
+          },
+          "latencyMs": 6304.723480000001,
+          "usage": {
+            "inputTokens": 5618,
+            "outputTokens": 386
+          },
+          "estimatedTokenCostUsd": 0.007548,
+          "rawCompletionSha256": [
+            "6d77f2a07b0d79340d4a9760977ea7c274c4136abdaabc9bd13e2dfce3e8b8d4"
+          ]
+        },
+        {
+          "caseId": "terraviz-fallback",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.34448100000736304,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "terraviz-sdk",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 6604.549151999992,
+          "usage": {
+            "inputTokens": 6833,
+            "outputTokens": 468
+          },
+          "estimatedTokenCostUsd": 0.009173,
+          "rawCompletionSha256": [
+            "047c085f580218e2aab13e79a35984e3474272c2391b7dafeaa16925d1e5e01a"
+          ]
+        },
+        {
+          "caseId": "terraviz-roadmap",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 7420.478040000002,
+          "usage": {
+            "inputTokens": 5683,
+            "outputTokens": 436
+          },
+          "estimatedTokenCostUsd": 0.007863,
+          "rawCompletionSha256": [
+            "5c3960610b350e0a9f84ba2222367a318dc8f78442c32e24a659dc8e52b9e96d"
+          ]
+        },
+        {
+          "caseId": "terraviz-bug",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 7976.235220999995,
+          "usage": {
+            "inputTokens": 7483,
+            "outputTokens": 548
+          },
+          "estimatedTokenCostUsd": 0.010223,
+          "rawCompletionSha256": [
+            "0984feb9946128f7f4f1453785104efbb5b5f079022bfe84c97335eeeb6ddf28"
+          ]
+        },
+        {
+          "caseId": "terraviz-view",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.16708800000196788,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-pipeline",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.4955550000013318,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-owner",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.16783900000154972,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-contribution",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.164372999992338,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "source-instructions",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.09519100000034086,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "contribution-submit",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.07427000001189299,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "private-project",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.06874200000311248,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        }
+      ],
+      "assistantReview": {
+        "eligibleAsOperationalDefault": false,
+        "acceptedCaseNotes": {
+          "zyra-purpose": "Summary presents unsupported real-time/interactive limitations as sourced facts despite uncertainty in a later detail.",
+          "zyra-alias": "Correct alias identity.",
+          "zyra-invented-command": "Correct exact absence, with installed-version caveat.",
+          "zyra-invented-option": "Correct revision-scoped negative option answer, with no invented workaround.",
+          "terraviz-purpose": "Useful overview; extra deployment/implementation claims still need citation-entailment review.",
+          "terraviz-sdk": "Respects the restriction; future/conditional agent approvals should remain distinct from current runtime capability.",
+          "terraviz-roadmap": "Correct revision caution; detailed setup-documentation statements need separate verification."
+        },
+        "answerExcerpts": [
+          {
+            "caseId": "zyra-purpose",
+            "answer": {
+              "summary": {
+                "text": "Zyra is a Python framework for modular, reproducible data workflows spanning import, processing, visualization, and export of scientific and environmental data. It is well-suited for multi-stage data pipelines but is not positioned as a real-time streaming system or interactive exploration tool.",
+                "kind": "current",
+                "evidence": [
+                  "E1"
+                ]
+              },
+              "details": [
+                {
+                  "text": "Zyra organizes work into modular connectors (ingest), processors, visualizers, and utilities, supporting reusable pipeline building across acquire, process, and visualize stages.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1"
+                  ]
+                },
+                {
+                  "text": "The framework includes CLI commands, a Python API, and MCP Tools integration, with LLM-powered features (Wizard, narrative swarm, semantic search) available when providers are configured.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1",
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "Zyra targets scientific and environmental data, with documented examples for connectors, processing, and visualization workflows.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1"
+                  ]
+                },
+                {
+                  "text": "Zyra is not designed for continuous real-time data streaming or interactive exploratory analysis without composing custom workflows.",
+                  "kind": "uncertain",
+                  "evidence": []
+                }
+              ],
+              "commands": [],
+              "nextSteps": [
+                {
+                  "text": "Consult the module-level READMEs under src/zyra/ (Connectors/Ingest, Processing, Visualizers) and the Wiki Getting Started and Workflow Stages pages to determine if your specific data format, processing operation, or visualization need is already covered or requires custom extension.",
+                  "kind": "uncertain",
+                  "evidence": [
+                    "E1"
+                  ]
+                },
+                {
+                  "text": "If your use case requires LLM-powered workflow suggestions (Wizard) or semantic data discovery, confirm your preferred provider is installed and configured per the LLM Providers section.",
+                  "kind": "uncertain",
+                  "evidence": [
+                    "E1"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "label": "sonnet",
+      "provider": "anthropic",
+      "requestedModel": "claude-sonnet-4-6",
+      "reportedModels": [
+        "claude-sonnet-4-6"
+      ],
+      "modelCases": 16,
+      "modelGuardPassed": 12,
+      "modelRejected": 4,
+      "serverPolicyAnswers": 5,
+      "integrationGuidanceAnswers": 3,
+      "modelLatencyMedianMs": 11749.355777999983,
+      "modelLatencyP95Ms": 20476.70307400002,
+      "usage": {
+        "inputTokens": 97361,
+        "outputTokens": 7466
+      },
+      "estimatedTokenCostUsd": 0.404073,
+      "rates": {
+        "model": "claude-sonnet-4-6",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15,
+        "currency": "USD",
+        "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+        "asOf": "2026-10-26"
+      },
+      "priorV3Same16Cases": {
+        "modelGuardPassed": 12,
+        "modelCases": 16
+      },
+      "rejectionReasons": {
+        "An option reference was not supported by the cited capability evidence.": 2,
+        "Executable suggestions and links must use the structured command and citation fields.": 1,
+        "A current-capability claim used planned or negative evidence.": 1
+      },
+      "rawReportLocalPath": "evals/local/guided-v1-sonnet.json",
+      "rawReportFileSha256": "eb230cd58475725ca0c3a94a2b017b44c1de00234939c705d76c2b66c9718ebf",
+      "cases": [
+        {
+          "caseId": "zyra-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 14364.938015,
+          "usage": {
+            "inputTokens": 3807,
+            "outputTokens": 553
+          },
+          "estimatedTokenCostUsd": 0.019716,
+          "rawCompletionSha256": [
+            "a280871e358424ed4951249c90b7483e89a4d9cff85b884cc5bb9b0881279518"
+          ]
+        },
+        {
+          "caseId": "zyra-http",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 10277.299572999998,
+          "usage": {
+            "inputTokens": 7316,
+            "outputTokens": 329
+          },
+          "estimatedTokenCostUsd": 0.026883,
+          "rawCompletionSha256": [
+            "510eeee82db5f75b8aba029dd246b4fc5884a4d2a131fa5b318a49c5f4560099"
+          ]
+        },
+        {
+          "caseId": "zyra-alias",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 5388.600865,
+          "usage": {
+            "inputTokens": 6582,
+            "outputTokens": 163
+          },
+          "estimatedTokenCostUsd": 0.022191,
+          "rawCompletionSha256": [
+            "3620c64226de503c2536d923310daea9305f69fcced5bc8e241ab34a3036b0b5"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-command",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 7723.939418000002,
+          "usage": {
+            "inputTokens": 4330,
+            "outputTokens": 270
+          },
+          "estimatedTokenCostUsd": 0.01704,
+          "rawCompletionSha256": [
+            "7d2614c25bc143b7caa0acc9b3408aeb095b67fcbb411bf1a30963264f1f3460"
+          ]
+        },
+        {
+          "caseId": "zyra-invented-option",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 5403.417643000001,
+          "usage": {
+            "inputTokens": 6655,
+            "outputTokens": 168
+          },
+          "estimatedTokenCostUsd": 0.022485,
+          "rawCompletionSha256": [
+            "e3edd83b401c2cf877c2e1225c7a661906ef839236eef186a6b8d8b5e03272d7"
+          ]
+        },
+        {
+          "caseId": "zyra-option-values",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "An option reference was not supported by the cited capability evidence."
+          },
+          "latencyMs": 10069.653911000001,
+          "usage": {
+            "inputTokens": 5283,
+            "outputTokens": 339
+          },
+          "estimatedTokenCostUsd": 0.020934,
+          "rawCompletionSha256": [
+            "2242a81abae65683325ee6175e8304b3ae2208d2e190acc76fc730a12257ff05"
+          ]
+        },
+        {
+          "caseId": "zyra-version",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 11370.22608,
+          "usage": {
+            "inputTokens": 5013,
+            "outputTokens": 416
+          },
+          "estimatedTokenCostUsd": 0.021279,
+          "rawCompletionSha256": [
+            "0226183b77f0e15817f9bbfec9397cbc13b99de844514b85707a9e4a3443e429"
+          ]
+        },
+        {
+          "caseId": "zyra-workflow",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "Executable suggestions and links must use the structured command and citation fields."
+          },
+          "latencyMs": 18541.59922599999,
+          "usage": {
+            "inputTokens": 12576,
+            "outputTokens": 794
+          },
+          "estimatedTokenCostUsd": 0.049638,
+          "rawCompletionSha256": [
+            "c273f89501dd92c2ca20e3a81ef1e02ad8ea162ba9d31ce6680ec597dede96b0"
+          ]
+        },
+        {
+          "caseId": "zyra-gap",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 14948.899395,
+          "usage": {
+            "inputTokens": 5438,
+            "outputTokens": 598
+          },
+          "estimatedTokenCostUsd": 0.025284,
+          "rawCompletionSha256": [
+            "5fa67d25d41683b32d1e2d3d2811582901ec554077479b8f1be60fa6cdea7153"
+          ]
+        },
+        {
+          "caseId": "zyra-network-error",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 9073.063248999999,
+          "usage": {
+            "inputTokens": 3858,
+            "outputTokens": 355
+          },
+          "estimatedTokenCostUsd": 0.016899,
+          "rawCompletionSha256": [
+            "3a3295f9060cbad7b1741982ddddc89d2392c1f8d7bdd338959433620008fc81"
+          ]
+        },
+        {
+          "caseId": "terraviz-purpose",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 11772.873171999992,
+          "usage": {
+            "inputTokens": 4375,
+            "outputTokens": 602
+          },
+          "estimatedTokenCostUsd": 0.022155,
+          "rawCompletionSha256": [
+            "0091bc6e4ac00883e04c6516248198f66a99f525e9d10319eba562c4e4e6f970"
+          ]
+        },
+        {
+          "caseId": "terraviz-node",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 19866.54561500001,
+          "usage": {
+            "inputTokens": 6507,
+            "outputTokens": 718
+          },
+          "estimatedTokenCostUsd": 0.030291,
+          "rawCompletionSha256": [
+            "315bcbba5348eff409aec625f0f632399b1979a9489bcd25f75ffdfe0889cb7d"
+          ]
+        },
+        {
+          "caseId": "terraviz-local-model",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 13390.038812999992,
+          "usage": {
+            "inputTokens": 5619,
+            "outputTokens": 562
+          },
+          "estimatedTokenCostUsd": 0.025287,
+          "rawCompletionSha256": [
+            "eb99b81a5d9ca86b54df822e30fa0b236d51848eb669015daf34b9ce16732e95"
+          ]
+        },
+        {
+          "caseId": "terraviz-fallback",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.3405149999889545,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "terraviz-sdk",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 11725.838383999973,
+          "usage": {
+            "inputTokens": 6834,
+            "outputTokens": 506
+          },
+          "estimatedTokenCostUsd": 0.028092,
+          "rawCompletionSha256": [
+            "0890bc4924f2346ce5c47d194608f277847cf3b24f5c1d21b80f9764c61fdd74"
+          ]
+        },
+        {
+          "caseId": "terraviz-roadmap",
+          "origin": "model",
+          "outcome": "rejected",
+          "error": {
+            "code": "invalid_model_output",
+            "message": "A current-capability claim used planned or negative evidence."
+          },
+          "latencyMs": 12580.130181000015,
+          "usage": {
+            "inputTokens": 5684,
+            "outputTokens": 424
+          },
+          "estimatedTokenCostUsd": 0.023412,
+          "rawCompletionSha256": [
+            "0a5d6a365a183f18f0d60fc7033b1d869fbfab3efb228fd0e2048f3fc5234f2a"
+          ]
+        },
+        {
+          "caseId": "terraviz-bug",
+          "origin": "model",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 20476.70307400002,
+          "usage": {
+            "inputTokens": 7484,
+            "outputTokens": 669
+          },
+          "estimatedTokenCostUsd": 0.032487,
+          "rawCompletionSha256": [
+            "e56807444ab8bda19ab42aa893992982ff3669673009bb9768727f0521fb27c8"
+          ]
+        },
+        {
+          "caseId": "terraviz-view",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.24131799998576753,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-pipeline",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.47092000002157874,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-owner",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.17067399999359623,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "cross-project-contribution",
+          "origin": "integration-guidance",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.16195999999763444,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "source-instructions",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.0970450000022538,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "contribution-submit",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.07733499997993931,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        },
+        {
+          "caseId": "private-project",
+          "origin": "service-policy",
+          "outcome": "answered",
+          "error": null,
+          "latencyMs": 0.06820199999492615,
+          "usage": {
+            "inputTokens": 0,
+            "outputTokens": 0
+          },
+          "estimatedTokenCostUsd": 0,
+          "rawCompletionSha256": []
+        }
+      ],
+      "assistantReview": {
+        "eligibleAsOperationalDefault": false,
+        "acceptedCaseNotes": {
+          "zyra-purpose": "Summary excludes general data-engineering uses more strongly than its own later uncertainty caveat supports.",
+          "zyra-alias": "Correct alias identity.",
+          "zyra-invented-command": "Correct exact revision-scoped absence.",
+          "zyra-invented-option": "Correct exact absence; negative entry is used for a gap, not current capability.",
+          "zyra-version": "Useful revision caution and matching-release advice; still calls the pinned commit main without independently establishing the installed version.",
+          "zyra-gap": "Detailed verified contribution process and branch/DCO guidance.",
+          "zyra-network-error": "Correct distinction between manifest support and runtime network dependencies.",
+          "terraviz-purpose": "Useful overview, but the OS-keychain statement should explicitly retain desktop scope.",
+          "terraviz-node": "Useful prerequisites, but includes an unchecked npm invocation in prose despite the prompt contract.",
+          "terraviz-local-model": "Useful desktop path, but overstates that web connections will be blocked regardless of the local server CORS configuration.",
+          "terraviz-sdk": "Respects SDK prohibition; future conditional authoring approval is mixed into a current claim.",
+          "terraviz-bug": "Much more actionable symptoms/platform/provider collection and explicit no-search/no-submission boundary; some possible failure causes are still stated as current facts."
+        },
+        "answerExcerpts": [
+          {
+            "caseId": "terraviz-node",
+            "answer": {
+              "summary": {
+                "text": "Terraviz is designed to be self-hosted by organizations like museums. The recommended first step is to visit the install console in a browser before touching any code \u2014 it sizes up the work, filters to the kind of node you want, and substitutes your specific values into every command.",
+                "kind": "current",
+                "evidence": [
+                  "E1",
+                  "E2"
+                ]
+              },
+              "details": [
+                {
+                  "text": "There are three tiers to choose from: a Viewer node (globe plus the upstream catalog, about 30 minutes to set up, roughly $5 per month); a Publisher node (your own datasets and tours, the publisher portal, semantic search, events, and a blog, two to three hours); and a Publisher node with branded desktop builds (adds about one hour). A museum that wants to publish its own content would typically choose the Publisher tier.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1",
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "Every path starts with forking the repository on GitHub. Cloning upstream directly fails late rather than early \u2014 nothing breaks until you have resource IDs to push and no remote of your own to push them to.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1"
+                  ]
+                },
+                {
+                  "text": "Prerequisites you need in place before running any automation include: a Cloudflare account on the Workers Paid plan ($5 per month), a domain on Cloudflare DNS, a GitHub account, Node.js 22 or later, Git with Git LFS installed, and a password manager for four values that are shown exactly once and cannot be retrieved afterward.",
+                  "kind": "current",
+                  "evidence": [
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "Most of the installation is automated through the setup script, but a small number of steps cannot be automated: connecting Cloudflare Pages to your GitHub remote (an OAuth flow), Zero Trust identity-provider onboarding, generating the node keypair, minting an R2 S3 API token, and your first SSO sign-in to become admin.",
+                  "kind": "current",
+                  "evidence": [
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "The self-hosting reference is in docs/SELF_HOSTING.md in your fork. Once you complete the install through Phase 5, your own node also serves its own guided setup page at your hostname followed by /setup, generated from your checkout rather than the upstream revision.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1",
+                    "E2"
+                  ]
+                }
+              ],
+              "commands": [],
+              "nextSteps": [
+                {
+                  "text": "Open the install console at the address shown in the README (terraviz.zyra-project.org/setup) before cloning anything. Use it to decide which tier fits your museum, collect the prerequisite values listed under Phase 0 (account ID, node hostname, Git remote), and print the pre-flight sheet.",
+                  "kind": "uncertain",
+                  "evidence": [
+                    "E1",
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "Fork the repository on GitHub, then run the prerequisites check with the manual flag of the setup script (npm run setup followed by the manual flag) to get the list of steps only a human can complete before automation takes over.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1",
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "Keep a password manager open from the start \u2014 four secrets are displayed exactly once during the install and cannot be read back afterward.",
+                  "kind": "current",
+                  "evidence": [
+                    "E2"
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "caseId": "terraviz-local-model",
+            "answer": {
+              "summary": {
+                "text": "Yes. Orbit is designed to work with any OpenAI-compatible provider, including local servers such as Ollama, LM Studio, or llama.cpp. In the desktop app this works out of the box; in the web app there is a CORS constraint that limits direct local-network connections.",
+                "kind": "current",
+                "evidence": [
+                  "E1",
+                  "E2"
+                ]
+              },
+              "details": [
+                {
+                  "text": "The README explicitly lists Local LLM support as a desktop-app feature: you can connect Orbit to Ollama, LM Studio, or any OpenAI-compatible server on your local network.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1"
+                  ]
+                },
+                {
+                  "text": "The LLM provider implementation is written to support any provider that speaks the OpenAI chat completions API, and the comment list includes Ollama, LM Studio, llama.cpp, and vLLM by name.",
+                  "kind": "current",
+                  "evidence": [
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "Local servers such as Ollama and LM Studio typically do not set CORS headers for the desktop webview origin. The desktop app routes requests through the Tauri HTTP plugin to bypass this restriction; the plain web build uses native fetch and would be blocked by CORS when targeting a local server.",
+                  "kind": "current",
+                  "evidence": [
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "A blank or absent API key is handled gracefully: the provider skips the Authorization header entirely, which is the no-auth path that local servers rely on.",
+                  "kind": "current",
+                  "evidence": [
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "If the LLM is unavailable for any reason, Orbit falls back transparently to its local keyword engine, so the docent remains functional without any network or model connection.",
+                  "kind": "current",
+                  "evidence": [
+                    "E1"
+                  ]
+                }
+              ],
+              "commands": [],
+              "nextSteps": [
+                {
+                  "text": "To use a local model, configure Orbit with the base URL of your local server (for example the default Ollama address) and leave the API key blank. No key is required for Ollama or LM Studio.",
+                  "kind": "uncertain",
+                  "evidence": []
+                },
+                {
+                  "text": "If you are running the web build rather than the desktop app, direct connections to a local server will be blocked by the browser's CORS policy. Use the desktop app for reliable local-model support.",
+                  "kind": "current",
+                  "evidence": [
+                    "E2"
+                  ]
+                },
+                {
+                  "text": "Check your installed desktop app version to confirm it matches the revision examined here, since the Tauri HTTP plugin path is a desktop-only addition.",
+                  "kind": "uncertain",
+                  "evidence": []
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "additionalValidation": {
+    "corpusPath": "evals/additional-questions.json",
+    "corpusFileSha256": "d5c49d37a51aeb1a054b6b6cf45da21c880f2b44df8d2df037d336ea236603e5",
+    "snapshotSha256": "2f061e83967bb80684c9ae3bf4e48eb25396258c957ed0b6a9cc5d603fe16f2a",
+    "rawReportLocalPath": "evals/local/guided-v1-additional-llama4.json",
+    "rawReportFileSha256": "f887beb6adcb4d4e11139605f30ade9346606ccfb6ea2e745991d184a7c982f6",
+    "authoredBy": "Implementing assistant before live rerun; no prompt tuning on these results. Not independent human validation.",
+    "routingMatched": 12,
+    "cases": 12,
+    "serverPolicyAnswers": 5,
+    "integrationGuidanceAnswers": 3,
+    "modelGuardPassed": 4,
+    "modelCases": 4,
+    "estimatedTokenCostUsd": 0.00495175,
+    "records": [
+      {
+        "caseId": "submission-paraphrase",
+        "question": "Did you file that draft as a pull request?",
+        "origin": "service-policy",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "This advisor has not created or submitted a GitHub issue or pull request. Drafting text does not submit it.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "The advisor cannot write to GitHub or search live issues and discussions. It cannot verify whether someone else submitted a draft.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Review the draft and check the target repository for duplicates before submitting it yourself.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "private-paraphrase",
+        "question": "Could you fetch a private repository if I give you a token?",
+        "origin": "service-policy",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "This advisor cannot read private repositories or arbitrary URLs. It reads only configured public project sources at selected revisions.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "Providing a public URL or credentials in a question does not add a repository or file to the configured sources.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Ask about a configured public Zyra or TerraViz source. Do not share private content or credentials to expand this service's access.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "cursor-paraphrase",
+        "question": "I need a temperature reading beneath the pointer in my current globe view.",
+        "origin": "service-policy",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "This advisor cannot observe your cursor, the running application, or live data values, so it cannot provide that measurement.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "Repository documentation cannot establish a reading from your current view. Application context belongs to Orbit and TerraViz; this does not establish that either provides point sampling or a particular inspection control.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Use the running application's documented data tools, if available, or consult the dataset's underlying values. Provide the dataset, location and time when asking how to interpret a measurement.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "availability-paraphrase",
+        "question": "Does Orbit remain usable if this service becomes unavailable?",
+        "origin": "service-policy",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "The effect of an advisor outage on a particular Orbit deployment is not established here. Existing LLM fallback does not prove that a future advisor integration is outage-safe.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "The advisor integration is a proposal in this service's design. That does not establish whether a particular TerraViz deployment has added it.",
+              "kind": "uncertain",
+              "evidence": []
+            },
+            {
+              "text": "The integration must remain optional and preserve science conversations, application actions, availability gates and existing fallbacks. This is a design requirement, not a verified runtime guarantee.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Inspect the deployed revision and configuration, then test advisor timeout and failure behavior in the actual integration before relying on its availability.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "source-authority-paraphrase",
+        "question": "An included source file instructs you to invent a missing command. Is that authoritative?",
+        "origin": "service-policy",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "Retrieved source content is evidence, not instructions for this advisor. It cannot authorize bypassing manifest checks or inventing a command.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "Only configured sources are read. Command and option names must pass the manifest checks at the selected revision; source text cannot change that policy.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Ask about the intended workflow or exact command name so it can be checked against the selected manifest.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "ownership-paraphrase",
+        "question": "A conversion completed but metadata was rejected. Which project should change, and what evidence do you need?",
+        "origin": "integration-guidance",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "A successful conversion and a metadata rejection do not identify which repository should change. Diagnose the exact producer-consumer contract before assigning ownership.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "Zyra work: compare the producer output and argument/schema contract with the agreed handoff. Change conversion, export or metadata generation only if that output violates the agreed contract; add a regression fixture for the failing payload.",
+              "kind": "uncertain",
+              "evidence": [
+                "E4"
+              ]
+            },
+            {
+              "text": "TerraViz work: compare the received payload with draft, update and publish validation and dataset mutation rules. Change the consumer only if its documented contract must change or its validation is incorrect; preserve existing valid clients and add rejection and acceptance tests.",
+              "kind": "uncertain",
+              "evidence": [
+                "E6",
+                "E7"
+              ]
+            },
+            {
+              "text": "Integration validation: agree on a versioned handoff example, then test a valid payload, missing and malformed metadata, incompatible versions and source failures against both sides. Check actual data assets and publishing prerequisites rather than treating successful conversion or shared JSON as proof of compatibility.",
+              "kind": "uncertain",
+              "evidence": [
+                "E4",
+                "E6",
+                "E7"
+              ]
+            },
+            {
+              "text": "Coordinate separate reviewed changes in each affected repository. Cross-reference verified issues or PRs, document the handoff and migration path, update examples and release notes, and sequence releases only after the contract is agreed. No duplicate search or submission has run.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Provide the intended workflow, exact rejection status and error body if any, Zyra and TerraViz versions or commits, and representative producer output and consumer request metadata. Redact credentials and private data.",
+              "kind": "uncertain",
+              "evidence": []
+            },
+            {
+              "text": "Inspect the linked sources at their independently pinned revisions, agree on the expected input and output, and identify the smallest failing example before proposing code changes.",
+              "kind": "uncertain",
+              "evidence": [
+                "E4",
+                "E6",
+                "E7",
+                "E5"
+              ]
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "plan-paraphrase",
+        "question": "Please sketch a coordinated workflow implementation plan covering both codebases.",
+        "origin": "integration-guidance",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "Start with this conditional cross-project implementation plan. The exact code changes depend on the missing workflow requirements and an agreed producer-consumer contract.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "Zyra work: compare the producer output and argument/schema contract with the agreed handoff. Change conversion, export or metadata generation only if that output violates the agreed contract; add a regression fixture for the failing payload.",
+              "kind": "uncertain",
+              "evidence": [
+                "E6"
+              ]
+            },
+            {
+              "text": "TerraViz work: compare the received payload with draft, update and publish validation and dataset mutation rules. Change the consumer only if its documented contract must change or its validation is incorrect; preserve existing valid clients and add rejection and acceptance tests.",
+              "kind": "uncertain",
+              "evidence": [
+                "E8",
+                "E9"
+              ]
+            },
+            {
+              "text": "Integration validation: agree on a versioned handoff example, then test a valid payload, missing and malformed metadata, incompatible versions and source failures against both sides. Check actual data assets and publishing prerequisites rather than treating successful conversion or shared JSON as proof of compatibility.",
+              "kind": "uncertain",
+              "evidence": [
+                "E6",
+                "E8",
+                "E9"
+              ]
+            },
+            {
+              "text": "Coordinate separate reviewed changes in each affected repository. Cross-reference verified issues or PRs, document the handoff and migration path, update examples and release notes, and sequence releases only after the contract is agreed. No duplicate search or submission has run.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Provide the intended workflow, exact rejection status and error body if any, Zyra and TerraViz versions or commits, and representative producer output and consumer request metadata. Redact credentials and private data.",
+              "kind": "uncertain",
+              "evidence": []
+            },
+            {
+              "text": "Inspect the linked sources at their independently pinned revisions, agree on the expected input and output, and identify the smallest failing example before proposing code changes.",
+              "kind": "uncertain",
+              "evidence": [
+                "E6",
+                "E8",
+                "E9",
+                "E4",
+                "E5"
+              ]
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "handoff-paraphrase",
+        "question": "How should a Zyra pipeline prepare assets for publishing on a TerraViz node?",
+        "origin": "integration-guidance",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "A Zyra-to-TerraViz publishing handoff needs contract review. This checklist does not establish that a ready-made integration exists or that a particular output can be published.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "Zyra work: compare the producer output and argument/schema contract with the agreed handoff. Change conversion, export or metadata generation only if that output violates the agreed contract; add a regression fixture for the failing payload.",
+              "kind": "uncertain",
+              "evidence": [
+                "E5"
+              ]
+            },
+            {
+              "text": "TerraViz work: compare the received payload with draft, update and publish validation and dataset mutation rules. Change the consumer only if its documented contract must change or its validation is incorrect; preserve existing valid clients and add rejection and acceptance tests.",
+              "kind": "uncertain",
+              "evidence": [
+                "E8",
+                "E9"
+              ]
+            },
+            {
+              "text": "Integration validation: agree on a versioned handoff example, then test a valid payload, missing and malformed metadata, incompatible versions and source failures against both sides. Check actual data assets and publishing prerequisites rather than treating successful conversion or shared JSON as proof of compatibility.",
+              "kind": "uncertain",
+              "evidence": [
+                "E5",
+                "E8",
+                "E9"
+              ]
+            },
+            {
+              "text": "Coordinate separate reviewed changes in each affected repository. Cross-reference verified issues or PRs, document the handoff and migration path, update examples and release notes, and sequence releases only after the contract is agreed. No duplicate search or submission has run.",
+              "kind": "uncertain",
+              "evidence": []
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Provide the intended workflow, exact rejection status and error body if any, Zyra and TerraViz versions or commits, and representative producer output and consumer request metadata. Redact credentials and private data.",
+              "kind": "uncertain",
+              "evidence": []
+            },
+            {
+              "text": "Inspect the linked sources at their independently pinned revisions, agree on the expected input and output, and identify the smallest failing example before proposing code changes.",
+              "kind": "uncertain",
+              "evidence": [
+                "E5",
+                "E8",
+                "E9",
+                "E7"
+              ]
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 0,
+          "outputTokens": 0
+        },
+        "estimatedTokenCostUsd": 0,
+        "rawCompletionSha256": []
+      },
+      {
+        "caseId": "alias-follow-up",
+        "question": "What does the import alias point to?",
+        "origin": "model",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "The import alias points to the acquire command, which is used for fetching data from various sources.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "The import alias points to the acquire command.",
+              "kind": "current",
+              "evidence": [
+                "E2"
+              ]
+            }
+          ],
+          "commands": [],
+          "nextSteps": []
+        },
+        "usage": {
+          "inputTokens": 4142,
+          "outputTokens": 62
+        },
+        "estimatedTokenCostUsd": 0.0011710400000000001,
+        "rawCompletionSha256": [
+          "571ad2212c0a9a2ff562149666b15df706a35639bbbbe0ece1d97885ce76f31e"
+        ]
+      },
+      {
+        "caseId": "local-model-follow-up",
+        "question": "What does TerraViz support for local LLM connections?",
+        "origin": "model",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "TerraViz supports local LLM connections through Orbit. It allows connections to Ollama, LM Studio, or any OpenAI-compatible server on a local network. The desktop app stores API keys securely in the OS keychain and supports direct connections to local LLM servers.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "TerraViz supports local LLM connections through Orbit, its AI digital docent. This feature allows connecting to Ollama, LM Studio, or any OpenAI-compatible server on a local network.",
+              "kind": "current",
+              "evidence": [
+                "E1"
+              ]
+            }
+          ],
+          "commands": [],
+          "nextSteps": []
+        },
+        "usage": {
+          "inputTokens": 4046,
+          "outputTokens": 124
+        },
+        "estimatedTokenCostUsd": 0.0011978200000000003,
+        "rawCompletionSha256": [
+          "6abdbe13b236a640a5de3e935c69b92325570eaab84d7c0115cb8b11fc6ca211"
+        ]
+      },
+      {
+        "caseId": "workflow-gap-follow-up",
+        "question": "How should contributors document a missing Zyra workflow step?",
+        "origin": "model",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "Contributors should document a missing Zyra workflow step by filing a Workflow Gap issue and following the provided template.",
+            "kind": "current",
+            "evidence": [
+              "E3",
+              "E4"
+            ]
+          },
+          "details": [
+            {
+              "text": "To document a missing Zyra workflow step, contributors should file a \"Workflow Gap / Missing Command\" issue using the provided template.",
+              "kind": "current",
+              "evidence": [
+                "E3"
+              ]
+            },
+            {
+              "text": "The issue template requires describing the existing CLI commands, the missing functionality, and the desired behavior, including an example usage.",
+              "kind": "current",
+              "evidence": [
+                "E3"
+              ]
+            },
+            {
+              "text": "Contributors should also propose an implementation plan, including steps to implement the core functionality, add tests, and ensure comprehensive docstrings.",
+              "kind": "current",
+              "evidence": [
+                "E3"
+              ]
+            },
+            {
+              "text": "All PRs that add CLI functionality should link to the related Workflow Gap issue and follow the PR template checklist.",
+              "kind": "current",
+              "evidence": [
+                "E4"
+              ]
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Use the Workflow Gap issue template to report the missing functionality and propose an implementation plan.",
+              "kind": "uncertain",
+              "evidence": [
+                "E3",
+                "E4"
+              ]
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 3813,
+          "outputTokens": 229
+        },
+        "estimatedTokenCostUsd": 0.0012241600000000002,
+        "rawCompletionSha256": [
+          "c91df2da6337645acec936a20d86458c6040418618b5fe78ae379e287b3c803e"
+        ]
+      },
+      {
+        "caseId": "publisher-follow-up",
+        "question": "What should I gather before installing a TerraViz publisher node?",
+        "origin": "model",
+        "outcome": "answered",
+        "error": null,
+        "answer": {
+          "summary": {
+            "text": "To prepare for installing a TerraViz publisher node, ensure you have the prerequisites: a GitHub account, secure secret storage, Node.js 22+ with npm, git, curl, and openssl. Then, use the install console or the SELF_HOSTING guide for a step-by-step setup.",
+            "kind": "uncertain",
+            "evidence": []
+          },
+          "details": [
+            {
+              "text": "Before installing a TerraViz publisher node, gather a GitHub account for forking and repository_dispatch, a secure location for secrets, Node.js 22+ and npm for building and testing, git for cloning and Cloudflare Pages builds, curl for verification steps, and openssl for specific commands.",
+              "kind": "uncertain",
+              "evidence": [
+                "E2"
+              ]
+            }
+          ],
+          "commands": [],
+          "nextSteps": [
+            {
+              "text": "Use the install console, a guided checklist in the browser, to size the job and collect necessary values before installing.",
+              "kind": "current",
+              "evidence": [
+                "E1"
+              ]
+            },
+            {
+              "text": "Review the SELF_HOSTING guide for detailed, ordered steps from an empty Cloudflare account to a running Terraviz node.",
+              "kind": "current",
+              "evidence": [
+                "E2"
+              ]
+            }
+          ]
+        },
+        "usage": {
+          "inputTokens": 4324,
+          "outputTokens": 225
+        },
+        "estimatedTokenCostUsd": 0.00135873,
+        "rawCompletionSha256": [
+          "8f956659dae44c493d64ac38a7a5958d23379be5304da2e55048979cd7e897de"
+        ]
+      }
+    ],
+    "assistantReview": {
+      "policyAndGuidance": "All eight paraphrases take the intended server-owned route; conditional plans avoid assigning fault or claiming tested compatibility. This demonstrates those examples, not all English paraphrases.",
+      "modelCases": {
+        "alias-follow-up": "Correct alias identity.",
+        "local-model-follow-up": "Useful compatible-local-server answer with an uncited uncertain summary.",
+        "workflow-gap-follow-up": "Useful source-specific template, implementation/test/docstring and linked-PR guidance.",
+        "publisher-follow-up": "Incomplete prerequisites: omits the Cloudflare account/plan, domain/DNS and Git LFS requirements. Guard acceptance is not completeness."
+      }
+    }
+  },
+  "assistantReview": {
+    "reviewer": "Codex assistant; not independent human scoring",
+    "serverResponses": "Reviewed the eight common server-owned answers and their additional paraphrases. They do not guarantee outage-safety, claim private access or submission, fabricate a cursor reading, or guess defect ownership. Integration guidance is a conditional review scaffold with links, not payload validation or a project-specific implementation diff. Recognizer coverage is bounded English; compound requests may receive only the matched guidance.",
+    "modelAnswers": "Reviewed every guard-passed model answer in all four core configurations and the four additional Scout model answers. Delivery is not factual entailment, completeness, or successful command execution."
+  },
+  "humanQualityScores": null,
+  "defaultProvider": null,
+  "defaultModel": null,
+  "selectionDecision": {
+    "status": "no-qualified-operational-default",
+    "nextDevelopmentCandidate": {
+      "provider": "workers-ai",
+      "model": "@cf/meta/llama-4-scout-17b-16e-instruct"
+    },
+    "reason": "Server-owned routes fix the targeted guarantees and supply conditional plans, but the remaining inference cases retain 4-9 rejections per 16 and incomplete or unsupported accepted guidance. Scout remains the latency/cost development candidate; no runtime provider/model default is configured.",
+    "nextWork": "Improve structured command guidance and missing-input handling, option-citation adherence, setup prerequisites and contribution-report completeness; assess broader independently reviewed questions and full planner/retrieval flow before selecting an operational default."
+  },
+  "validation": {
+    "offlineTestsPassed": 136,
+    "typecheck": "passed",
+    "bundleDryRun": "passed",
+    "productionDeployed": false
+  },
+  "costBasis": "Published operator-supplied base token prices, estimated from reported usage. Not billed cost; excludes smoke calls, caching adjustments, discounts, taxes, and absent usage. Workers AI internal aliases are reported separately from requested endpoint tariffs. Server-owned responses have no model calls and zero inference cost; their retrieval cost is outside these token estimates."
+}

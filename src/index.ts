@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { AdvisorError } from "./errors";
-import { generateAnswer, parseAnswerRequest } from "./answers";
+import { generateAnswer, parseAnswerRequest, serviceAnswer, guidedAnswer } from "./answers";
+import { integrationTask } from "./integration-guidance";
 import { collectEvidence, parseEvidenceRequest } from "./evidence";
 import { GitHubSources, readLimitedText } from "./github";
 import { profiles } from "./profiles";
@@ -51,9 +52,13 @@ export function createApp(fetcher: Fetcher = fetch) {
         }
         if (path === "/v1/answer") {
           const parsed = parseAnswerRequest(input);
-          const provider = createProvider(env, parsed.provider ?? env.ADVISOR_PROVIDER, fetcher);
+          const policy = serviceAnswer(parsed);
+          if (policy) return json(policy);
           const signal = AbortSignal.any([request.signal, AbortSignal.timeout(90_000)]);
-          return json(await generateAnswer(parsed, provider, new GitHubSources(fetcher, env.GITHUB_TOKEN, signal), signal));
+          const github = new GitHubSources(fetcher, env.GITHUB_TOKEN, signal);
+          if (integrationTask(parsed)) return json(await guidedAnswer(parsed, github));
+          const provider = createProvider(env, parsed.provider ?? env.ADVISOR_PROVIDER, fetcher);
+          return json(await generateAnswer(parsed, provider, github, signal));
         }
         const evidence = await collectEvidence(parseEvidenceRequest(input), new GitHubSources(fetcher, env.GITHUB_TOKEN));
         return json(evidence);
