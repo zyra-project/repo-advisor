@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import { describe, expect, it } from "vitest";
-import { captureEvaluation, compareEvaluation, estimateCost, type EvaluationCase, type TokenRates } from "../src/evaluation";
+import { captureEvaluation, compareEvaluation, digest, estimateCost, type EvaluationCase, type EvaluationSnapshot, type TokenRates } from "../src/evaluation";
 import { draft, fakeProvider, sourceFixture } from "./answer-fixtures";
-import { ANSWER_SCHEMA, modelMessages } from "../src/prompts";
+import { ANSWER_SCHEMA, PROMPT_VERSION, modelMessages } from "../src/prompts";
 
 const cases: EvaluationCase[] = [{ id: "overview", projects: ["zyra"], question: "What is Zyra?", checks: ["Cite the overview"], sources: [] }];
 const rates: TokenRates = { model: "test-model", inputPerMillion: 1, outputPerMillion: 2, currency: "USD", sourceUrl: "https://provider.example/pricing", asOf: "2026-10-26" };
@@ -53,6 +53,23 @@ describe("reproducible provider comparison", () => {
     await expect(captureEvaluation(cases, {}, github)).rejects.toThrow("explicit ref");
     const snapshot = await captureEvaluation(cases, { zyra: "main" }, github);
     await expect(compareEvaluation({ ...snapshot, promptVersion: "future-version" }, [])).rejects.toThrow("versions must match");
+  });
+
+  it("requires deliberate prompt-change opt-in and preserves the frozen snapshot and evidence", async () => {
+    const { github } = sourceFixture();
+    const captured = await captureEvaluation(cases, { zyra: "main" }, github);
+    const frozen = { ...captured, promptVersion: "answers-v1" };
+    const original = JSON.stringify(frozen);
+    const provider = fakeProvider([draft()]);
+    await expect(compareEvaluation(frozen, [provider])).rejects.toThrow("versions must match");
+    expect(provider.inputs).toHaveLength(0);
+    const report = await compareEvaluation(frozen, [provider], {}, { allowPromptChange: true });
+    expect(report).toMatchObject({ snapshotSha256: await digest(frozen), snapshotPromptVersion: "answers-v1",
+      promptVersion: PROMPT_VERSION, promptChangeAccepted: true });
+    expect(report.records[0]).toMatchObject({ snapshotPromptVersion: "answers-v1", promptChangeAccepted: true });
+    expect(report.records[0]?.dataMessageSha256).toMatch(/^[a-f0-9]{64}$/);
+    expect(JSON.stringify(frozen)).toBe(original);
+    await expect(compareEvaluation({ ...frozen, version: 2 } as unknown as EvaluationSnapshot, [], {}, { allowPromptChange: true })).rejects.toThrow();
   });
 
   it("rejects incomplete completions but retains their raw text and reported usage", async () => {

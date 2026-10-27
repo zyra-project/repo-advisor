@@ -1,0 +1,67 @@
+{
+  "recordedAt": "2026-10-27T14:25:38.786580+00:00",
+  "purpose": "Candidate selection for the answers-v2 frozen-evidence rerun",
+  "orbitDefault": {
+    "repository": "zyra-project/terraviz",
+    "commitSha": "9b25d7ab62103529a86064e41c0e0a3efe826666",
+    "path": "functions/api/chat/completions.ts",
+    "defaultLine": 56,
+    "friendlyNameLine": 50,
+    "model": "@cf/meta/llama-4-scout-17b-16e-instruct",
+    "sourceUrl": "https://github.com/zyra-project/terraviz/blob/9b25d7ab62103529a86064e41c0e0a3efe826666/functions/api/chat/completions.ts#L48",
+    "scope": "Verified upstream proxy default and friendly-name mapping, not a probe of a particular deployed node. This model-selection evidence is separate from the frozen question evidence."
+  },
+  "scoutSmoke": {
+    "httpStatus": 200,
+    "success": true,
+    "requestedModel": "@cf/meta/llama-4-scout-17b-16e-instruct",
+    "reportedModel": "@cf/meta/llama-4-scout-17b-16e-instruct",
+    "response": {
+      "ok": true
+    },
+    "usage": {
+      "prompt_tokens": 33,
+      "completion_tokens": 6,
+      "total_tokens": 39,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 1.2736363410949707
+    },
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "logprobs": null,
+        "message": {
+          "annotations": null,
+          "audio": null,
+          "content": "{\"ok\": true}",
+          "function_call": null,
+          "reasoning": null,
+          "refusal": null,
+          "role": "assistant"
+        },
+        "routed_experts": null,
+        "stop_reason": null,
+        "token_ids": null
+      }
+    ]
+  },
+  "pricingSources": {
+    "llama3": "https://developers.cloudflare.com/workers-ai/models/llama-3.3-70b-instruct-fp8-fast/",
+    "llama4": "https://developers.cloudflare.com/workers-ai/models/llama-4-scout-17b-16e-instruct/",
+    "anthropic": "https://platform.claude.com/docs/en/about-claude/pricing"
+  },
+  "snapshotSha256": "b32f458a35fb532af51f1b8b861bdab69dd05595e3253c2182f14f01a12c57b6",
+  "newPromptVersion": "answers-v2",
+  "sourceSnapshotPromptVersion": "answers-v1",
+  "sourceSnapshotMutated": false,
+  "promptSourceSha256": "284bbda444426b74bd4666663747376377406fba4a5995ce566ec04b18f4af22",
+  "validatorChanged": false,
+  "schemaChanged": false,
+  "productionDeployed": false,
+  "additionalPromptVersionsEvaluated": [
+    "answers-v3"
+  ]
+}

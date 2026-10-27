@@ -2,6 +2,8 @@
 
 Neither a provider nor a model is selected by default. `/v1/answer` uses the request's `provider` ID, or `ADVISOR_PROVIDER` when configured. Clients can select `workers-ai`, `openai-compatible`, or `anthropic`; model IDs, endpoint URLs, and credentials are server configuration. They are not request fields.
 
+The [answers-v3 review](../evals/results/answers-v3-comparison.json) keeps runtime selection explicit: no tested model qualifies as an operational default. Workers AI `@cf/meta/llama-4-scout-17b-16e-instruct`, the verified upstream TerraViz proxy default, is the next development candidate. It delivered 17/24 guard-passed answers with the lowest observed median latency and base-token estimate, but still missed integration-plan requirements and some evidence boundaries. Llama 3.3 and Sonnet delivered 19/24, while accepted answers still overclaimed outage resilience. These observations cover fixed-evidence answer generation, not end-to-end planner or deployment behavior.
+
 All adapters use the same prompt builder, evidence contracts, and maximum output allowance of 2048 tokens per call. Workers AI and native Anthropic use the same server-defined planning/answer schemas through their respective API formats and record `responseFormat: "json_schema"`. Compatible endpoints request JSON-object mode. The answer validator requires bare JSON from every adapter. Temperature is omitted and recorded as `provider-default`, not claimed to be identical or deterministic across models. No vendor SDK is installed in runtime dependencies.
 
 ## OpenAI-compatible endpoint

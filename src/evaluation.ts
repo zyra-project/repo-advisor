@@ -70,8 +70,13 @@ export function estimateCost(calls: ModelCall[], rates?: TokenRates): number | n
 }
 
 /** Compare answer generation against identical frozen evidence; planner quality is separate. */
-export async function compareEvaluation(snapshot: EvaluationSnapshot, providers: ModelProvider[], rates: Record<string, TokenRates> = {}) {
-  if (snapshot.version !== 1 || snapshot.promptVersion !== PROMPT_VERSION) throw new Error("Snapshot and prompt versions must match this runner.");
+export async function compareEvaluation(snapshot: EvaluationSnapshot, providers: ModelProvider[], rates: Record<string, TokenRates> = {},
+  options: { allowPromptChange?: boolean } = {}) {
+  if (snapshot.version !== 1 || typeof snapshot.promptVersion !== "string" || !/^answers-v[1-9][0-9]*$/.test(snapshot.promptVersion) ||
+    (snapshot.promptVersion !== PROMPT_VERSION && !options.allowPromptChange)) {
+    throw new Error("Snapshot and prompt versions must match this runner unless prompt-change evaluation is explicitly enabled.");
+  }
+  const promptChangeAccepted = snapshot.promptVersion !== PROMPT_VERSION;
   validateCases(snapshot.cases, snapshot.refs);
   for (const provider of providers) {
     if (rates[provider.id] && rates[provider.id]!.model !== provider.model) throw new Error("Token rates must match the requested model.");
@@ -88,10 +93,12 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
     // Exclude wall-clock retrieval metadata; content, revisions, and ordering are frozen.
     const evidenceSha256 = await digest(prepared.evidence.map((item) => ({ ...item,
       citations: item.citations.map(({ retrievedAt: _retrievedAt, ...citation }) => citation) })));
-    const inputSha256 = await digest(modelMessages({ instructions: ANSWER_INSTRUCTIONS, question: prepared.request.question, evidence: prepared.evidence }));
-    preparedCases.push({ test, prepared, evidenceSha256, inputSha256 });
+    const messages = modelMessages({ instructions: ANSWER_INSTRUCTIONS, question: prepared.request.question, evidence: prepared.evidence });
+    const inputSha256 = await digest(messages);
+    const dataMessageSha256 = await digest(messages[1]!.content);
+    preparedCases.push({ test, prepared, evidenceSha256, inputSha256, dataMessageSha256 });
   }
-  for (const { test, prepared, evidenceSha256, inputSha256 } of preparedCases) {
+  for (const { test, prepared, evidenceSha256, inputSha256, dataMessageSha256 } of preparedCases) {
     for (const provider of providers) {
       const calls: ModelCall[] = [];
       const started = performance.now();
@@ -110,7 +117,8 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
       records.push({
         caseId: test.id, question: test.question, checks: test.checks,
         provider: provider.id, requestedModel: provider.model, settings: provider.settings,
-        promptVersion: PROMPT_VERSION, instructionsSha256, inputSha256, evidenceSha256, snapshotSha256,
+        promptVersion: PROMPT_VERSION, snapshotPromptVersion: snapshot.promptVersion, promptChangeAccepted,
+        instructionsSha256, inputSha256, dataMessageSha256, evidenceSha256, snapshotSha256,
         outputSchemaSha256: provider.settings.responseFormat === "json_schema" ? answerSchemaSha256 : null,
         outcome: answer ? "answered" : "rejected", answer: answer ?? null, error: error ?? null,
         latencyMs: performance.now() - started,
@@ -125,6 +133,7 @@ export async function compareEvaluation(snapshot: EvaluationSnapshot, providers:
     }
   }
   return { version: 1, evaluatedAt: new Date().toISOString(), snapshotSha256, promptVersion: PROMPT_VERSION,
+    snapshotPromptVersion: snapshot.promptVersion, promptChangeAccepted,
     scope: "answer-generation-with-fixed-evidence; excludes planner latency and usage",
     costBasis: "Optional operator-supplied token rates; excludes caching, non-token charges, and usage absent from responses.",
     defaultProvider: null, records };

@@ -71,7 +71,7 @@ async function main() {
     // report cannot discard paid results at the end of a run.
     const output = await open(out, "wx");
     try {
-      const report = await compareEvaluation(snapshot, providers, rates);
+      const report = await compareEvaluation(snapshot, providers, rates, { allowPromptChange: args.includes("--allow-prompt-change") });
       await output.writeFile(JSON.stringify(report, null, 2) + "\n");
       console.log(JSON.stringify({ status: "completed", records: report.records.length, snapshotSha256: report.snapshotSha256, defaultProvider: null }));
     } finally {

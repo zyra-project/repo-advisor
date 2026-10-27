@@ -56,6 +56,8 @@ Before returning an answer, the service validates the JSON contract, citation ID
 
 No raw repository text enters the system instruction message. It stays in the JSON data message with the question. No command is executed. Quota, retrieval, and invalid-output failures stop the flow with explicit errors; no unverified draft or fabricated fallback is returned. A request makes at most one planning and one answer call, with no automatic retry. Evaluation of fixed evidence intentionally excludes planning so both providers receive identical generation inputs.
 
+The versioned answer instructions also define the advisor's own read-only service scope and distinguish it from upstream application capabilities. Such service-owned statements and proposed next actions use the existing `uncertain` kind with no fabricated repository citation: here the label means not established by repository evidence, not uncertainty about a server-defined service limit. Alias identity comes from the manifest index; absence remains bounded to an exact negative lookup. Prompt-change evaluations require explicit opt-in and retain the original frozen snapshot rather than relabeling its prompt version.
+
 ## Orbit integration
 
 Orbit already owns the current dataset, view, time, catalog search, globe controls, and its provider-independent tool loop. Add a focused project-advice contract through that existing loop rather than replacing it. Project questions may pass the deployed software revision and the minimum relevant configuration; ordinary science questions keep using Orbit's existing sources.

@@ -4,9 +4,22 @@ The 24 questions in `questions.json` have reviewed source selections. The runner
 
 **Both native Anthropic and Workers AI inference are authorized.** The [original endpoint record](results/2026-10-26-live-endpoints.json) verifies Anthropic's model catalog and Messages inference. The [Cloudflare retry record](results/2026-10-26-workers-ai-retry.json) supersedes its historical Workers AI authorization failures: token verification, model listing, baseline inference, and Llama 3.3 JSON-mode inference all return HTTP 200 after the token update. The external compatible URL points to Anthropic's root URL; its compatibility inference probe was rejected by automatic approval review because the intended credential routing is unconfirmed. Native Anthropic uses its own key at a fixed endpoint. No default provider is selected.
 
-The [cross-provider comparison](results/2026-10-26-cross-provider-comparison.json) evaluates Llama 3.3, Haiku 4.5, and Sonnet 4.6 using the same server-defined schema, evidence, instruction messages, and 2048-token output limit:
+The current [answers-v3 comparison and assistant review](results/answers-v3-comparison.json) includes TerraViz's upstream Orbit default, Llama 4 Scout. Its exact ID, `@cf/meta/llama-4-scout-17b-16e-instruct`, is verified in [pinned proxy source](https://github.com/zyra-project/terraviz/blob/9b25d7ab62103529a86064e41c0e0a3efe826666/functions/api/chat/completions.ts#L48); this is source configuration, not a probe of a deployed node. [Candidate provenance](results/answers-v2-model-candidates.json) records the separate model-selection evidence, successful Scout inference, and pricing sources. That source was not added to the frozen question evidence.
 
-| Final schema run | Guard-passed answers | Median generation latency | Estimated base token cost for 24 cases |
+| Current answers-v3 run | Guard-passed answers | Median generation latency | Estimated base token cost for 24 cases |
+| --- | --- | --- | --- |
+| Workers AI Llama 3.3 | 19/24 | 7.49 s | $0.0483 |
+| Workers AI Llama 4 Scout | 17/24 | 3.71 s | $0.0381 |
+| Anthropic Haiku 4.5 | 8/24 | 6.36 s | $0.2230 |
+| Anthropic Sonnet 4.6 | 19/24 | 12.11 s | $0.6824 |
+
+The alias answers improved across all four models. Scout now avoids the unsupported advisor-outage guarantee and explains the draft-only/private-source boundaries. However, its coordinated implementation plan does not actually supply a plan, and its ownership guidance still guesses without the exact error and payload. Llama 3.3 and Sonnet retain accepted outage guarantees; Sonnet also assigns fault to TerraViz before diagnosing the contract. All models still reject at least five cases. **No operational default qualifies.** Scout is the next development candidate on latency, estimated cost, and the improved outage answer; it is not automatically configured as the runtime default. The report reviews every guard-passed answer and retains exact excerpts of important successes/failures. Independent human scores remain null.
+
+The intermediate [answers-v2 cohort](results/answers-v2-comparison.json) is preserved: Llama 3.3 passed 18/24, Scout 16/24, Haiku 11/24, and Sonnet 18/24. Exact [v2 instructions](prompts/answers-v2.txt) and [current v3 instructions](prompts/answers-v3.txt) are archived and hash-checked against the runs. These two new cohorts contain 192 inference attempts. All use the unchanged reconstructed snapshot and data messages, the same output schema, unchanged validators, and a 2048-token limit. They are single samples per case/model, not a held-out validation or repeated/interleaved benchmark. Further prompt tuning on these same questions cannot establish general quality. Next, enforce service/future-integration boundaries in server-owned responses or contracts and improve evidence-specific integration guidance, then assess additional held-out questions as well as rerunning this corpus.
+
+The historical [answers-v1 cross-provider comparison](results/2026-10-26-cross-provider-comparison.json) evaluates Llama 3.3, Haiku 4.5, and Sonnet 4.6 using the same server-defined schema, evidence, instruction messages, and 2048-token output limit:
+
+| Historical answers-v1 schema run | Guard-passed answers | Median generation latency | Estimated base token cost for 24 cases |
 | --- | --- | --- | --- |
 | Workers AI Llama 3.3 (`@cf/meta/llama-3.3-70b-instruct-fp8-fast`) | 16/24 | 9.13 s | $0.0483 |
 | Anthropic Haiku 4.5 | 3/24 | 6.86 s | $0.2173 |
@@ -23,6 +36,8 @@ The next environment did not retain that ignored local snapshot. The [continuati
 ## Configure and check
 
 The CLI reads process environment variables. See [provider configuration](../docs/model-providers.md). Unlike Wrangler, it does not automatically load `.dev.vars`.
+
+The current `answers-v3` instructions revise alias reasoning, service-owned scope/action answers, claim-kind selection, command eligibility, and contract-specific integration guidance. They remove the executable example that models copied into unrelated answers. V3 further emphasizes same-claim option citations, exact evidence IDs, and the distinction between known service limits and repository evidence. Evidence extraction, output schema, and validators remain unchanged.
 
 ```sh
 npm run eval:check
@@ -56,6 +71,8 @@ npm run eval:run -- --snapshot=evals/local/snapshot.json --out=evals/local/compa
 ```
 
 This invokes inference and can incur charges. Every selected provider configuration, the complete case/source set, and an exclusive output-file reservation are checked before the first inference call. Existing output files are never overwritten. A preflight failure after reserving the file may leave an empty file; it is not an evaluation report. Each case runs once per selected provider, with no automatic retry or fallback. Different native models can run into separate reports with different `ANTHROPIC_MODEL` values and the same snapshot.
+
+For an intentional prompt revision against frozen evidence, add `--allow-prompt-change`. Without it, a snapshot/run prompt-version mismatch fails before inference. The flag preserves the original snapshot and its digest, records both `snapshotPromptVersion` and the run's `promptVersion`, and records `promptChangeAccepted`. Snapshot-format compatibility is still required. Reports additionally hash the user/data message separately from the full instruction-and-data messages, allowing evidence and prompt changes to be assessed independently. Do not edit an archived snapshot's prompt label or recapture mutable branches just to run a new prompt.
 
 The report records:
 
