@@ -6,6 +6,8 @@ The 24 questions in `questions.json` now have reviewed source selections. The ru
 
 The resumed workspace captured and prepared all 24 cases against the original immutable revisions, reading 23 public files. The frozen snapshot is `evals/local/2026-10-26-snapshot.json`; its snapshot and source-content digests are in the resumed readiness record. Reuse this file for the comparison rather than recapturing mutable branches. Bulky snapshots and transcripts stay in ignored `evals/local/`. Offline adapter/validator tests are not model-quality measurements.
 
+The next environment did not retain that ignored local snapshot. The [continuation record](results/2026-10-26-continuation-readiness.json) records a labeled reconstruction from the same immutable revisions, a per-response content manifest, and successful offline preparation of all 24 cases. Its digests differ from the original; do not present it as the original artifact. Updated credential probes, including Anthropic, could not execute because automatic approval review reported exhausted workspace credits. No new provider authorization, inference, quality score, or default selection is established. The existing adapters support Workers AI and OpenAI-compatible Chat Completions; Anthropic's Messages API would require an additional adapter before including Claude in a comparison.
+
 ## Configure and check
 
 The CLI reads process environment variables. See [provider configuration](../docs/model-providers.md). Unlike Wrangler, it does not automatically load `.dev.vars`.
